@@ -500,14 +500,17 @@ table tr:hover td{background:#eaf1ff}
           </div>
           <div class="g4">
             <div class="fg"><label>Date Received<span class="req">*</span></label><input type="date" id="f_dr"/></div>
-            <div class="fg"><label>Departure Date<span class="req">*</span></label><input type="date" id="f_dep"/></div>
-            <div class="fg"><label>Arrival Date<span class="req">*</span></label><input type="date" id="f_arr"/></div>
+            <div class="fg"><label>Departure Date<span class="req">*</span></label><input type="date" id="f_dep" onchange="updateTravelDateSummary()"/></div>
+            <div class="fg"><label>Arrival Date<span class="req">*</span></label><input type="date" id="f_arr" onchange="updateTravelDateSummary()"/></div>
             <div class="fg"><label>Employee Level<span class="req">*</span></label>
               <select id="f_lvl" onchange="calcAll();calcRfd()">
                 <option value="">Select level...</option>
                 <option>Manager</option><option>Sup/Staff</option><option>Ranks</option><option>Consultant</option>
               </select>
             </div>
+          </div>
+          <div id="travelDateSummary" style="display:none;margin:6px 0 10px;padding:8px 14px;background:#eef6ff;border-left:4px solid #2563eb;border-radius:4px;font-size:13px;color:#1e3a5f;">
+            <strong>Travel Date:</strong>&nbsp;<span id="travelDateText"></span>
           </div>
           <div class="g3">
             <div class="fg"><label>Employee Name (Last, First)<span class="req">*</span></label><input type="text" id="f_emp" placeholder="e.g. Dela Cruz, Juan"/></div>
@@ -1258,6 +1261,30 @@ function getAllow(lvl,dest,ldest){
   return{pd:m[dest]||0,tr:TR_REF[dest]||0,note:''};
 }
 
+function fmtDateLong(d){
+  if(!d)return '';
+  const dt=new Date(d+'T00:00:00');
+  return dt.toLocaleDateString('en-PH',{month:'long',day:'numeric',year:'numeric'});
+}
+function updateTravelDateSummary(){
+  const dep=document.getElementById('f_dep').value;
+  const arr=document.getElementById('f_arr').value;
+  const wrap=document.getElementById('travelDateSummary');
+  const txt=document.getElementById('travelDateText');
+  if(!dep&&!arr){wrap.style.display='none';return;}
+  let label='';
+  if(dep&&arr){
+    const d1=new Date(dep+'T00:00:00'),d2=new Date(arr+'T00:00:00');
+    const days=Math.round((d2-d1)/(1000*60*60*24));
+    label=fmtDateLong(dep)+' &ndash; '+fmtDateLong(arr)+(days>0?' <span style="color:#555;font-weight:normal">('+days+' day'+(days!==1?'s':'')+')</span>':'');
+  } else if(dep){
+    label='Departure: '+fmtDateLong(dep);
+  } else {
+    label='Arrival: '+fmtDateLong(arr);
+  }
+  txt.innerHTML=label;
+  wrap.style.display='block';
+}
 function calcAll(){
   const lvl=document.getElementById('f_lvl').value;
   const dest=document.getElementById('f_dest').value;
@@ -1441,6 +1468,7 @@ function clearForm(){
   ['rcaLocalWrap','rfdLocalWrap','hBreakWrap','f_payBox'].forEach(id=>document.getElementById(id).style.display='none');
   document.getElementById('f_dr').value=new Date().toISOString().split('T')[0];
   document.getElementById('f_dep').value='';document.getElementById('f_arr').value='';
+  updateTravelDateSummary();
   toast('Form cleared.','info');
 }
 
@@ -2556,10 +2584,11 @@ function printRCA(id){
     <div class="field-row"><label>Pay To:&nbsp;</label><span class="ul" id="payToLine">${r.emp||''}</span></div>
     <div class="field-row"><label>Date Prepared:&nbsp;</label><span class="ul">${today}</span></div>
     <div class="field-row"><label>Amount:&nbsp;</label><span class="ul">&#8369; ${fmt2(total)}</span></div>
-    <div class="field-row"><label>Date Needed:&nbsp;</label><span class="ul">${r.dep||''}</span></div>
+    <div class="field-row"><label>Date Needed:&nbsp;</label><span class="ul">${r.dep?new Date(r.dep+'T00:00:00').toLocaleDateString('en-PH',{month:'long',day:'numeric',year:'numeric'}):''}</span></div>
   </div>
   <div class="field-row" style="margin-bottom:4px"><label>Charge to Dept/Proj:&nbsp;</label><span class="ul">${r.chg||''}</span></div>
   <div class="field-row" style="margin-bottom:4px"><label>Purpose:&nbsp;</label><span class="ul">${r.purpose||''}</span></div>
+  <div class="field-row" style="margin-bottom:4px"><label>Travel Date:&nbsp;</label><span class="ul">${(()=>{const dep=r.dep?new Date(r.dep+'T00:00:00').toLocaleDateString('en-PH',{month:'long',day:'numeric',year:'numeric'}):'';const arr=r.arr?new Date(r.arr+'T00:00:00').toLocaleDateString('en-PH',{month:'long',day:'numeric',year:'numeric'}):'';if(dep&&arr)return dep+' – '+arr;return dep||arr||'';})()}</span></div>
   <div class="field-row" style="margin-bottom:8px"><label>&nbsp;</label><span class="ul">&nbsp;</span></div>
 
   <!-- TRAVEL COORDINATOR SECTION -->
