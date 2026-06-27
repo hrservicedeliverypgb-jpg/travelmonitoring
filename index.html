@@ -2414,7 +2414,7 @@ function printRCA(id){
   const affFullName = affInfo ? affInfo.fullName : (affCode || 'PRIMARY STRUCTURES CORPORATION');
   const affLogoDataUrl = affInfo ? affInfo.logo : '';
 
-  const COORDINATORS=['Bordaje, Jesiel','Tandal, Patress','Mangubat, Angelica Mae','Rivera, Steph','Pabiran, Aubrey','Legaspi, Janica Nicole','Others'];
+  const COORDINATORS=['Bordaje, Jesiel','Tandal, Patress','Mangubat, Angelica Mae','Rivera, Stephanie','Pabiran, Aubrey','Legaspi, Janica Nicole','Others'];
   const preselect=COORDINATORS.find(c=>r.handled&&r.handled.toLowerCase().includes(c.split(',')[0].toLowerCase()))||'';
 
   // Build logo HTML snippet
@@ -2529,7 +2529,7 @@ function printRCA(id){
         <option${('${preselect}'==='Bordaje, Jesiel'?' selected':'')}>Bordaje, Jesiel</option>
         <option${('${preselect}'==='Tandal, Patress'?' selected':'')}>Tandal, Patress</option>
         <option${('${preselect}'==='Mangubat, Angelica Mae'?' selected':'')}>Mangubat, Angelica Mae</option>
-        <option${('${preselect}'==='Rivera, Steph'?' selected':'')}>Rivera, Steph</option>
+        <option${('${preselect}'==='Rivera, Stephanie'?' selected':'')}>Rivera, Stephanie</option>
         <option${('${preselect}'==='Pabiran, Aubrey'?' selected':'')}>Pabiran, Aubrey</option>
         <option${('${preselect}'==='Legaspi, Janica Nicole'?' selected':'')}>Legaspi, Janica Nicole</option>
         <option value="Others">Others</option>
