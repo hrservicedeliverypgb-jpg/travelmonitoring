@@ -381,6 +381,24 @@ table tr:hover td{background:#eaf1ff}
 .aff-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#1565c0,#0891b2)}
 .aff-rate{font-size:11px;font-weight:700;padding:2px 7px;border-radius:10px}
 .aff-rate.ar-hi{background:#dcfce7;color:#166534}.aff-rate.ar-mid{background:#fef9c3;color:#854d0e}.aff-rate.ar-lo{background:#fee2e2;color:#991b1b}
+
+/* Expense Breakdown */
+.fin-section-hdr{font-size:10px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.06em;padding:10px 18px 4px;border-top:1px solid #f1f5f9;margin-top:4px}
+.fin-section-hdr:first-child{border-top:none;margin-top:0}
+.fb-row{display:flex;align-items:center;gap:8px;padding:4px 18px}
+.fb-dot{display:inline-block;width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.fb-label{font-size:11px;color:#334155;width:155px;flex-shrink:0;display:flex;align-items:center;gap:5px;font-weight:600}
+.fb-bar-wrap{flex:1;height:8px;background:#f1f5f9;border-radius:4px;overflow:hidden}
+.fb-bar{height:100%;border-radius:4px;transition:width .5s ease}
+.fb-val{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;color:#0a2342;width:80px;text-align:right;white-space:nowrap}
+.fb-pct{font-size:10px;font-weight:700;color:#94a3b8;width:30px;text-align:right}
+.fin-metrics-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:10px 18px 14px}
+.fin-sm{background:#f8fafc;border-radius:8px;padding:10px 10px;border-left:3px solid #e2e8f0;text-align:center}
+.fin-sm.fs-green{border-left-color:#1b8a50}.fin-sm.fs-blue{border-left-color:#1565c0}
+.fin-sm.fs-amber{border-left-color:#d97706}.fin-sm.fs-purple{border-left-color:#7c3aed}
+.fin-sm.fs-teal{border-left-color:#0891b2}.fin-sm.fs-gold{border-left-color:#b45309}
+.fin-sm .fsv{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;color:#0a2342;line-height:1.1}
+.fin-sm .fsl{font-size:9px;color:#64748b;text-transform:uppercase;font-weight:700;margin-top:2px}
 </style>
 </head>
 <body>
@@ -468,22 +486,13 @@ table tr:hover td{background:#eaf1ff}
       <div id="kpiGrid" class="kpi-grid"></div>
 
       <!-- ROW 2: CHARTS ROW -->
-      <div class="dash-row-2">
-        <!-- Monthly Trends -->
-        <div class="dash-card dash-card-lg">
+      <!-- Monthly Trends -->
+        <div class="dash-card" style="margin-bottom:18px">
           <div class="dash-card-hdr">
             <div class="dash-card-title">&#128202; Monthly Travel Trends</div>
             <div class="dash-card-sub">Requests &amp; cost by month</div>
           </div>
           <div id="monthlyChart" class="chart-area"></div>
-        </div>
-        <!-- Booking Status -->
-        <div class="dash-card dash-card-sm">
-          <div class="dash-card-hdr">
-            <div class="dash-card-title">&#9685; Status Overview</div>
-            <div class="dash-card-sub">Request distribution</div>
-          </div>
-          <div id="statusChart" class="chart-area-sm"></div>
         </div>
       </div>
 
@@ -520,8 +529,8 @@ table tr:hover td{background:#eaf1ff}
         <!-- Financial Overview -->
         <div class="dash-card dash-card-md">
           <div class="dash-card-hdr">
-            <div class="dash-card-title">&#128176; Financial Overview</div>
-            <div class="dash-card-sub">Cost breakdown &amp; reimbursables</div>
+            <div class="dash-card-title">&#128176; Expense Breakdown</div>
+            <div class="dash-card-sub">Travel cost by type, payment &amp; booking</div>
           </div>
           <div id="finPanel" class="fin-panel"></div>
         </div>
@@ -1875,34 +1884,6 @@ function renderDash(){
     </div>`;
   }
 
-  // ── Status Overview ──────────────────────────────────────────────────
-  const statusMap={'Approved':{c:'#1b8a50',f:'#1b8a50'},'Pending':{c:'#d97706',f:'#d97706'},'On Hold':{c:'#c0392b',f:'#c0392b'},'For Processing':{c:'#1565c0',f:'#1565c0'},'Completed':{c:'#0891b2',f:'#0891b2'}};
-  const sCounts={};
-  fRec.forEach(r=>{const s=r.status||'Pending';sCounts[s]=(sCounts[s]||0)+1;});
-  const sTotal=Object.values(sCounts).reduce((a,b)=>a+b,0)||1;
-  const statusEl=document.getElementById('statusChart');
-  if(statusEl){
-    const entries=Object.entries(sCounts).sort((a,b)=>b[1]-a[1]);
-    statusEl.innerHTML=`
-    <div class="status-bars">
-      ${entries.map(([s,n])=>{
-        const clr=(statusMap[s]||{f:'#94a3b8'}).f;
-        const pct=Math.round(n/sTotal*100);
-        return `<div class="status-bar-row">
-          <div class="status-bar-lbl">${s}</div>
-          <div class="status-bar-track"><div class="status-bar-fill" style="width:${pct}%;background:${clr}"></div></div>
-          <div class="status-bar-cnt">${n}</div>
-          <div class="status-bar-pct">${pct}%</div>
-        </div>`;
-      }).join('')}
-      ${entries.length===0?'<div class="pi-empty">No data yet</div>':''}
-    </div>
-    <div class="chart-legend" style="padding:0 18px">
-      <div class="legend-item"><span class="legend-dot" style="background:#1b8a50"></span>Approved</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#d97706"></span>Pending</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#c0392b"></span>On Hold</div>
-    </div>`;
-  }
 
   // ── Affiliate Table ──────────────────────────────────────────────────
   const AFFS=['PPC','PSC','PHI','MAAYO','THAM','SAN LUCAS','AC','MC123','CSI','RDC','PSI','ABC','CSPIC','SKILLS','PSEFI','PTMSI','AMICI'];
@@ -1967,27 +1948,57 @@ function renderDash(){
     </div>`).join(''):'<div class="pi-empty">✅ No pending actions — all good!</div>';
   }
 
-  // ── Financial Overview ───────────────────────────────────────────────
+  // ── Expense Breakdown ────────────────────────────────────
   const totalRCA=fRec.filter(r=>r.proc==='RCA').reduce((s,r)=>s+(r.total||0),0);
   const totalRFD=fRec.filter(r=>r.proc==='RFD').reduce((s,r)=>s+(r.total||0),0);
   const totalBK=fRec.filter(r=>r.proc==='Travel Booking').reduce((s,r)=>s+(r.total||0),0);
+  const cntRCA=fRec.filter(r=>r.proc==='RCA').length;
+  const cntRFD=fRec.filter(r=>r.proc==='RFD').length;
+  const cntBK=fRec.filter(r=>r.proc==='Travel Booking').length;
   const paidBK=fRec.filter(r=>r.proc==='Travel Booking'&&r.payStatus==='Processed').reduce((s,r)=>s+(r.total||0),0);
+  const unpaidBK=totalBK-paidBK;
   const avgCost=total>0?(totalCost/total):0;
+  const bkTypMap={};
+  fRec.filter(r=>r.proc==='Travel Booking').forEach(r=>{
+    const t=r.bkType||'Other';bkTypMap[t]=(bkTypMap[t]||0)+(r.total||0);
+  });
+  const bkTypEntries=Object.entries(bkTypMap).sort((a,b)=>b[1]-a[1]).slice(0,4);
+  const procTotal=totalRCA+totalRFD+totalBK||1;
+  const bkTypTotal=bkTypEntries.reduce((s,[,v])=>s+v,0)||1;
+  const bkColors=['#1b8a50','#d97706','#0891b2','#7c3aed'];
+  const procRows=[{lbl:'RCA',val:totalRCA,clr:'#1565c0'},{lbl:'RFD',val:totalRFD,clr:'#7c3aed'},{lbl:'Travel Booking',val:totalBK,clr:'#0891b2'}];
+  function fbRow(lbl,val,clr,denominator){
+    const pct=Math.round(val/denominator*100);
+    const w=Math.max(pct,1);
+    return `<div class="fb-row">`+
+      `<div class="fb-label"><span class="fb-dot" style="background:${clr}"></span>${lbl}</div>`+
+      `<div class="fb-bar-wrap"><div class="fb-bar" style="width:${w}%;background:${clr}"></div></div>`+
+      `<div class="fb-val">${fmtP(val)}</div>`+
+      `<div class="fb-pct">${pct}%</div>`+
+      `</div>`;
+  }
   const finEl=document.getElementById('finPanel');
-  if(finEl) finEl.innerHTML=`
-    <div class="fin-hero">
-      <div class="fh-lbl">💰 Total Travel Expenditure</div>
-      <div class="fh-val">${fmtP(totalCost)}</div>
-    </div>
-    <div class="fin-grid-v2">
-      <div class="fin-metric fm-green"><div class="fm-val">${fmtK(paidBK)}</div><div class="fm-lbl">✓ Paid Bookings</div></div>
-      <div class="fin-metric fm-amber"><div class="fm-val">${fmtK(totalBK-paidBK)}</div><div class="fm-lbl">⚠ Unpaid Balance</div></div>
-      <div class="fin-metric fm-gold"><div class="fm-val">${fmtK(avgCost)}</div><div class="fm-lbl">🎯 Avg Trip Cost</div></div>
-      <div class="fin-metric fm-blue"><div class="fm-val">${fmtK(totalRCA)}</div><div class="fm-lbl">📄 RCA Reimbursable</div></div>
-      <div class="fin-metric fm-purple"><div class="fm-val">${fmtK(totalRFD)}</div><div class="fm-lbl">💸 RFD Disbursed</div></div>
-      <div class="fin-metric fm-teal"><div class="fm-val">${fmtK(totalBK)}</div><div class="fm-lbl">🎫 Total Bookings</div></div>
-    </div>
-  `;
+  if(finEl) finEl.innerHTML=
+    `<div class="fin-hero">`+
+    `<div class="fh-lbl">💰 Total Travel Expenditure</div>`+
+    `<div class="fh-val">${fmtP(totalCost)}</div>`+
+    `</div>`+
+    `<div class="fin-section-hdr">📊 Expense by Process Type</div>`+
+    procRows.map(p=>fbRow(p.lbl,p.val,p.clr,procTotal)).join('')+
+    `<div class="fin-section-hdr">💳 Booking Payment Status</div>`+
+    fbRow('Paid',paidBK,'#1b8a50',totalBK||1)+
+    fbRow('Unpaid',unpaidBK,'#c0392b',totalBK||1)+
+    (bkTypEntries.length?`<div class="fin-section-hdr">🎫 Booking Type Breakdown</div>`+
+      bkTypEntries.map(([t,v],i)=>fbRow(t,v,bkColors[i]||'#94a3b8',bkTypTotal)).join(''):'')+
+    `<div class="fin-section-hdr">📌 Key Metrics</div>`+
+    `<div class="fin-metrics-row">`+
+    `<div class="fin-sm fs-blue"><div class="fsv">${cntRCA}</div><div class="fsl">RCA Trips</div></div>`+
+    `<div class="fin-sm fs-purple"><div class="fsv">${cntRFD}</div><div class="fsl">RFD Trips</div></div>`+
+    `<div class="fin-sm fs-teal"><div class="fsv">${cntBK}</div><div class="fsl">Bookings</div></div>`+
+    `<div class="fin-sm fs-gold"><div class="fsv">${fmtK(avgCost)}</div><div class="fsl">Avg Cost</div></div>`+
+    `<div class="fin-sm fs-green"><div class="fsv">${fmtK(paidBK)}</div><div class="fsl">Total Paid</div></div>`+
+    `<div class="fin-sm fs-amber"><div class="fsv">${fmtK(unpaidBK)}</div><div class="fsl">Total Unpaid</div></div>`+
+    `</div>`;
 
   // ── Recent Requests ──────────────────────────────────────────────────
   const recent=[...fRec].sort((a,b)=>(b.dr||'').localeCompare(a.dr||'')||b.id-a.id).slice(0,10);
