@@ -85,10 +85,10 @@ body{font-family:'Barlow',sans-serif;background:#e8edf2;color:var(--text);min-he
 /* STAT CARDS */
 .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:20px}
 /* ── EXECUTIVE DASHBOARD ── */
-.dash-exec-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;background:var(--navy);color:#fff;padding:14px 20px;border-radius:var(--radius-lg);margin-bottom:18px;box-shadow:0 4px 16px rgba(10,35,66,.18)}
+.dash-exec-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;background:linear-gradient(135deg,#0a2342 0%,#1565c0 100%);color:#fff;padding:18px 24px;border-radius:var(--radius-lg);margin-bottom:20px;box-shadow:0 8px 32px rgba(10,35,66,.35)}
 .dash-exec-icon{font-size:24px;margin-right:10px}
 .dash-exec-title{display:flex;align-items:center}
-.dash-exec-h{font-size:17px;font-weight:800;letter-spacing:.3px}
+.dash-exec-h{font-size:20px;font-weight:800;letter-spacing:.3px}
 .dash-exec-sub{font-size:11px;color:rgba(255,255,255,.65);margin-top:2px}
 .dash-exec-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .dash-date-input{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;padding:6px 10px;border-radius:6px;font-size:12px;font-family:inherit}
@@ -100,17 +100,17 @@ body{font-family:'Barlow',sans-serif;background:#e8edf2;color:var(--text);min-he
 .dash-clear-btn:hover{background:rgba(255,255,255,.22)}
 /* KPI */
 .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:18px}
-.kpi-card{background:#fff;border-radius:var(--radius-lg);padding:16px 18px;border:1px solid var(--border);position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.kpi-card{background:#fff;border-radius:var(--radius-lg);padding:20px 22px;border:1px solid var(--border);position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
 .kpi-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(10,35,66,.12)}
 .kpi-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:4px 0 0 4px}
 .kpi-card.kc-blue::before{background:#1565c0}.kpi-card.kc-green::before{background:#1b8a50}
 .kpi-card.kc-amber::before{background:#d97706}.kpi-card.kc-red::before{background:#c0392b}
 .kpi-card.kc-purple::before{background:#7b2ff7}.kpi-card.kc-teal::before{background:#0891b2}
 .kpi-card.kc-gold::before{background:var(--gold)}.kpi-card.kc-navy::before{background:var(--navy)}
-.kpi-icon{font-size:20px;margin-bottom:6px;opacity:.75}
-.kpi-val{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:800;color:var(--navy);line-height:1}
+.kpi-icon{font-size:26px;margin-bottom:8px;opacity:.85}
+.kpi-val{font-family:'Barlow Condensed',sans-serif;font-size:42px;font-weight:800;color:var(--navy);line-height:1}
 .kpi-lbl{font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:4px}
-.kpi-sub{font-size:10px;color:#94a3b8;margin-top:2px}
+.kpi-sub{font-size:11px;color:#64748b;margin-top:4px;font-weight:600}
 .kpi-link{cursor:pointer;border:1px solid var(--border)}
 .kpi-link:hover{box-shadow:0 8px 24px rgba(10,35,66,.15);border-color:#93c5fd}
 .kpi-arrow{font-size:10px;font-weight:700;color:#94a3b8;margin-top:6px;opacity:0;transition:opacity .2s}
@@ -354,6 +354,33 @@ table tr:hover td{background:#eaf1ff}
   .ref-grid{grid-template-columns:1fr}
 }
 .hidden{display:none!important}
+/* Dashboard Executive Enhancements */
+.exec-summary-bar{display:flex;align-items:center;background:linear-gradient(90deg,#eef6ff,#f0fdf4);border:1px solid #bfdbfe;border-radius:10px;padding:14px 20px;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+.esb-group{display:flex;align-items:center;gap:0;flex:1;flex-wrap:wrap}
+.esb-item{display:flex;flex-direction:column;align-items:center;padding:4px 16px}
+.esb-val{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;color:#0a2342;line-height:1}
+.esb-lbl{font-size:9.5px;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-top:3px;font-weight:700}
+.esb-sep{width:1px;height:40px;background:#cbd5e1;margin:0 4px}
+.esb-rate{font-size:13px;font-weight:700;padding:4px 12px;border-radius:20px;background:#dcfce7;color:#166534;margin-left:12px}
+.esb-time{font-size:10px;color:#94a3b8;margin-left:auto;padding:4px 0;white-space:nowrap}
+.kpi-progress{height:4px;background:#e2e8f0;border-radius:2px;margin-top:12px;overflow:hidden}
+.kpi-progress-fill{height:100%;border-radius:2px;transition:width .6s ease}
+.fin-hero{background:linear-gradient(135deg,#0a2342 0%,#1565c0 100%);color:#fff;border-radius:10px;padding:20px;margin:14px 18px 12px;text-align:center}
+.fh-lbl{font-size:11px;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+.fh-val{font-family:'Barlow Condensed',sans-serif;font-size:42px;font-weight:800;color:#f4a61c;letter-spacing:.5px}
+.fin-grid-v2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:0 18px 18px}
+.fin-metric{background:#f8fafc;border-radius:8px;padding:12px 14px;border-left:4px solid #e2e8f0;transition:box-shadow .2s}
+.fin-metric:hover{box-shadow:0 4px 12px rgba(10,35,66,.1)}
+.fin-metric.fm-green{border-left-color:#1b8a50}.fin-metric.fm-amber{border-left-color:#d97706}
+.fin-metric.fm-blue{border-left-color:#1565c0}.fin-metric.fm-purple{border-left-color:#7b2ff7}
+.fin-metric.fm-teal{border-left-color:#0891b2}.fin-metric.fm-gold{border-left-color:#f4a61c}
+.fm-val{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:#0a2342}
+.fm-lbl{font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:.4px;margin-top:3px;font-weight:700}
+.aff-rank{font-size:11px;font-weight:800;color:#94a3b8;text-align:center}
+.aff-bar-wrap{display:inline-block;vertical-align:middle;width:56px;height:6px;background:#e2e8f0;border-radius:3px;margin-left:6px}
+.aff-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#1565c0,#0891b2)}
+.aff-rate{font-size:11px;font-weight:700;padding:2px 7px;border-radius:10px}
+.aff-rate.ar-hi{background:#dcfce7;color:#166534}.aff-rate.ar-mid{background:#fef9c3;color:#854d0e}.aff-rate.ar-lo{background:#fee2e2;color:#991b1b}
 </style>
 </head>
 <body>
@@ -435,6 +462,8 @@ table tr:hover td{background:#eaf1ff}
         </div>
       </div>
 
+      <!-- EXEC SUMMARY BAR -->
+      <div id="execSummaryBar"></div>
       <!-- ROW 1: KPI CARDS -->
       <div id="kpiGrid" class="kpi-grid"></div>
 
@@ -470,8 +499,8 @@ table tr:hover td{background:#eaf1ff}
         <div class="tbl-wrap" style="max-height:300px;overflow-y:auto">
           <table class="dash-table" id="affTable">
             <thead><tr>
-              <th>Affiliate</th><th>Total</th><th>Approved</th><th>Pending</th>
-              <th>RCA</th><th>RFD</th><th>Booking</th><th>Travel Cost</th>
+              <th>#</th><th>Affiliate</th><th>Total</th><th>Approved</th><th>Pending</th>
+              <th>RCA</th><th>RFD</th><th>Booking</th><th>Appvl %</th><th>Travel Cost</th>
             </tr></thead>
             <tbody id="affBody"></tbody>
           </table>
@@ -1793,18 +1822,23 @@ function renderDash(){
 
   // ── KPI Cards ──────────────────────────────────────────────────────
   const kpiEl=document.getElementById('kpiGrid');
-  if(kpiEl) kpiEl.innerHTML=`
-    <div class="kpi-card kc-blue kpi-link" onclick="filterRecords('','','','All Requests')" title="View all records"><div class="kpi-icon">📋</div><div class="kpi-val">${total}</div><div class="kpi-lbl">Total Requests</div><div class="kpi-sub">RCA: ${rca} &bull; RFD: ${rfd} &bull; Booking: ${bk}</div><div class="kpi-arrow">View All &#8594;</div></div>
-    <div class="kpi-card kc-green kpi-link" onclick="filterRecords('','Approved','','Approved Requests')" title="View approved records"><div class="kpi-icon">✅</div><div class="kpi-val">${approved}</div><div class="kpi-lbl">Approved</div><div class="kpi-sub">${total?Math.round(approved/total*100):0}% approval rate</div><div class="kpi-arrow">View Records &#8594;</div></div>
-    <div class="kpi-card kc-amber kpi-link" onclick="filterRecords('','Pending','','Pending Approvals')" title="View pending records"><div class="kpi-icon">⏳</div><div class="kpi-val">${pending}</div><div class="kpi-lbl">Pending Approvals</div><div class="kpi-sub">Awaiting action</div><div class="kpi-arrow">View Records &#8594;</div></div>
-    <div class="kpi-card kc-navy kpi-link" onclick="filterRecords('','','','Total Travel Cost')" title="View all records"><div class="kpi-icon">💰</div><div class="kpi-val">${fmtK(totalCost)}</div><div class="kpi-lbl">Total Travel Cost</div><div class="kpi-sub">All processes combined</div><div class="kpi-arrow">View Records &#8594;</div></div>
-    <div class="kpi-card kc-teal kpi-link" onclick="filterRecordsToday()" title="View active travelers"><div class="kpi-icon">✈️</div><div class="kpi-val">${activeToday}</div><div class="kpi-lbl">Active Travelers</div><div class="kpi-sub">Currently travelling today</div><div class="kpi-arrow">View Records &#8594;</div></div>
-    <div class="kpi-card kc-purple kpi-link" onclick="filterRecordsUpcoming()" title="View upcoming trips"><div class="kpi-icon">🗓️</div><div class="kpi-val">${upcoming}</div><div class="kpi-lbl">Upcoming Trips</div><div class="kpi-sub">Next 7 days</div><div class="kpi-arrow">View Records &#8594;</div></div>
-    <div class="kpi-card kc-red kpi-link" onclick="filterRecords('','On Hold','','On Hold / Cancelled')" title="View on hold records"><div class="kpi-icon">❌</div><div class="kpi-val">${cancelled}</div><div class="kpi-lbl">On Hold/Cancelled</div><div class="kpi-sub">Requires attention</div><div class="kpi-arrow">View Records &#8594;</div></div>
-    <div class="kpi-card kc-gold kpi-link" onclick="filterRecordsUnpaid()" title="View unpaid bookings"><div class="kpi-icon">💳</div><div class="kpi-val">${unpaid}</div><div class="kpi-lbl">Unpaid Bookings</div><div class="kpi-sub">Payment not yet processed</div><div class="kpi-arrow">View Records &#8594;</div></div>
-  `;
+  // Exec Summary Bar
+  const approvalRate=total?Math.round(approved/total*100):0;
+  const summaryHtml=`<div class='exec-summary-bar'><div class='esb-group'><div class='esb-item'><div class='esb-val'>${total}</div><div class='esb-lbl'>Total Records</div></div><div class='esb-sep'></div><div class='esb-item'><div class='esb-val' style='color:#1b8a50'>${approved}</div><div class='esb-lbl'>Approved</div></div><div class='esb-sep'></div><div class='esb-item'><div class='esb-val' style='color:#d97706'>${pending}</div><div class='esb-lbl'>Pending</div></div><div class='esb-sep'></div><div class='esb-item'><div class='esb-val' style='color:#c0392b'>${cancelled}</div><div class='esb-lbl'>On Hold</div></div><div class='esb-sep'></div><div class='esb-item'><div class='esb-val' style='color:#0a2342'>${fmtK(totalCost)}</div><div class='esb-lbl'>Total Cost</div></div><div class='esb-sep'></div><span class='esb-rate'>${approvalRate}% Approval Rate</span></div><div class='esb-time'>🔄 ${new Date().toLocaleTimeString('en-PH',{hour:'2-digit',minute:'2-digit'})}</div></div>`;
+  const summaryEl=document.getElementById('execSummaryBar');
+  if(summaryEl) summaryEl.innerHTML=summaryHtml;
 
-  // ── Monthly Trends Chart ─────────────────────────────────────────────
+  if(kpiEl) kpiEl.innerHTML=`
+    <div class="kpi-card kc-blue kpi-link" onclick="filterRecords('','','','All Requests')" title="View all records"><div class="kpi-icon">📋</div><div class="kpi-val">${total}</div><div class="kpi-lbl">Total Requests</div><div class="kpi-sub">RCA: ${rca} &nbsp;&bull;&nbsp; RFD: ${rfd} &nbsp;&bull;&nbsp; Booking: ${bk}</div><div class="kpi-progress"><div class="kpi-progress-fill" style="width:100%;background:#1565c0"></div></div><div class="kpi-arrow">View All &#8594;</div></div>
+    <div class="kpi-card kc-green kpi-link" onclick="filterRecords('','Approved','','Approved Requests')" title="View approved records"><div class="kpi-icon">✅</div><div class="kpi-val">${approved}</div><div class="kpi-lbl">Approved</div><div class="kpi-sub">${approvalRate}% of total requests</div><div class="kpi-progress"><div class="kpi-progress-fill" style="width:${approvalRate}%;background:#1b8a50"></div></div><div class="kpi-arrow">View Records &#8594;</div></div>
+    <div class="kpi-card kc-amber kpi-link" onclick="filterRecords('','Pending','','Pending Approvals')" title="View pending records"><div class="kpi-icon">⏳</div><div class="kpi-val">${pending}</div><div class="kpi-lbl">Pending Approvals</div><div class="kpi-sub">${total?Math.round(pending/total*100):0}% of requests awaiting action</div><div class="kpi-progress"><div class="kpi-progress-fill" style="width:${total?Math.round(pending/total*100):0}%;background:#d97706"></div></div><div class="kpi-arrow">View Records &#8594;</div></div>
+    <div class="kpi-card kc-navy kpi-link" onclick="filterRecords('','','','Total Travel Cost')" title="View all records"><div class="kpi-icon">💰</div><div class="kpi-val">${fmtK(totalCost)}</div><div class="kpi-lbl">Total Travel Cost</div><div class="kpi-sub">Avg per trip: ${fmtK(total?Math.round(totalCost/total):0)}</div><div class="kpi-progress"><div class="kpi-progress-fill" style="width:100%;background:#0a2342"></div></div><div class="kpi-arrow">View Records &#8594;</div></div>
+    <div class="kpi-card kc-teal kpi-link" onclick="filterRecordsToday()" title="View active travelers"><div class="kpi-icon">✈️</div><div class="kpi-val">${activeToday}</div><div class="kpi-lbl">Active Travelers</div><div class="kpi-sub">Currently on the road today</div><div class="kpi-progress"><div class="kpi-progress-fill" style="width:${total?Math.min(100,Math.round(activeToday/total*100)):0}%;background:#0891b2"></div></div><div class="kpi-arrow">View Records &#8594;</div></div>
+    <div class="kpi-card kc-purple kpi-link" onclick="filterRecordsUpcoming()" title="View upcoming trips"><div class="kpi-icon">🗓️</div><div class="kpi-val">${upcoming}</div><div class="kpi-lbl">Upcoming Trips</div><div class="kpi-sub">Departing in next 7 days</div><div class="kpi-progress"><div class="kpi-progress-fill" style="width:${total?Math.min(100,Math.round(upcoming/total*100)):0}%;background:#7b2ff7"></div></div><div class="kpi-arrow">View Records &#8594;</div></div>
+    <div class="kpi-card kc-red kpi-link" onclick="filterRecords('','On Hold','','On Hold / Cancelled')" title="View on hold records"><div class="kpi-icon">❌</div><div class="kpi-val">${cancelled}</div><div class="kpi-lbl">On Hold / Cancelled</div><div class="kpi-sub">${total?Math.round(cancelled/total*100):0}% of total &mdash; needs review</div><div class="kpi-progress"><div class="kpi-progress-fill" style="width:${total?Math.round(cancelled/total*100):0}%;background:#c0392b"></div></div><div class="kpi-arrow">View Records &#8594;</div></div>
+    <div class="kpi-card kc-gold kpi-link" onclick="filterRecordsUnpaid()" title="View unpaid bookings"><div class="kpi-icon">💳</div><div class="kpi-val">${unpaid}</div><div class="kpi-lbl">Unpaid Bookings</div><div class="kpi-sub">Payment not yet processed</div><div class="kpi-progress"><div class="kpi-progress-fill" style="width:${bk?Math.round(unpaid/bk*100):0}%;background:#f4a61c"></div></div><div class="kpi-arrow">View Records &#8594;</div></div>
+  `;
+rends Chart ─────────────────────────────────────────────
   const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const curYear=new Date().getFullYear();
   const mCounts=Array(12).fill(0), mCosts=Array(12).fill(0);
@@ -1884,15 +1918,22 @@ function renderDash(){
   const affRows=Object.entries(affData).filter(([,d])=>d.total>0).sort((a,b)=>b[1].total-a[1].total);
   const affBodyEl=document.getElementById('affBody');
   if(affBodyEl){
-    affBodyEl.innerHTML=affRows.length?affRows.map(([name,d])=>`
-    <tr onclick="filterToAffiliate('${name}')">
-      <td><span class="aff-name">${name}</span></td>
+    const maxAffTotal=affRows.length?Math.max(...affRows.map(([,d])=>d.total),1):1;
+  affBodyEl.innerHTML=affRows.length?affRows.map(([name,d],idx)=>{
+    const rate=d.total?Math.round(d.approved/d.total*100):0;
+    const rateCls=rate>=75?'ar-hi':rate>=50?'ar-mid':'ar-lo';
+    const barW=Math.round(d.total/maxAffTotal*100);
+    return `<tr onclick="filterToAffiliate('${name}')">
+      <td class="aff-rank">${idx+1}</td>
+      <td><span class="aff-name">${name}</span><span class="aff-bar-wrap"><span class="aff-bar-fill" style="width:${barW}%"></span></span></td>
       <td><span class="aff-badge">${d.total}</span></td>
       <td style="color:#1b8a50;font-weight:700">${d.approved}</td>
       <td style="color:#d97706;font-weight:700">${d.pending}</td>
       <td>${d.rca}</td><td>${d.rfd}</td><td>${d.bk}</td>
+      <td><span class="aff-rate ${rateCls}">${rate}%</span></td>
       <td style="font-weight:700;color:var(--navy)">${fmtP(d.cost)}</td>
-    </tr>`).join(''):'<tr><td colspan="8" style="text-align:center;color:#94a3b8;padding:20px">No affiliate data yet</td></tr>';
+    </tr>`;
+  }).join(''):'<tr><td colspan="10" style="text-align:center;color:#94a3b8;padding:20px">No affiliate data yet</td></tr>';
   }
 
   // Top Destinations removed
@@ -1933,12 +1974,18 @@ function renderDash(){
   const avgCost=total>0?(totalCost/total):0;
   const finEl=document.getElementById('finPanel');
   if(finEl) finEl.innerHTML=`
-    <div class="fin-item"><div class="fin-val">${fmtK(totalCost)}</div><div class="fin-lbl">Total Billed</div></div>
-    <div class="fin-item fi-green"><div class="fin-val">${fmtK(paidBK)}</div><div class="fin-lbl">Paid (Bookings)</div></div>
-    <div class="fin-item fi-amber"><div class="fin-val">${fmtK(totalBK-paidBK)}</div><div class="fin-lbl">Unpaid Balance</div></div>
-    <div class="fin-item"><div class="fin-val">${fmtK(totalRCA)}</div><div class="fin-lbl">RCA Reimbursable</div></div>
-    <div class="fin-item"><div class="fin-val">${fmtK(totalRFD)}</div><div class="fin-lbl">RFD Disbursed</div></div>
-    <div class="fin-item"><div class="fin-val">${fmtK(avgCost)}</div><div class="fin-lbl">Avg Trip Cost</div></div>
+    <div class="fin-hero">
+      <div class="fh-lbl">💰 Total Travel Expenditure</div>
+      <div class="fh-val">${fmtP(totalCost)}</div>
+    </div>
+    <div class="fin-grid-v2">
+      <div class="fin-metric fm-green"><div class="fm-val">${fmtK(paidBK)}</div><div class="fm-lbl">✓ Paid Bookings</div></div>
+      <div class="fin-metric fm-amber"><div class="fm-val">${fmtK(totalBK-paidBK)}</div><div class="fm-lbl">⚠ Unpaid Balance</div></div>
+      <div class="fin-metric fm-gold"><div class="fm-val">${fmtK(avgCost)}</div><div class="fm-lbl">🎯 Avg Trip Cost</div></div>
+      <div class="fin-metric fm-blue"><div class="fm-val">${fmtK(totalRCA)}</div><div class="fm-lbl">📄 RCA Reimbursable</div></div>
+      <div class="fin-metric fm-purple"><div class="fm-val">${fmtK(totalRFD)}</div><div class="fm-lbl">💸 RFD Disbursed</div></div>
+      <div class="fin-metric fm-teal"><div class="fm-val">${fmtK(totalBK)}</div><div class="fm-lbl">🎫 Total Bookings</div></div>
+    </div>
   `;
 
   // ── Recent Requests ──────────────────────────────────────────────────
