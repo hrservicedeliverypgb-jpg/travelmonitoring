@@ -2770,7 +2770,7 @@ function printRCA(id){
 
   <!-- HEADER: title centered, logo absolutely positioned top-right -->
   <div class="form-header">
-    <h1 class="form-title">Request for Cash Advance</h1>
+    <h1 class="form-title">REQUEST OF CASH ADVANCE</h1>
     <div class="form-logo">${logoHtml}</div>
   </div>
 
@@ -2783,8 +2783,6 @@ function printRCA(id){
   </div>
   <div class="field-row" style="margin-bottom:4px"><label>Charge to Dept/Proj:&nbsp;</label><span class="ul">${r.chg||''}</span></div>
   <div class="field-row" style="margin-bottom:4px"><label>Purpose:&nbsp;</label><span class="ul">${r.purpose||''}</span></div>
-  <div class="field-row" style="margin-bottom:4px"><label>Travel Date:&nbsp;</label><span class="ul">${(()=>{const dep=r.dep?new Date(r.dep+'T00:00:00').toLocaleDateString('en-PH',{month:'long',day:'numeric',year:'numeric'}):'';const arr=r.arr?new Date(r.arr+'T00:00:00').toLocaleDateString('en-PH',{month:'long',day:'numeric',year:'numeric'}):'';if(dep&&arr)return dep+' – '+arr;return dep||arr||'';})()}</span></div>
-  <div class="field-row" style="margin-bottom:8px"><label>&nbsp;</label><span class="ul">&nbsp;</span></div>
 
   <!-- TRAVEL COORDINATOR SECTION -->
   <div class="section-box">
