@@ -2649,7 +2649,7 @@ function printRCA(id){
     const items=(r.othersItems&&r.othersItems.length>0)
       ?r.othersItems
       :[{label:'Others',amt:othersAmt>0?othersAmt:0}];
-    return items.map(it=>`<div class="tr"><span class="tlbl">${it.label||'Others'}</span><span class="tcolon">&nbsp;:&nbsp;</span><span class="tval">&nbsp;</span><span class="tp">&#8369;</span><span class="tamt">${it.amt>0?fmt2(it.amt):''}</span></div>`).join('');
+    return items.map(it=>`<div class="tr"><span class="tlbl">${(it.label||'').trim()||'Others'}</span><span class="tcolon">&nbsp;:&nbsp;</span><span class="tval">&nbsp;</span><span class="tp">&#8369;</span><span class="tamt">${it.amt>0?fmt2(it.amt):''}</span></div>`).join('');
   })();
   const logoBlock = affLogoDataUrl
     ? `<img src="${affLogoDataUrl}" style="max-height:56px;max-width:110px;object-fit:contain;display:block;margin-left:auto" alt="logo"/>`
