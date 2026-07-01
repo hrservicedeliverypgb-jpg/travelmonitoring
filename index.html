@@ -2665,96 +2665,77 @@ function printRCA(id){
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Times New Roman',Times,serif;font-size:10.5pt;color:#000;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 @media print{.noprint{display:none!important}}
-.selbar{background:#eef2f8;border:1px solid #bfcfdf;border-radius:7px;padding:11px 14px;margin-bottom:14px;display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px 16px}
-.selbar label{font-family:Arial,sans-serif;font-size:11px;font-weight:700;color:#0a2342;display:block;margin-bottom:3px}
-.selbar input,.selbar select{font-family:Arial,sans-serif;font-size:13px;padding:6px 9px;border:1.5px solid #aabbd0;border-radius:5px;min-width:175px;color:#0a2342;background:#fff}
-.pbtn{padding:8px 18px;background:#0a2342;color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;font-family:Arial,sans-serif}
-.pbtn:hover{background:#1456a0}
-.owrap{display:none;flex:1}
-.page{width:100%;max-width:700px;margin:0 auto}
+.page{width:100%;max-width:680px;margin:0 auto}
 .hdr{display:flex;align-items:flex-start;margin-bottom:14px}
-.hdr-space{width:110px;flex-shrink:0}
-.hdr-title{flex:1;text-align:center;font-size:14pt;font-weight:bold;letter-spacing:0.3px;line-height:1.3}
-.hdr-logo{width:110px;flex-shrink:0;text-align:right}
-.top2{display:grid;grid-template-columns:1fr 1fr;gap:5px 0;margin-bottom:3px}
-.fr{display:flex;align-items:flex-end;gap:3px;font-size:10.5pt}
-.fr.rpad{padding-right:18px}
-.fr.lpad{padding-left:14px}
+.hdr-space{width:100px;flex-shrink:0}
+.hdr-title{flex:1;text-align:center;font-size:16pt;font-weight:bold;letter-spacing:0.2px;line-height:1.3}
+.hdr-logo{width:100px;flex-shrink:0;text-align:right}
+.row2{display:flex;gap:0;margin-bottom:4px}
+.f2l{flex:1;display:flex;align-items:flex-end;gap:3px;padding-right:20px;font-size:10.5pt}
+.f2r{flex:1;display:flex;align-items:flex-end;gap:3px;font-size:10.5pt}
 .flbl{white-space:nowrap;flex-shrink:0}
-.ful{flex:1;border-bottom:1px solid #000;min-height:15px;padding-bottom:1px;min-width:10px}
-.frfull{display:flex;align-items:flex-end;gap:3px;font-size:10.5pt;margin-bottom:3px}
-.sec{border:1px solid #000;margin:9px 0}
-.secttl{text-align:center;font-size:10pt;font-weight:normal;padding:4px 6px;border-bottom:1px solid #000;background:#e8e8e8}
+.ful{flex:1;border-bottom:1px solid #000;min-height:14px;padding-bottom:1px;min-width:10px}
+.row1{display:flex;align-items:flex-end;gap:3px;font-size:10.5pt;margin-bottom:4px}
+.sec{border:1px solid #000;margin:8px 0}
+.secttl{text-align:center;font-size:10pt;font-weight:normal;padding:4px 6px;border-bottom:1px solid #000;background:#e8e8e8;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .secbody{padding:6px 10px}
 .tr{display:flex;align-items:flex-end;gap:0;font-size:10.5pt;margin-bottom:4px}
-.tlbl{width:148px;flex-shrink:0}
+.tlbl{width:155px;flex-shrink:0}
 .tcolon{flex-shrink:0}
-.tval{flex:1;border-bottom:1px solid #000;min-height:15px;padding-bottom:1px;margin-right:4px}
-.tp{flex-shrink:0;font-size:10pt;margin-right:3px}
-.tamt{width:115px;flex-shrink:0;border-bottom:1px solid #000;min-height:15px;text-align:right;padding-bottom:1px}
-.ttotal{display:flex;justify-content:flex-end;align-items:flex-end;gap:4px;margin-top:5px;font-weight:bold;font-size:10.5pt}
-.ttotal-line{width:115px;flex-shrink:0;border-top:1px solid #000;border-bottom:2px solid #000;min-height:16px;text-align:right;padding:1px 0}
-.acctg2{display:flex;gap:0;margin-bottom:6px}
-.acctg2-left{flex:1}
-.acctg2-right{flex:1;padding-left:10px}
-.ckrow{display:flex;align-items:center;gap:6px;margin-bottom:4px;font-size:10.5pt}
-.ck{width:11px;height:11px;border:1px solid #000;flex-shrink:0;display:inline-block}
-.ilul{display:inline-block;border-bottom:1px solid #000;min-width:90px;vertical-align:bottom;margin:0 3px}
-table.rt{width:100%;border-collapse:collapse;font-size:10pt}
+.tval{flex:1;border-bottom:1px solid #000;min-height:14px;padding-bottom:1px;margin-right:6px}
+.tp{flex-shrink:0;margin-right:4px}
+.tamt{width:110px;flex-shrink:0;border-bottom:1px solid #000;min-height:14px;text-align:right;padding-bottom:1px}
+.ttotal{display:flex;justify-content:flex-end;align-items:flex-end;gap:6px;margin-top:5px;font-weight:bold;font-size:10.5pt}
+.ttotal-line{width:110px;flex-shrink:0;border-top:1px solid #000;border-bottom:2px solid #000;min-height:15px;text-align:right;padding:1px 0}
+.ck2{display:flex;gap:0;margin-bottom:6px}
+.ck2l{flex:1}
+.ck2r{flex:1;padding-left:10px}
+.ckrow{display:flex;align-items:center;gap:5px;margin-bottom:4px;font-size:10.5pt}
+.ck{width:11px;height:11px;border:1px solid #000;flex-shrink:0;display:inline-block;vertical-align:middle}
+.ilul{display:inline-block;border-bottom:1px solid #000;min-width:80px;vertical-align:bottom;margin:0 3px}
+table.rt{width:100%;border-collapse:collapse;font-size:10pt;margin-top:5px}
 table.rt th{border:1px solid #000;padding:2px 5px;font-weight:bold;text-align:center;font-size:9.5pt}
 table.rt td{border:1px solid #000;padding:2px 5px;height:20px;vertical-align:top}
-table.rt .totrow td{font-weight:bold}
+.totrow td{font-weight:bold}
 .note{font-size:10pt;line-height:1.55;margin:8px 0;text-align:justify}
-.nul{display:inline-block;border-bottom:1px solid #000;min-width:130px;vertical-align:bottom}
-.sig2{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
-.sfr{display:flex;align-items:flex-end;gap:3px;font-size:10.5pt;margin-bottom:6px}
-.sful{flex:1;border-bottom:1px solid #000;min-height:15px;padding-bottom:1px}
+.nul{display:inline-block;border-bottom:1px solid #000;min-width:120px;vertical-align:bottom}
+.sig2{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:8px}
+.sfr{display:flex;align-items:flex-end;gap:3px;font-size:10.5pt;margin-bottom:5px}
+.sful{flex:1;border-bottom:1px solid #000;min-height:14px;padding-bottom:1px}
 .sublbl{font-size:9pt;color:#444;margin-left:52px;margin-top:1px}
-hr.div{border:none;border-top:1px dashed #000;margin:12px 0}
+hr.div{border:none;border-top:1px dashed #000;margin:10px 0}
 .authttl{font-size:13pt;font-weight:bold;text-align:center;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
 .authtxt{font-size:10.5pt;line-height:1.6;text-align:justify;margin-bottom:10px}
-.authsig2{display:grid;grid-template-columns:55% 40%;gap:0;margin-top:22px}
+.authsig2{display:flex;gap:40px;margin-top:18px}
+.asig-wide{flex:2}.asig-narrow{flex:1}
 .asigul{border-bottom:1px solid #000;min-height:20px;margin-bottom:4px}
 .asiglbl{font-size:9pt;text-align:center}
+.ctrl{background:#f4f6f8;border:1px solid #c8d0d8;border-radius:6px;padding:10px 14px;margin-top:16px;display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px 14px}
+.ctrl label{font-family:Arial,sans-serif;font-size:11px;font-weight:700;color:#333;display:block;margin-bottom:2px}
+.ctrl input,.ctrl select{font-family:Arial,sans-serif;font-size:12px;padding:5px 8px;border:1px solid #aaa;border-radius:4px;min-width:160px;background:#fff}
+.pbtn{padding:7px 16px;background:#1a3f6e;color:#fff;border:none;border-radius:5px;font-size:12px;font-weight:700;cursor:pointer;font-family:Arial,sans-serif}
+.pbtn:hover{background:#275fa0}
+.owrap{display:none;flex:1}
 </style>
 </head>
 <body>
-<div class="selbar noprint">
-  <div><label>Pay To (Deposited to):</label><input type="text" id="payToInput" value="${r.emp||''}" oninput="updPayTo()" style="min-width:200px"/></div>
-  <div><label>Traveling Employee/s:</label><input type="text" id="travEmpInput" value="${r.travelEmps||r.emp||''}" oninput="updTravEmp()" style="min-width:210px"/></div>
-  <div>
-    <label>Requested by (Travel Coordinator):</label>
-    <div style="display:flex;gap:7px;align-items:center">
-      <select id="coordSel" onchange="onCoordChange()">
-        <option value="">-- Select --</option>
-        <option${preselect==='Bordaje, Jesiel'?' selected':''}>Bordaje, Jesiel</option>
-        <option${preselect==='Tandal, Patress'?' selected':''}>Tandal, Patress</option>
-        <option${preselect==='Mangubat, Angelica Mae'?' selected':''}>Mangubat, Angelica Mae</option>
-        <option${preselect==='Rivera, Stephanie'?' selected':''}>Rivera, Stephanie</option>
-        <option${preselect==='Pabiran, Aubrey'?' selected':''}>Pabiran, Aubrey</option>
-        <option${preselect==='Legaspi, Janica Nicole'?' selected':''}>Legaspi, Janica Nicole</option>
-        <option value="Others">Others</option>
-      </select>
-      <div class="owrap" id="owrap"><input type="text" id="otherName" placeholder="Type name..." oninput="updOther()"/></div>
-    </div>
-  </div>
-  <button class="pbtn" onclick="window.print()">&#128438; Print / Save PDF</button>
-</div>
 <div class="page">
   <div class="hdr">
     <div class="hdr-space"></div>
     <div class="hdr-title">REQUEST OF CASH ADVANCE</div>
     <div class="hdr-logo">${logoBlock}</div>
   </div>
-  <div class="top2">
-    <div class="fr rpad"><span class="flbl">Pay To:&nbsp;</span><span class="ful" id="payToLine">${r.emp||''}</span></div>
-    <div class="fr lpad"><span class="flbl">Date Prepared:&nbsp;</span><span class="ful">${today}</span></div>
-    <div class="fr rpad"><span class="flbl">Amount:&nbsp;</span><span class="ful">&#8369;&nbsp;${fmt2(total)}</span></div>
-    <div class="fr lpad"><span class="flbl">Date Needed:&nbsp;</span><span class="ful">${r.dep?new Date(r.dep+'T00:00:00').toLocaleDateString('en-PH',{month:'long',day:'numeric',year:'numeric'}):''}</span></div>
+  <div class="row2">
+    <div class="f2l"><span class="flbl">Pay To:&nbsp;</span><span class="ful" id="payToLine">${r.emp||''}</span></div>
+    <div class="f2r"><span class="flbl">Date Prepared:&nbsp;</span><span class="ful">${today}</span></div>
   </div>
-  <div class="frfull"><span class="flbl">Charge to Dept/Proj:&nbsp;</span><span class="ful" style="max-width:260px">${r.chg||''}</span></div>
-  <div class="frfull"><span class="flbl">Purpose:&nbsp;</span><span class="ful">${r.purpose||''}</span></div>
-  <div class="frfull" style="margin-bottom:8px"><span class="ful">&nbsp;</span></div>
+  <div class="row2" style="margin-bottom:6px">
+    <div class="f2l"><span class="flbl">Amount:&nbsp;</span><span class="ful">&#8369;&nbsp;${fmt2(total)}</span></div>
+    <div class="f2r"><span class="flbl">Date Needed:&nbsp;</span><span class="ful">${r.dep?new Date(r.dep+'T00:00:00').toLocaleDateString('en-PH',{month:'long',day:'numeric',year:'numeric'}):''}</span></div>
+  </div>
+  <div class="row1"><span class="flbl">Charge to Dept/Proj:&nbsp;</span><span class="ful" style="max-width:300px">${r.chg||''}</span></div>
+  <div class="row1"><span class="flbl">Purpose:&nbsp;</span><span class="ful">${r.purpose||''}</span></div>
+  <div class="row1" style="margin-bottom:8px"><span class="ful">&nbsp;</span></div>
   <div class="sec">
     <div class="secttl">To be filled up by the Travel Coordinator</div>
     <div class="secbody">
@@ -2770,18 +2751,18 @@ hr.div{border:none;border-top:1px dashed #000;margin:12px 0}
   <div class="sec">
     <div class="secttl">To be filled up by the Accounting In Charge</div>
     <div class="secbody">
-      <div class="acctg2">
-        <div class="acctg2-left">
+      <div class="ck2">
+        <div class="ck2l">
           <div class="ckrow"><span class="ck"></span><span>Without Unliquidated Cash Advance</span></div>
           <div class="ckrow"><span class="ck"></span><span>With Unliquidated Cash Advance of Php<span class="ilul">&nbsp;</span></span></div>
         </div>
-        <div class="acctg2-right">
-          <div class="frfull" style="margin-bottom:5px"><span class="flbl">Received &amp; Checked by:&nbsp;</span><span class="ful">&nbsp;</span></div>
-          <div class="frfull"><span class="flbl">Date Received:&nbsp;</span><span class="ful">&nbsp;</span></div>
+        <div class="ck2r">
+          <div class="row1" style="margin-bottom:5px"><span class="flbl">Received &amp; Checked by:&nbsp;</span><span class="ful">&nbsp;</span></div>
+          <div class="row1"><span class="flbl">Date Received:&nbsp;</span><span class="ful">&nbsp;</span></div>
         </div>
       </div>
       <table class="rt">
-        <thead><tr><th style="width:72px">DATE</th><th style="width:96px">REFERENCE</th><th>PURPOSE</th><th style="width:96px">AMOUNT</th></tr></thead>
+        <thead><tr><th style="width:70px">DATE</th><th style="width:90px">REFERENCE</th><th>PURPOSE</th><th style="width:90px">AMOUNT</th></tr></thead>
         <tbody>
           <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
           <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
@@ -2800,17 +2781,38 @@ hr.div{border:none;border-top:1px dashed #000;margin:12px 0}
     </div>
     <div>
       <div class="sfr"><span class="flbl">COO Approval:&nbsp;</span><span class="sful">Paulette D. Liu</span></div>
-      <div class="sfr" style="margin-top:6px"><span class="flbl">SVP-Comptroller Approval:&nbsp;</span><span class="sful">Lillian Marie U. Liu</span></div>
+      <div class="sfr" style="margin-top:4px"><span class="flbl">SVP-Comptroller Approval:&nbsp;</span><span class="sful">Lillian Marie U. Liu</span></div>
     </div>
   </div>
   <hr class="div"/>
   <div class="authttl">Authority to Deduct</div>
   <p class="authtxt">I,&nbsp;<span class="nul" style="min-width:200px">&nbsp;${r.emp||''}&nbsp;</span>, hereby acknowledge and bind myself to <strong>${affFullName}</strong> policies on Cash Advance to liquidate within 6 working days after the completion of the transaction or return from my trip. Therefore, I hereby authorize <strong>${affFullName}</strong> to deduct the full amount of cash advance from my salary in case I cannot liquidate on the scheduled date.</p>
-  <p style="font-size:10.5pt;margin-bottom:8px">Acknowledged and Authorized by:</p>
+  <p style="font-size:10.5pt;margin-bottom:6px">Acknowledged and Authorized by:</p>
   <div class="authsig2">
-    <div><div class="asigul"></div><div class="asiglbl">Signature over Printed Name</div></div>
-    <div><div class="asigul"></div><div class="asiglbl">Date and Time</div></div>
+    <div class="asig-wide"><div class="asigul"></div><div class="asiglbl">Signature over Printed Name</div></div>
+    <div class="asig-narrow"><div class="asigul"></div><div class="asiglbl">Date and Time</div></div>
   </div>
+</div>
+<div class="ctrl noprint">
+  <div><label>Pay To (Deposited to):</label><input type="text" id="payToInput" value="${r.emp||''}" oninput="updPayTo()" style="min-width:200px"/></div>
+  <div><label>Traveling Employee/s:</label><input type="text" id="travEmpInput" value="${r.travelEmps||r.emp||''}" oninput="updTravEmp()" style="min-width:200px"/></div>
+  <div>
+    <label>Requested by (Travel Coordinator):</label>
+    <div style="display:flex;gap:7px;align-items:center">
+      <select id="coordSel" onchange="onCoordChange()">
+        <option value="">-- Select --</option>
+        <option${preselect==='Bordaje, Jesiel'?' selected':''}>Bordaje, Jesiel</option>
+        <option${preselect==='Tandal, Patress'?' selected':''}>Tandal, Patress</option>
+        <option${preselect==='Mangubat, Angelica Mae'?' selected':''}>Mangubat, Angelica Mae</option>
+        <option${preselect==='Rivera, Stephanie'?' selected':''}>Rivera, Stephanie</option>
+        <option${preselect==='Pabiran, Aubrey'?' selected':''}>Pabiran, Aubrey</option>
+        <option${preselect==='Legaspi, Janica Nicole'?' selected':''}>Legaspi, Janica Nicole</option>
+        <option value="Others">Others</option>
+      </select>
+      <div class="owrap" id="owrap"><input type="text" id="otherName" placeholder="Type name..." oninput="updOther()"/></div>
+    </div>
+  </div>
+  <button class="pbtn" onclick="window.print()">&#128438; Print / Save PDF</button>
 </div>
 </body>
 </html>`);
