@@ -383,25 +383,25 @@ table tr:hover td{background:#eaf1ff}
 .aff-rate.ar-hi{background:#dcfce7;color:#166534}.aff-rate.ar-mid{background:#fef9c3;color:#854d0e}.aff-rate.ar-lo{background:#fee2e2;color:#991b1b}
 
 /* Expense Breakdown */
-.fin-section-hdr{font-size:10px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.06em;padding:10px 18px 4px;border-top:1px solid #f1f5f9;margin-top:4px}
+.fin-section-hdr{font-size:13px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.06em;padding:10px 18px 4px;border-top:1px solid #f1f5f9;margin-top:4px}
 .fin-section-hdr:first-child{border-top:none;margin-top:0}
 .fb-row{display:flex;align-items:center;gap:8px;padding:4px 18px}
 .fb-dot{display:inline-block;width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.fb-label{font-size:11px;color:#334155;width:155px;flex-shrink:0;display:flex;align-items:center;gap:5px;font-weight:600}
+.fb-label{font-size:13px;color:#334155;width:175px;flex-shrink:0;display:flex;align-items:center;gap:5px;font-weight:600}
 .fb-bar-wrap{flex:1;height:8px;background:#f1f5f9;border-radius:4px;overflow:hidden}
 .fin-panel-wide .fb-rows-2col{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
 @media(max-width:700px){.fin-panel-wide .fb-rows-2col{grid-template-columns:1fr}}
 .fb-bar{height:100%;border-radius:4px;transition:width .5s ease}
-.fb-val{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;color:#0a2342;width:80px;text-align:right;white-space:nowrap}
-.fb-pct{font-size:10px;font-weight:700;color:#94a3b8;width:30px;text-align:right}
-.fin-metrics-row{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding:10px 18px 14px}
+.fb-val{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:#0a2342;width:90px;text-align:right;white-space:nowrap}
+.fb-pct{font-size:12px;font-weight:700;color:#94a3b8;width:34px;text-align:right}
+.fin-metrics-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:10px 18px 14px}
 @media(max-width:700px){.fin-metrics-row{grid-template-columns:repeat(3,1fr)}}
 .fin-sm{background:#f8fafc;border-radius:8px;padding:10px 10px;border-left:3px solid #e2e8f0;text-align:center}
 .fin-sm.fs-green{border-left-color:#1b8a50}.fin-sm.fs-blue{border-left-color:#1565c0}
 .fin-sm.fs-amber{border-left-color:#d97706}.fin-sm.fs-purple{border-left-color:#7c3aed}
 .fin-sm.fs-teal{border-left-color:#0891b2}.fin-sm.fs-gold{border-left-color:#b45309}
-.fin-sm .fsv{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;color:#0a2342;line-height:1.1}
-.fin-sm .fsl{font-size:9px;color:#64748b;text-transform:uppercase;font-weight:700;margin-top:2px}
+.fin-sm .fsv{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:#0a2342;line-height:1.1}
+.fin-sm .fsl{font-size:11px;color:#64748b;text-transform:uppercase;font-weight:700;margin-top:2px}
 </style>
 </head>
 <body>
@@ -499,45 +499,13 @@ table tr:hover td{background:#eaf1ff}
         </div>
       </div>
 
-      <!-- ROW 3: AFFILIATE FULL WIDTH -->
-      <div class="dash-card" style="margin-bottom:18px">
-        <div class="dash-card-hdr">
-          <div class="dash-card-title">&#127970; Affiliate Performance</div>
-          <div style="display:flex;align-items:center;gap:10px">
-            <div class="dash-card-sub">Click a row to filter All Records by affiliate</div>
-            <button id="affBackBtn" onclick="resetAffFilter()" style="display:none;background:#f1f5f9;border:1px solid #cbd5e1;color:#0a2342;padding:5px 12px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;transition:.2s" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">&#8592; Back to All</button>
-          </div>
-        </div>
-        <div class="tbl-wrap" style="max-height:300px;overflow-y:auto">
-          <table class="dash-table" id="affTable">
-            <thead><tr>
-              <th>#</th><th>Affiliate</th><th>Total</th><th>Approved</th><th>Pending</th>
-              <th>RCA</th><th>RFD</th><th>Booking</th><th>Appvl %</th><th>Travel Cost</th>
-            </tr></thead>
-            <tbody id="affBody"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- ROW 4: EXPENSE BREAKDOWN (full-width) -->
-      <div class="dash-card" style="margin-bottom:18px">
-        <div class="dash-card-hdr">
-          <div class="dash-card-title">&#128176; Expense Breakdown</div>
-          <div class="dash-card-sub">Travel cost by type, payment &amp; booking</div>
-        </div>
-        <div id="finPanel" class="fin-panel-wide"></div>
-      </div>
-
-      <!-- ROW 5: RECENT REQUESTS -->
+      <!-- ROW 5: ALL TRAVEL RECORDS -->
       <div class="dash-card" style="margin-top:0">
-        <div class="dash-card-hdr" style="flex-wrap:wrap;gap:8px">
-          <div>
-            <div class="dash-card-title">&#128203; Recent Travel Requests</div>
-            <div class="dash-card-sub">Latest 10 entries</div>
-          </div>
-          <button class="dash-view-all" onclick="goTab('records',document.querySelectorAll('.nav-tab')[2])">View All Records &#8594;</button>
+        <div class="dash-card-hdr">
+          <div class="dash-card-title">&#128203; All Travel Records</div>
+          <div class="dash-card-sub">Complete travel request history</div>
         </div>
-        <div class="tbl-wrap">
+        <div class="tbl-wrap" style="max-height:480px;overflow-y:auto">
           <table>
             <thead><tr><th>#</th><th>Date</th><th>Dep</th><th>Arr</th><th>Employee</th><th>Affiliate</th><th>Process</th><th>Destination</th><th>Total</th><th>Status</th><th>Payment</th></tr></thead>
             <tbody id="dashBody"></tbody>
@@ -1980,7 +1948,6 @@ function renderDash(){
     `<div class="fin-section-hdr">💳 Booking Payment Status</div>`+
     `<div class="fb-rows-2col">`+
     fbRow('Paid',paidBK,'#1b8a50',totalBK||1)+
-    fbRow('Unpaid',unpaidBK,'#c0392b',totalBK||1)+
     `</div>`+
     (bkTypEntries.length?`<div class="fin-section-hdr">🎫 Booking Type Breakdown</div>`+
       `<div class="fb-rows-2col">`+bkTypEntries.map(([t,v],i)=>fbRow(t,v,bkColors[i]||'#94a3b8',bkTypTotal)).join('')+`</div>`:'')+
@@ -1991,11 +1958,10 @@ function renderDash(){
     `<div class="fin-sm fs-teal"><div class="fsv">${cntBK}</div><div class="fsl">Bookings</div></div>`+
     `<div class="fin-sm fs-gold"><div class="fsv">${fmtK(avgCost)}</div><div class="fsl">Avg Cost</div></div>`+
     `<div class="fin-sm fs-green"><div class="fsv">${fmtK(paidBK)}</div><div class="fsl">Total Paid</div></div>`+
-    `<div class="fin-sm fs-amber"><div class="fsv">${fmtK(unpaidBK)}</div><div class="fsl">Total Unpaid</div></div>`+
     `</div>`;
 
   // ── Recent Requests ──────────────────────────────────────────────────
-  const recent=[...fRec].sort((a,b)=>(b.dr||'').localeCompare(a.dr||'')||b.id-a.id).slice(0,10);
+  const recent=[...fRec].sort((a,b)=>(b.dr||'').localeCompare(a.dr||'')||b.id-a.id);
   const dashBodyEl=document.getElementById('dashBody');
   if(dashBodyEl) dashBodyEl.innerHTML=recent.map(r=>`<tr>
     <td>${r.id}</td><td>${r.dr||''}</td><td>${r.dep||''}</td><td>${r.arr||''}</td>
