@@ -499,19 +499,6 @@ table tr:hover td{background:#eaf1ff}
         </div>
       </div>
 
-      <!-- ROW 5: ALL TRAVEL RECORDS -->
-      <div class="dash-card" style="margin-top:0">
-        <div class="dash-card-hdr">
-          <div class="dash-card-title">&#128203; All Travel Records</div>
-          <div class="dash-card-sub">Complete travel request history</div>
-        </div>
-        <div class="tbl-wrap" style="max-height:480px;overflow-y:auto">
-          <table>
-            <thead><tr><th>#</th><th>Date</th><th>Dep</th><th>Arr</th><th>Employee</th><th>Affiliate</th><th>Process</th><th>Destination</th><th>Total</th><th>Status</th><th>Payment</th></tr></thead>
-            <tbody id="dashBody"></tbody>
-          </table>
-        </div>
-      </div>
     </div>
 
     <!-- NEW REQUEST -->
@@ -1961,15 +1948,6 @@ function renderDash(){
     `</div>`;
 
   // ── Recent Requests ──────────────────────────────────────────────────
-  const recent=[...fRec].sort((a,b)=>(b.dr||'').localeCompare(a.dr||'')||b.id-a.id);
-  const dashBodyEl=document.getElementById('dashBody');
-  if(dashBodyEl) dashBodyEl.innerHTML=recent.map(r=>`<tr>
-    <td>${r.id}</td><td>${r.dr||''}</td><td>${r.dep||''}</td><td>${r.arr||''}</td>
-    <td style="font-weight:600">${r.emp||''}</td><td>${r.aff||''}</td>
-    <td>${procBdg(r.proc)}</td><td>${destLbl(r.dest,r.ldest)||r.bkType||'—'}</td>
-    <td style="font-weight:700;color:var(--navy)">₱${(r.total||0).toLocaleString()}</td>
-    <td>${stBdg(r.status)}</td><td>${payBdg(r.payStatus,r.proc)}</td>
-  </tr>`).join('');
 }
 
 function filterRecordsToday(){
