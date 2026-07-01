@@ -79,7 +79,7 @@ body{font-family:'Barlow',sans-serif;background:#e8edf2;color:var(--text);min-he
 .nav-tab.active{color:var(--gold);border-bottom-color:var(--gold);background:rgba(244,166,28,0.06)}
 
 /* MAIN */
-.main-wrap{flex:1;padding:24px 28px;background:#e8edf2}
+.main-wrap{flex:1;padding:8px 28px 24px;background:#e8edf2}
 .panel{display:none}.panel.active{display:block}
 
 /* STAT CARDS */
@@ -196,7 +196,7 @@ body{font-family:'Barlow',sans-serif;background:#e8edf2;color:var(--text);min-he
 .card-hdr .icon{width:22px;height:22px;background:var(--gold);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--navy);flex-shrink:0}
 .card-hdr .title{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:0.5px}
 .card-hdr .subtitle{font-size:11px;color:rgba(255,255,255,0.5);margin-left:auto}
-.card-body{padding:20px}
+.card-body{padding:14px 20px 20px}
 
 /* FORM */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -497,6 +497,15 @@ table tr:hover td{background:#eaf1ff}
           </div>
           <div id="monthlyChart" class="chart-area"></div>
         </div>
+      </div>
+
+      <!-- ROW 4: EXPENSE BREAKDOWN (full-width) -->
+      <div class="dash-card" style="margin-bottom:18px">
+        <div class="dash-card-hdr">
+          <div class="dash-card-title">&#128176; Expense Breakdown</div>
+          <div class="dash-card-sub">Travel cost by type, payment &amp; booking</div>
+        </div>
+        <div id="finPanel" class="fin-panel-wide"></div>
       </div>
 
     </div>
