@@ -2645,275 +2645,187 @@ function printRCA(id){
     ? `<div style="text-align:right"><img src="${affLogoDataUrl}" alt="${affCode} Logo" style="max-height:56px;max-width:110px;object-fit:contain;display:block;margin-left:auto"/></div>`
     : `<div style="font-family:'Times New Roman',serif;font-size:9pt;font-weight:bold;color:#0a2342;text-align:right;line-height:1.3;text-transform:uppercase">${affFullName}</div>`;
 
-  const w=window.open('','_blank','width=940,height=1300');
+  const othersRowsHtml=(()=>{
+    const items=(r.othersItems&&r.othersItems.length>0)
+      ?r.othersItems
+      :[{label:'Others',amt:othersAmt>0?othersAmt:0}];
+    return items.map(it=>`<div class="tr"><span class="tlbl">${it.label||'Others'}</span><span class="tcolon">&nbsp;:&nbsp;</span><span class="tval">&nbsp;</span><span class="tp">&#8369;</span><span class="tamt">${it.amt>0?fmt2(it.amt):''}</span></div>`).join('');
+  })();
+  const logoBlock = affLogoDataUrl
+    ? `<img src="${affLogoDataUrl}" style="max-height:56px;max-width:110px;object-fit:contain;display:block;margin-left:auto" alt="logo"/>`
+    : `<div style="font-size:8pt;font-weight:bold;text-align:right;line-height:1.3;text-transform:uppercase">${affFullName}</div>`;
+  const w=window.open('','_blank','width=860,height=1220');
   w.document.write(`<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8"/>
-<title>RCA Form — ${r.emp}</title>
+<title>RCA &mdash; ${r.emp||''}</title>
 <style>
-  @page{size:letter;margin:10mm 12mm 10mm 12mm}
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Times New Roman',Times,serif;font-size:10.5pt;color:#000;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  @media print{.no-print{display:none!important}}
-
-  /* SELECTOR BAR */
-  .selector-bar{background:#f0f4f9;border:1px solid #c0cce0;border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
-  .selector-bar label{font-family:Arial,sans-serif;font-size:13px;font-weight:700;color:#0a2342;white-space:nowrap}
-  .selector-bar select,.selector-bar input[type=text]{font-family:Arial,sans-serif;font-size:13px;padding:6px 10px;border:1.5px solid #aabbd0;border-radius:5px;color:#0a2342;background:#fff;min-width:190px}
-  .other-wrap{display:none;flex:1}
-  .print-btn{padding:8px 20px;background:#0a2342;color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;font-family:Arial,sans-serif;}
-  .print-btn:hover{background:#1456a0}
-
-  /* PAGE */
-  .page{width:100%;max-width:760px;margin:0 auto;padding:8px 10px}
-
-  /* HEADER — title centered, logo top-right same line */
-  .form-header{position:relative;text-align:center;margin-bottom:10px;min-height:52px;display:flex;align-items:center;justify-content:center;}
-  .form-title{font-size:15pt;font-weight:bold;text-transform:uppercase;letter-spacing:1px;line-height:1.2;text-align:center;flex:1;}
-  .form-logo{position:absolute;top:0;right:0;width:140px;text-align:right;}
-
-  /* FIELDS */
-  .top-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 14px;margin-bottom:5px}
-  .field-row{display:flex;align-items:flex-end;gap:4px;margin-bottom:4px;font-size:10.5pt}
-  .field-row label{white-space:nowrap;font-weight:normal;flex-shrink:0}
-  .ul{flex:1;border-bottom:1px solid #000;min-width:20px;padding-bottom:1px;line-height:1.2}
-
-  /* SECTION BOX */
-  .section-box{border:0.75px solid #000;padding:6px 10px;margin:7px 0;position:relative;}
-  .section-title{text-align:center;font-size:9pt;font-weight:normal;background:#fff;padding:3px 0;margin:-6px -10px 7px -10px;letter-spacing:0.3px}
-
-  /* BK ROWS — label : value ₱ amount */
-  .bk-row{display:flex;align-items:flex-end;gap:4px;margin-bottom:4px;font-size:10.5pt;position:relative;}
-  .bk-label{width:148px;flex-shrink:0}
-  .bk-colon{flex-shrink:0}
-  .bk-value{flex:1;border-bottom:1px solid #000;padding-bottom:1px;min-height:15px}
-  .bk-peso{font-size:10pt;flex-shrink:0;padding-left:4px}
-  .bk-amt{width:120px;flex-shrink:0;border-bottom:1px solid #000;text-align:right;padding-bottom:1px;min-height:15px}
-
-  /* TOTAL ROW */
-  .total-row{display:flex;justify-content:flex-end;align-items:flex-end;gap:4px;margin-top:4px;font-weight:bold;font-size:11pt;}
-  .total-line{width:120px;border-bottom:1.5px solid #000;border-top:0.75px solid #000;text-align:right;padding:2px 0}
-
-  /* SUBJECT FOR LIQUIDATION — floats right of transpo row */
-
-  /* ACCOUNTING BOX */
-  .acctg-box{border:0.75px solid #000;padding:6px 10px;margin:7px 0}
-  .chk-row{display:flex;align-items:center;gap:7px;margin-bottom:4px;font-size:10pt}
-  .chk-box{width:12px;height:12px;border:0.75px solid #000;flex-shrink:0;display:inline-block}
-  .inline-ul{display:inline-block;border-bottom:1px solid #000;min-width:90px;margin:0 3px}
-  table.ref{width:100%;border-collapse:collapse;margin-top:5px;font-size:10pt}
-  table.ref th,table.ref td{border:0.75px solid #000;padding:3px 6px;text-align:left;vertical-align:top}
-  table.ref th{font-weight:bold;background:#e0e0e0;text-align:center;font-size:9pt}
-  table.ref .tr td{font-weight:bold;border-top:2px solid #000}
-
-  /* NOTE */
-  .note{font-size:9pt;margin:6px 0;line-height:1.5;text-align:justify}
-  .note .ul{display:inline-block;width:130px;vertical-align:bottom}
-
-  /* SIGNATURES */
-  .sig-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
-  .sig-block{font-size:10pt}
-
-  /* DIVIDER */
-  .divider{border:none;border-top:2px dashed #000;margin:12px 0}
-
-  /* AUTHORITY TO DEDUCT */
-  .auth-title{font-size:13pt;font-weight:bold;text-align:center;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;}
-  .auth-text{font-size:10pt;line-height:1.6;margin-bottom:10px;text-align:justify}
-  .auth-text strong{font-weight:bold}
-  .auth-sig-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:16px}
-  .auth-sig-line{border-bottom:1px solid #000;margin-bottom:4px;height:20px}
-  .auth-sig-label{font-size:9pt;text-align:center;color:#444}
+@page{size:letter;margin:18mm 18mm 15mm 18mm}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Times New Roman',Times,serif;font-size:10.5pt;color:#000;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+@media print{.noprint{display:none!important}}
+.selbar{background:#eef2f8;border:1px solid #bfcfdf;border-radius:7px;padding:11px 14px;margin-bottom:14px;display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px 16px}
+.selbar label{font-family:Arial,sans-serif;font-size:11px;font-weight:700;color:#0a2342;display:block;margin-bottom:3px}
+.selbar input,.selbar select{font-family:Arial,sans-serif;font-size:13px;padding:6px 9px;border:1.5px solid #aabbd0;border-radius:5px;min-width:175px;color:#0a2342;background:#fff}
+.pbtn{padding:8px 18px;background:#0a2342;color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;font-family:Arial,sans-serif}
+.pbtn:hover{background:#1456a0}
+.owrap{display:none;flex:1}
+.page{width:100%;max-width:700px;margin:0 auto}
+.hdr{display:flex;align-items:flex-start;margin-bottom:14px}
+.hdr-space{width:110px;flex-shrink:0}
+.hdr-title{flex:1;text-align:center;font-size:14pt;font-weight:bold;letter-spacing:0.3px;line-height:1.3}
+.hdr-logo{width:110px;flex-shrink:0;text-align:right}
+.top2{display:grid;grid-template-columns:1fr 1fr;gap:5px 0;margin-bottom:3px}
+.fr{display:flex;align-items:flex-end;gap:3px;font-size:10.5pt}
+.fr.rpad{padding-right:18px}
+.fr.lpad{padding-left:14px}
+.flbl{white-space:nowrap;flex-shrink:0}
+.ful{flex:1;border-bottom:1px solid #000;min-height:15px;padding-bottom:1px;min-width:10px}
+.frfull{display:flex;align-items:flex-end;gap:3px;font-size:10.5pt;margin-bottom:3px}
+.sec{border:1px solid #000;margin:9px 0}
+.secttl{text-align:center;font-size:10pt;font-weight:normal;padding:4px 6px;border-bottom:1px solid #000;background:#fff}
+.secbody{padding:6px 10px}
+.tr{display:flex;align-items:flex-end;gap:0;font-size:10.5pt;margin-bottom:4px}
+.tlbl{width:148px;flex-shrink:0}
+.tcolon{flex-shrink:0}
+.tval{flex:1;border-bottom:1px solid #000;min-height:15px;padding-bottom:1px;margin-right:4px}
+.tp{flex-shrink:0;font-size:10pt;margin-right:3px}
+.tamt{width:115px;flex-shrink:0;border-bottom:1px solid #000;min-height:15px;text-align:right;padding-bottom:1px}
+.ttotal{display:flex;justify-content:flex-end;align-items:flex-end;gap:4px;margin-top:5px;font-weight:bold;font-size:10.5pt}
+.ttotal-line{width:115px;flex-shrink:0;border-top:1px solid #000;border-bottom:2px solid #000;min-height:16px;text-align:right;padding:1px 0}
+.acctg2{display:flex;gap:0;margin-bottom:6px}
+.acctg2-left{flex:1}
+.acctg2-right{flex:1;padding-left:10px}
+.ckrow{display:flex;align-items:center;gap:6px;margin-bottom:4px;font-size:10.5pt}
+.ck{width:11px;height:11px;border:1px solid #000;flex-shrink:0;display:inline-block}
+.ilul{display:inline-block;border-bottom:1px solid #000;min-width:90px;vertical-align:bottom;margin:0 3px}
+table.rt{width:100%;border-collapse:collapse;font-size:10pt}
+table.rt th{border:1px solid #000;padding:2px 5px;font-weight:bold;text-align:center;font-size:9.5pt}
+table.rt td{border:1px solid #000;padding:2px 5px;height:20px;vertical-align:top}
+table.rt .totrow td{font-weight:bold}
+.note{font-size:10pt;line-height:1.55;margin:8px 0;text-align:justify}
+.nul{display:inline-block;border-bottom:1px solid #000;min-width:130px;vertical-align:bottom}
+.sig2{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.sfr{display:flex;align-items:flex-end;gap:3px;font-size:10.5pt;margin-bottom:6px}
+.sful{flex:1;border-bottom:1px solid #000;min-height:15px;padding-bottom:1px}
+.sublbl{font-size:9pt;color:#444;margin-left:52px;margin-top:1px}
+hr.div{border:none;border-top:1px dashed #000;margin:12px 0}
+.authttl{font-size:13pt;font-weight:bold;text-align:center;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
+.authtxt{font-size:10.5pt;line-height:1.6;text-align:justify;margin-bottom:10px}
+.authsig2{display:grid;grid-template-columns:55% 40%;gap:0;margin-top:22px}
+.asigul{border-bottom:1px solid #000;min-height:20px;margin-bottom:4px}
+.asiglbl{font-size:9pt;text-align:center}
 </style>
 </head>
 <body>
-
-<!-- SELECTOR BAR (screen only) -->
-<div class="selector-bar no-print" style="flex-wrap:wrap;gap:10px 18px;align-items:flex-end">
-  <div style="display:flex;flex-direction:column;gap:4px">
-    <label style="font-size:11px;font-weight:700;color:#0a2342">Pay To (Deposited to):</label>
-    <input type="text" id="payToInput" placeholder="Name of payee..." oninput="updatePayTo()"
-      value="${r.emp||''}"
-      style="font-family:Arial,sans-serif;font-size:13px;padding:7px 10px;border:1.5px solid #aabbd0;border-radius:5px;color:#0a2342;min-width:200px"/>
-  </div>
-  <div style="display:flex;flex-direction:column;gap:4px">
-    <label style="font-size:11px;font-weight:700;color:#0a2342">Traveling Employee/s:</label>
-    <input type="text" id="travelEmpInput" placeholder="Name/s of traveling employee/s..." oninput="updateTravelEmp()"
-      value="${r.travelEmps||r.emp||''}"
-      style="font-family:Arial,sans-serif;font-size:13px;padding:7px 10px;border:1.5px solid #aabbd0;border-radius:5px;color:#0a2342;min-width:220px"/>
-  </div>
-  <div style="display:flex;flex-direction:column;gap:4px">
-    <label style="font-size:11px;font-weight:700;color:#0a2342">Requested by (Travel Coordinator):</label>
-    <div style="display:flex;gap:8px;align-items:center">
-      <select id="coordSel" onchange="onCoordChange()"
-        style="font-family:Arial,sans-serif;font-size:13px;padding:7px 10px;border:1.5px solid #aabbd0;border-radius:5px;color:#0a2342;background:#fff">
-        <option value="">— Select —</option>
-        <option${('${preselect}'==='Bordaje, Jesiel'?' selected':'')}>Bordaje, Jesiel</option>
-        <option${('${preselect}'==='Tandal, Patress'?' selected':'')}>Tandal, Patress</option>
-        <option${('${preselect}'==='Mangubat, Angelica Mae'?' selected':'')}>Mangubat, Angelica Mae</option>
-        <option${('${preselect}'==='Rivera, Stephanie'?' selected':'')}>Rivera, Stephanie</option>
-        <option${('${preselect}'==='Pabiran, Aubrey'?' selected':'')}>Pabiran, Aubrey</option>
-        <option${('${preselect}'==='Legaspi, Janica Nicole'?' selected':'')}>Legaspi, Janica Nicole</option>
+<div class="selbar noprint">
+  <div><label>Pay To (Deposited to):</label><input type="text" id="payToInput" value="${r.emp||''}" oninput="updPayTo()" style="min-width:200px"/></div>
+  <div><label>Traveling Employee/s:</label><input type="text" id="travEmpInput" value="${r.travelEmps||r.emp||''}" oninput="updTravEmp()" style="min-width:210px"/></div>
+  <div>
+    <label>Requested by (Travel Coordinator):</label>
+    <div style="display:flex;gap:7px;align-items:center">
+      <select id="coordSel" onchange="onCoordChange()">
+        <option value="">-- Select --</option>
+        <option${preselect==='Bordaje, Jesiel'?' selected':''}>Bordaje, Jesiel</option>
+        <option${preselect==='Tandal, Patress'?' selected':''}>Tandal, Patress</option>
+        <option${preselect==='Mangubat, Angelica Mae'?' selected':''}>Mangubat, Angelica Mae</option>
+        <option${preselect==='Rivera, Stephanie'?' selected':''}>Rivera, Stephanie</option>
+        <option${preselect==='Pabiran, Aubrey'?' selected':''}>Pabiran, Aubrey</option>
+        <option${preselect==='Legaspi, Janica Nicole'?' selected':''}>Legaspi, Janica Nicole</option>
         <option value="Others">Others</option>
       </select>
-      <div class="other-wrap" id="otherWrap">
-        <input type="text" id="otherName" placeholder="Type name..." oninput="updateCoord()"
-          style="font-family:Arial,sans-serif;font-size:13px;padding:7px 10px;border:1.5px solid #aabbd0;border-radius:5px;color:#0a2342"/>
-      </div>
+      <div class="owrap" id="owrap"><input type="text" id="otherName" placeholder="Type name..." oninput="updOther()"/></div>
     </div>
   </div>
-  <button class="print-btn" onclick="window.print()">&#128438; Print / Save PDF</button>
+  <button class="pbtn" onclick="window.print()">&#128438; Print / Save PDF</button>
 </div>
-
 <div class="page">
-
-  <!-- HEADER: title centered, logo absolutely positioned top-right -->
-  <div class="form-header">
-    <h1 class="form-title">REQUEST OF CASH ADVANCE</h1>
-    <div class="form-logo">${logoHtml}</div>
+  <div class="hdr">
+    <div class="hdr-space"></div>
+    <div class="hdr-title">REQUEST OF CASH ADVANCE</div>
+    <div class="hdr-logo">${logoBlock}</div>
   </div>
-
-  <!-- TOP FIELDS -->
-  <div class="top-grid">
-    <div class="field-row"><label>Pay To:&nbsp;</label><span class="ul" id="payToLine">${r.emp||''}</span></div>
-    <div class="field-row"><label>Date Prepared:&nbsp;</label><span class="ul">${today}</span></div>
-    <div class="field-row"><label>Amount:&nbsp;</label><span class="ul">&#8369; ${fmt2(total)}</span></div>
-    <div class="field-row"><label>Date Needed:&nbsp;</label><span class="ul">${r.dep?new Date(r.dep+'T00:00:00').toLocaleDateString('en-PH',{month:'long',day:'numeric',year:'numeric'}):''}</span></div>
+  <div class="top2">
+    <div class="fr rpad"><span class="flbl">Pay To:&nbsp;</span><span class="ful" id="payToLine">${r.emp||''}</span></div>
+    <div class="fr lpad"><span class="flbl">Date Prepared:&nbsp;</span><span class="ful">${today}</span></div>
+    <div class="fr rpad"><span class="flbl">Amount:&nbsp;</span><span class="ful">&#8369;&nbsp;${fmt2(total)}</span></div>
+    <div class="fr lpad"><span class="flbl">Date Needed:&nbsp;</span><span class="ful">${r.dep?new Date(r.dep+'T00:00:00').toLocaleDateString('en-PH',{month:'long',day:'numeric',year:'numeric'}):''}</span></div>
   </div>
-  <div class="field-row" style="margin-bottom:4px"><label>Charge to Dept/Proj:&nbsp;</label><span class="ul">${r.chg||''}</span></div>
-  <div class="field-row" style="margin-bottom:2px"><label>Purpose:&nbsp;</label><span class="ul">${r.purpose||''}</span></div>
-  <div class="field-row" style="margin-bottom:6px"><label>&nbsp;</label><span class="ul">&nbsp;</span></div>
-
-  <!-- TRAVEL COORDINATOR SECTION -->
-  <div class="section-box">
-    <div class="section-title">To be filled up by the Travel Coordinator</div>
-    <div class="bk-row">
-      <span class="bk-label">Traveling Employee/s</span><span class="bk-colon">:</span>
-      <span class="bk-value" id="travelEmpLine">${r.travelEmps||r.emp||''}</span>
-    </div>
-    <div class="bk-row">
-      <span class="bk-label">Shipping Line/Airline</span><span class="bk-colon">:</span>
-      <span class="bk-value">${r.bookedThru||r.bkType||''}</span>
-      <span class="bk-peso">&#8369;</span><span class="bk-amt">${r.bkAmt?fmt2(r.bkAmt):''}</span>
-    </div>
-    <div class="bk-row">
-      <span class="bk-label">Accommodation</span><span class="bk-colon">:</span>
-      <span class="bk-value">${r.hAccom||''}</span>
-      <span class="bk-peso">&#8369;</span><span class="bk-amt">&nbsp;</span>
-    </div>
-    <div class="bk-row">
-      <span class="bk-label">Per Diem</span><span class="bk-colon">:</span>
-      <span class="bk-value">&nbsp;</span>
-      <span class="bk-peso">&#8369;</span><span class="bk-amt">${perDiem>0?fmt2(perDiem):''}</span>
-    </div>
-    <div class="bk-row">
-      <span class="bk-label">Transportation</span><span class="bk-colon">:</span>
-      <span class="bk-value">&nbsp;</span>
-      <span class="bk-peso">&#8369;</span><span class="bk-amt">${trans>0?fmt2(trans):''}</span>
-    </div>
-    ${(()=>{
-      // Always show at least one Others row (matching PDF template)
-      const items=(r.othersItems&&r.othersItems.length>0)
-        ?r.othersItems
-        :[{label:'Others',amt:othersAmt>0?othersAmt:0}];
-      return items.map(it=>`<div class="bk-row">
-      <span class="bk-label">${it.label||'Others'}</span><span class="bk-colon">:</span>
-      <span class="bk-value">&nbsp;</span>
-      <span class="bk-peso">&#8369;</span><span class="bk-amt">${it.amt>0?fmt2(it.amt):''}</span>
-    </div>`).join('');
-    })()}
-    <div class="total-row">
-      <span>TOTAL</span>&nbsp;<span class="bk-peso">&#8369;</span>
-      <span class="total-line">${fmt2(total)}</span>
+  <div class="frfull"><span class="flbl">Charge to Dept/Proj:&nbsp;</span><span class="ful" style="max-width:260px">${r.chg||''}</span></div>
+  <div class="frfull"><span class="flbl">Purpose:&nbsp;</span><span class="ful">${r.purpose||''}</span></div>
+  <div class="frfull" style="margin-bottom:8px"><span class="ful">&nbsp;</span></div>
+  <div class="sec">
+    <div class="secttl">To be filled up by the Travel Coordinator</div>
+    <div class="secbody">
+      <div class="tr"><span class="tlbl">Traveling Employee/s</span><span class="tcolon">&nbsp;:&nbsp;</span><span class="tval" id="travEmpLine">${r.travelEmps||r.emp||''}</span></div>
+      <div class="tr"><span class="tlbl">Shipping Line/Airline</span><span class="tcolon">&nbsp;:&nbsp;</span><span class="tval">${r.bookedThru||r.bkType||''}</span><span class="tp">&#8369;</span><span class="tamt">${r.bkAmt?fmt2(r.bkAmt):''}</span></div>
+      <div class="tr"><span class="tlbl">Accommodation</span><span class="tcolon">&nbsp;:&nbsp;</span><span class="tval">${r.hAccom||''}</span><span class="tp">&#8369;</span><span class="tamt">&nbsp;</span></div>
+      <div class="tr"><span class="tlbl">Per Diem</span><span class="tcolon">&nbsp;:&nbsp;</span><span class="tval">&nbsp;</span><span class="tp">&#8369;</span><span class="tamt">${perDiem>0?fmt2(perDiem):''}</span></div>
+      <div class="tr"><span class="tlbl">Transportation</span><span class="tcolon">&nbsp;:&nbsp;</span><span class="tval">&nbsp;</span><span class="tp">&#8369;</span><span class="tamt">${trans>0?fmt2(trans):''}</span></div>
+      ${othersRowsHtml}
+      <div class="ttotal"><span>TOTAL</span>&nbsp;<span class="tp">&#8369;</span><span class="ttotal-line">${fmt2(total)}</span></div>
     </div>
   </div>
-
-  <!-- ACCOUNTING SECTION -->
-  <div class="acctg-box">
-    <div class="section-title">To be filled up by the Accounting In Charge</div>
-    <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:5px;flex-wrap:wrap">
-      <div>
-        <div class="chk-row"><span class="chk-box"></span><span>Without Unliquidated Cash Advance</span></div>
-        <div class="chk-row"><span class="chk-box"></span><span>With Unliquidated Cash Advance of Php<span class="inline-ul">&nbsp;</span></span></div>
+  <div class="sec">
+    <div class="secttl">To be filled up by the Accounting In Charge</div>
+    <div class="secbody">
+      <div class="acctg2">
+        <div class="acctg2-left">
+          <div class="ckrow"><span class="ck"></span><span>Without Unliquidated Cash Advance</span></div>
+          <div class="ckrow"><span class="ck"></span><span>With Unliquidated Cash Advance of Php<span class="ilul">&nbsp;</span></span></div>
+        </div>
+        <div class="acctg2-right">
+          <div class="frfull" style="margin-bottom:5px"><span class="flbl">Received &amp; Checked by:&nbsp;</span><span class="ful">&nbsp;</span></div>
+          <div class="frfull"><span class="flbl">Date Received:&nbsp;</span><span class="ful">&nbsp;</span></div>
+        </div>
       </div>
-      <div style="flex:1;min-width:170px">
-        <div class="field-row" style="margin-bottom:4px"><label>Received &amp; Checked by:&nbsp;</label><span class="ul">&nbsp;</span></div>
-        <div class="field-row"><label>Date Received:&nbsp;</label><span class="ul">&nbsp;</span></div>
-      </div>
-    </div>
-    <table class="ref">
-      <thead><tr><th style="width:80px">DATE</th><th style="width:110px">REFERENCE</th><th>PURPOSE</th><th style="width:110px;text-align:right">AMOUNT</th></tr></thead>
-      <tbody>
-        <tr style="height:20px"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-        <tr style="height:20px"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-        <tr style="height:20px"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-        <tr class="tr"><td colspan="3" style="text-align:right;padding-right:8px">TOTAL</td><td>&nbsp;</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- NOTE -->
-  <p class="note">Please liquidate Accountable Cash Advance on/before <span class="ul">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>. Failure to do so will subject you to salary deduction effective on <span class="ul">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>. For special cases, the RCA Requestor can ask for an extension of the due date, provided all reasons for delays are valid and duly approved by the Department Head.</p>
-
-  <!-- SIGNATURES -->
-  <div class="sig-grid" style="margin-top:8px">
-    <div class="sig-block">
-      <div class="field-row" style="margin-bottom:8px">
-        <label>Requested by:&nbsp;</label>
-        <span class="ul" id="reqByLine">${preselect||''}</span>
-      </div>
-      <div class="field-row"><label>Noted by:&nbsp;</label><span class="ul">&nbsp;</span></div>
-      <div style="margin-left:58px;font-size:9pt;color:#555">Dept Head/ Immediate Supervisor</div>
-    </div>
-    <div class="sig-block">
-      <div class="field-row" style="margin-bottom:6px"><label>COO Approval:&nbsp;</label><span class="ul">Paulette D. Liu</span></div>
-      <div class="field-row"><label>SVP-Comptroller Approval:&nbsp;</label><span class="ul">Lillian Marie U. Liu</span></div>
+      <table class="rt">
+        <thead><tr><th style="width:72px">DATE</th><th style="width:96px">REFERENCE</th><th>PURPOSE</th><th style="width:96px">AMOUNT</th></tr></thead>
+        <tbody>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr class="totrow"><td colspan="3" style="text-align:right;padding-right:8px">TOTAL</td><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
-
-  <hr class="divider"/>
-
-  <!-- AUTHORITY TO DEDUCT -->
-  <div class="auth-title">Authority to Deduct</div>
-  <p class="auth-text">I, <span class="ul" style="min-width:180px;display:inline-block;vertical-align:bottom">&nbsp;${r.emp||''}&nbsp;</span>, hereby acknowledge and bind myself to <strong>${affFullName}</strong> policies on Cash Advance to liquidate within 6 working days after the completion of the transaction or return from my trip. Therefore, I hereby authorize <strong>${affFullName}</strong> to deduct the full amount of cash advance from my salary in case I cannot liquidate on the scheduled date.</p>
-  <p style="font-size:10pt;margin-bottom:10px">Acknowledged and Authorized by:</p>
-  <div class="auth-sig-grid">
+  <p class="note">Please liquidate Accountable Cash Advance on/before&nbsp;<span class="nul">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>. Failure to do so will subject you to salary deduction effective on&nbsp;<span class="nul">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>. For special cases, the RCA Requestor can ask for an extension of the due date, provided all reasons for delays are valid and duly approved by the Department Head.</p>
+  <div class="sig2">
     <div>
-      <div class="auth-sig-line"></div>
-      <div class="auth-sig-label">Signature over Printed Name</div>
+      <div class="sfr"><span class="flbl">Requested by:&nbsp;</span><span class="sful" id="reqByLine">${preselect||''}</span></div>
+      <div class="sfr"><span class="flbl">Noted by:&nbsp;</span><span class="sful">&nbsp;</span></div>
+      <div class="sublbl">Dept Head/ Immediate Supervisor</div>
     </div>
     <div>
-      <div class="auth-sig-line"></div>
-      <div class="auth-sig-label">Date and Time</div>
+      <div class="sfr"><span class="flbl">COO Approval:&nbsp;</span><span class="sful">Paulette D. Liu</span></div>
+      <div class="sfr" style="margin-top:6px"><span class="flbl">SVP-Comptroller Approval:&nbsp;</span><span class="sful">Lillian Marie U. Liu</span></div>
     </div>
   </div>
-
+  <hr class="div"/>
+  <div class="authttl">Authority to Deduct</div>
+  <p class="authtxt">I,&nbsp;<span class="nul" style="min-width:200px">&nbsp;${r.emp||''}&nbsp;</span>, hereby acknowledge and bind myself to <strong>${affFullName}</strong> policies on Cash Advance to liquidate within 6 working days after the completion of the transaction or return from my trip. Therefore, I hereby authorize <strong>${affFullName}</strong> to deduct the full amount of cash advance from my salary in case I cannot liquidate on the scheduled date.</p>
+  <p style="font-size:10.5pt;margin-bottom:8px">Acknowledged and Authorized by:</p>
+  <div class="authsig2">
+    <div><div class="asigul"></div><div class="asiglbl">Signature over Printed Name</div></div>
+    <div><div class="asigul"></div><div class="asiglbl">Date and Time</div></div>
+  </div>
 </div>
 </body>
 </html>`);
   w.document.close();
-  const s = w.document.createElement('script');
-  s.textContent = `
+  const s=w.document.createElement('script');
+  s.textContent=`
     function onCoordChange(){
-      const v=document.getElementById('coordSel').value;
-      const ow=document.getElementById('otherWrap');
+      var v=document.getElementById('coordSel').value;
+      var ow=document.getElementById('owrap');
       ow.style.display=v==='Others'?'flex':'none';
-      if(v!=='Others') document.getElementById('reqByLine').textContent=v;
-      else document.getElementById('reqByLine').textContent=document.getElementById('otherName').value;
+      document.getElementById('reqByLine').textContent=(v&&v!=='Others')?v:(v==='Others'?document.getElementById('otherName').value:'');
     }
-    function updateCoord(){
-      document.getElementById('reqByLine').textContent=document.getElementById('otherName').value;
-    }
-    function updatePayTo(){
-      const v=document.getElementById('payToInput').value;
-      document.getElementById('payToLine').textContent=v;
-    }
-    function updateTravelEmp(){
-      const v=document.getElementById('travelEmpInput').value;
-      document.getElementById('travelEmpLine').textContent=v;
-    }
-
+    function updOther(){document.getElementById('reqByLine').textContent=document.getElementById('otherName').value;}
+    function updPayTo(){document.getElementById('payToLine').textContent=document.getElementById('payToInput').value;}
+    function updTravEmp(){document.getElementById('travEmpLine').textContent=document.getElementById('travEmpInput').value;}
     onCoordChange();
   `;
   w.document.head.appendChild(s);
