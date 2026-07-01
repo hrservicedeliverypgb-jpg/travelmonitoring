@@ -80,7 +80,7 @@ body{font-family:'Barlow',sans-serif;background:#e8edf2;color:var(--text);min-he
 
 /* MAIN */
 .main-wrap{flex:1;padding:8px 28px 24px;background:#e8edf2}
-.panel{display:none}.panel.active{display:block}
+.panel{display:none}.panel.active{display:block}#tab-dashboard:not(.active) #finPanel,#tab-dashboard:not(.active) .fin-section-hdr,#tab-dashboard:not(.active) .fb-row,#tab-dashboard:not(.active) .fin-hero,#tab-dashboard:not(.active) .fin-metrics-row{display:none!important}
 
 /* STAT CARDS */
 .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:20px}
@@ -1934,7 +1934,8 @@ function renderDash(){
       `</div>`;
   }
   const finEl=document.getElementById('finPanel');
-  if(finEl) finEl.innerHTML=
+  const _dashActive=document.getElementById('tab-dashboard')?.classList.contains('active');
+  if(finEl&&_dashActive) finEl.innerHTML=
     `<div class="fin-hero">`+
     `<div class="fh-lbl">💰 Total Travel Expenditure</div>`+
     `<div class="fh-val">${fmtP(totalCost)}</div>`+
