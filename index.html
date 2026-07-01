@@ -1838,7 +1838,8 @@ function renderDash(){
     <div class="kpi-card kc-red kpi-link" onclick="filterRecords('','On Hold','','On Hold / Cancelled')" title="View on hold records"><div class="kpi-icon">❌</div><div class="kpi-val">${cancelled}</div><div class="kpi-lbl">On Hold / Cancelled</div><div class="kpi-sub">${total?Math.round(cancelled/total*100):0}% of total &mdash; needs review</div><div class="kpi-progress"><div class="kpi-progress-fill" style="width:${total?Math.round(cancelled/total*100):0}%;background:#c0392b"></div></div><div class="kpi-arrow">View Records &#8594;</div></div>
     <div class="kpi-card kc-gold kpi-link" onclick="filterRecordsUnpaid()" title="View unpaid bookings"><div class="kpi-icon">💳</div><div class="kpi-val">${unpaid}</div><div class="kpi-lbl">Unpaid Bookings</div><div class="kpi-sub">Payment not yet processed</div><div class="kpi-progress"><div class="kpi-progress-fill" style="width:${bk?Math.round(unpaid/bk*100):0}%;background:#f4a61c"></div></div><div class="kpi-arrow">View Records &#8594;</div></div>
   `;
-rends Chart ─────────────────────────────────────────────
+
+  // ── Monthly Trends Chart ─────────────────────────────
   const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const curYear=new Date().getFullYear();
   const mCounts=Array(12).fill(0), mCosts=Array(12).fill(0);
