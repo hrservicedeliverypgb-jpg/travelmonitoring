@@ -295,6 +295,27 @@ table tr:hover td{background:#eaf1ff}
 .ref-table th{background:var(--navy2)}
 .ref-table td:first-child{font-weight:700;color:var(--navy);background:var(--off)}
 
+/* CHANGELOG */
+.cl-hdr-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;background:var(--navy);color:#fff;padding:14px 20px;border-radius:var(--radius-lg);margin-bottom:18px;box-shadow:0 4px 16px rgba(10,35,66,.18)}
+.cl-hdr-title{display:flex;align-items:center;gap:10px}
+.cl-hdr-h{font-size:17px;font-weight:800;letter-spacing:.3px}
+.cl-hdr-sub{font-size:11px;color:rgba(255,255,255,.65);margin-top:2px}
+.cl-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:18px}
+.cl-stat{background:#fff;border-radius:var(--radius-lg);padding:14px 16px;border:1px solid var(--border);border-left:4px solid var(--blue)}
+.cl-stat-val{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;color:var(--navy);line-height:1}
+.cl-stat-lbl{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:4px}
+.cl-table{width:100%;border-collapse:collapse;font-size:12px}
+.cl-table th{background:var(--navy);color:rgba(255,255,255,.85);padding:10px 12px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+.cl-table td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
+.cl-table tr:nth-child(even) td{background:#fafbff}
+.cl-table tr:hover td{background:#eaf1ff}
+.cl-empty{text-align:center;padding:40px 20px;color:var(--muted);font-size:14px}
+.cl-handler-chip{display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:#fff;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700}
+.cl-handler-icon{background:var(--gold);color:var(--navy);width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0}
+.cl-filter-row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:14px;padding:12px 14px;background:var(--off);border-radius:var(--radius);border:1px solid var(--border)}
+.cl-filter-row .fg{margin-bottom:0}
+.cl-filter-row .fg select,.cl-filter-row .fg input{font-size:12px;padding:7px 10px;background:#fff}
+
 /* TOAST */
 #toast{position:fixed;bottom:28px;right:28px;z-index:9999;background:var(--navy);color:#fff;padding:12px 20px;border-radius:var(--radius);font-size:13px;font-weight:600;border-left:4px solid var(--gold);opacity:0;transform:translateY(10px);transition:all 0.3s;pointer-events:none;}
 #toast.show{opacity:1;transform:translateY(0)}
@@ -375,6 +396,7 @@ table tr:hover td{background:#eaf1ff}
       <div class="nav-tab" onclick="goTab('payment',this)">&#128179; Payment Processing</div>
       <div class="nav-tab" onclick="goTab('reports',this)">Reports &amp; Export</div>
       <div class="nav-tab" onclick="goTab('reference',this)">Reference Tables</div>
+      <div class="nav-tab" onclick="goTab('changelog',this)">&#128221; Change Log</div>
     </nav>
   </div>
 
@@ -704,7 +726,7 @@ table tr:hover td{background:#eaf1ff}
             <div class="pay-box" id="f_payBox" style="margin-top:14px;display:none">
               <div class="abt">&#128179; Payment Processing <span style="font-size:10px;font-weight:400;color:#7a5200;margin-left:6px">(Travel Agency bookings only)</span></div>
               <div class="g3">
-                <div class="fg"><label>Handled By</label><input type="text" id="f_handled" placeholder="Staff in-charge"/></div>
+                <div class="fg"><label>Handled By</label><input type="text" id="f_handled" placeholder="Staff in-charge" list="coordinatorList" autocomplete="off"/></div>
                 <div class="fg"><label>Date Accomplished</label><input type="date" id="f_dateAccomp"/></div>
                 <div class="fg"><label>Payment Status</label>
                   <select id="f_payStatus">
@@ -720,7 +742,7 @@ table tr:hover td{background:#eaf1ff}
           <hr class="divider"/>
 
           <div class="g2">
-            <div class="fg"><label>Handled By (General)</label><input type="text" id="f_handledGen" placeholder="Staff in-charge of this request"/></div>
+            <div class="fg"><label>Handled By (General)</label><input type="text" id="f_handledGen" placeholder="Click to select or type name" list="coordinatorList" autocomplete="off"/></div>
             <div class="fg"><label>Overall Status</label><input type="text" id="f_statusGen" placeholder="e.g. Approved, Pending, On Hold"/></div>
           </div>
           <div class="action-bar">
@@ -981,6 +1003,64 @@ table tr:hover td{background:#eaf1ff}
       </div>
     </div>
 
+    <!-- CHANGE LOG -->
+    <div class="panel" id="tab-changelog">
+      <div class="cl-hdr-bar">
+        <div class="cl-hdr-title">
+          <span style="font-size:24px">&#128221;</span>
+          <div>
+            <div class="cl-hdr-h">Change Log</div>
+            <div class="cl-hdr-sub">Record of all requests and who handled them</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <button onclick="clearChangeLog()" style="background:rgba(231,76,60,.85);border:1px solid rgba(231,76,60,.5);color:#fff;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">&#128465; Clear Log</button>
+        </div>
+      </div>
+      <div id="clStats" class="cl-stats"></div>
+      <div class="card">
+        <div class="card-hdr"><div class="icon">L</div><div class="title">Activity Log</div><div class="subtitle">Newest entries first</div></div>
+        <div class="card-body">
+          <div class="cl-filter-row">
+            <div class="fg"><label>Filter by Handler</label>
+              <select id="clFiltHandler" onchange="renderChangeLog()">
+                <option value="">All Handlers</option>
+              </select>
+            </div>
+            <div class="fg"><label>Filter by Process</label>
+              <select id="clFiltProc" onchange="renderChangeLog()">
+                <option value="">All Processes</option>
+                <option>RCA</option><option>RFD</option><option>Travel Booking</option>
+              </select>
+            </div>
+            <div class="fg"><label>Search Employee</label>
+              <input type="text" id="clFiltEmp" placeholder="Employee name..." oninput="renderChangeLog()" style="min-width:160px"/>
+            </div>
+            <div class="fg" style="display:flex;align-items:flex-end">
+              <button class="btn btn-outline btn-sm" onclick="document.getElementById('clFiltHandler').value='';document.getElementById('clFiltProc').value='';document.getElementById('clFiltEmp').value='';renderChangeLog()">Clear</button>
+            </div>
+          </div>
+          <div class="tbl-wrap">
+            <table class="cl-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Timestamp</th>
+                  <th>Record ID</th>
+                  <th>Employee</th>
+                  <th>Process</th>
+                  <th>Handled By</th>
+                  <th>Action</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="clBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -1042,7 +1122,7 @@ table tr:hover td{background:#eaf1ff}
           </select>
         </div>
         <div class="fg"><label>Purpose</label><input type="text" id="upd_purpose"/></div>
-        <div class="fg"><label>Handled By</label><input type="text" id="upd_handled"/></div>
+        <div class="fg"><label>Handled By</label><input type="text" id="upd_handled" list="coordinatorList" autocomplete="off"/></div>
       </div>
       <!-- Travel Booking extras (shown only when proc=Travel Booking) -->
       <div id="updBkSection" class="hidden">
@@ -1131,6 +1211,15 @@ table tr:hover td{background:#eaf1ff}
   </div>
 </div>
 
+<datalist id="coordinatorList">
+  <option value="Bordaje, Jesiel">
+  <option value="Tandal, Patress">
+  <option value="Mangubat, Angelica Mae">
+  <option value="Rivera, Stephanie">
+  <option value="Pabiran, Aubrey">
+  <option value="Legaspi, Janica Nicole">
+</datalist>
+
 <div id="toast"></div>
 
 <script>
@@ -1152,6 +1241,29 @@ let records = JSON.parse(localStorage.getItem('pgbRecords') || 'null') || DEFAUL
 let nid = Math.max(...records.map(r=>r.id), 7) + 1;
 let activePayId=null;
 
+// ── CHANGE LOG ────────────────────────────────────────────────────────
+let changelog = JSON.parse(localStorage.getItem('pgbChangelog') || '[]');
+let clid = changelog.length ? Math.max(...changelog.map(e=>e.clid||0)) + 1 : 1;
+
+function saveChangelog(){
+  localStorage.setItem('pgbChangelog', JSON.stringify(changelog));
+}
+
+function logChange(handledBy, empName, recordId, proc, action, status){
+  if(!handledBy) return;
+  changelog.push({
+    clid: clid++,
+    ts: new Date().toISOString(),
+    handledBy,
+    empName: empName||'',
+    recordId,
+    proc: proc||'',
+    action: action||'New Request Submitted',
+    status: status||'Pending'
+  });
+  saveChangelog();
+}
+
 // ── FIREBASE SYNC ─────────────────────────────────────────────────────
 const FB_URL = "https://carltress-8263a-default-rtdb.firebaseio.com/pgb_travel.json";
 let lastSyncHash = '';
@@ -1171,7 +1283,7 @@ async function cloudSave() {
     const res = await fetch(FB_URL, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ records, nid })
+      body: JSON.stringify({ records, nid, changelog })
     });
     if (res.ok) { lastSyncHash = hashRec(records); showSyncDot('ok'); }
     else throw new Error('HTTP ' + res.status);
@@ -1194,6 +1306,11 @@ async function cloudPull() {
         records = data.records;
         nid = data.nid || (Math.max(...records.map(r=>r.id), 0) + 1);
         localStorage.setItem('pgbRecords', JSON.stringify(records));
+        if (data.changelog && Array.isArray(data.changelog)) {
+          changelog = data.changelog;
+          clid = changelog.length ? Math.max(...changelog.map(e=>e.clid||0)) + 1 : 1;
+          localStorage.setItem('pgbChangelog', JSON.stringify(changelog));
+        }
         renderDash(); renderRec(); genReport(); renderPayment();
         showSyncDot('ok');
       } else { showSyncDot('ok'); }
@@ -1253,6 +1370,7 @@ function goTab(t,el){
   if(t==='records')renderRec();
   if(t==='reports')genReport();
   if(t==='payment')renderPayment();
+  if(t==='changelog')renderChangeLog();
 }
 
 function getAllow(lvl,dest,ldest){
@@ -1542,9 +1660,12 @@ function submitForm(){
     status:document.getElementById('f_statusGen').value||'Pending',
     dateAccomp,payStatus,bkStatus,payRef:'',payMethod:'',payBy:'',payRemarks:''
   });
+  const newId = nid - 1;
+  const handledByVal = document.getElementById('f_handledGen').value.trim() || document.getElementById('f_handled').value.trim();
+  const statusVal = document.getElementById('f_statusGen').value.trim() || 'Pending';
+  logChange(handledByVal, emp, newId, proc, 'New Request Submitted', statusVal);
   saveRecords();
   toast('Request submitted successfully!','success');
-  const newId = nid - 1;
   clearForm();
   if(proc==='RCA'){
     setTimeout(()=>{ printRCA(newId); goTab('dashboard',document.querySelector('.nav-tab')); }, 400);
@@ -2725,6 +2846,94 @@ function printRCA(id){
   w.document.head.appendChild(s);
 }
 
+// ── CHANGE LOG RENDER ─────────────────────────────────────────────────
+function renderChangeLog(){
+  const handlerSel = document.getElementById('clFiltHandler');
+  const procFilt = document.getElementById('clFiltProc')?.value||'';
+  const empFilt = (document.getElementById('clFiltEmp')?.value||'').toLowerCase().trim();
+
+  // Populate handler dropdown
+  const handlers = [...new Set(changelog.map(e=>e.handledBy).filter(Boolean))].sort();
+  const prevHandler = handlerSel?.value||'';
+  if(handlerSel){
+    handlerSel.innerHTML='<option value="">All Handlers</option>'+handlers.map(h=>`<option${h===prevHandler?' selected':''}>${h}</option>`).join('');
+  }
+  const handlerFilt = handlerSel?.value||'';
+
+  // Filter
+  let filtered = [...changelog].reverse(); // newest first
+  if(handlerFilt) filtered = filtered.filter(e=>e.handledBy===handlerFilt);
+  if(procFilt) filtered = filtered.filter(e=>e.proc===procFilt);
+  if(empFilt) filtered = filtered.filter(e=>(e.empName||'').toLowerCase().includes(empFilt));
+
+  // Stats
+  const statsEl = document.getElementById('clStats');
+  if(statsEl){
+    const totalEntries = changelog.length;
+    const uniqueHandlers = new Set(changelog.map(e=>e.handledBy).filter(Boolean)).size;
+    const today = new Date().toISOString().slice(0,10);
+    const todayCount = changelog.filter(e=>e.ts&&e.ts.slice(0,10)===today).length;
+    const procCounts = {};
+    changelog.forEach(e=>{if(e.proc)procCounts[e.proc]=(procCounts[e.proc]||0)+1;});
+    const topProc = Object.entries(procCounts).sort((a,b)=>b[1]-a[1])[0];
+    statsEl.innerHTML=`
+      <div class="cl-stat" style="border-left-color:#1565c0">
+        <div class="cl-stat-val">${totalEntries}</div>
+        <div class="cl-stat-lbl">Total Log Entries</div>
+      </div>
+      <div class="cl-stat" style="border-left-color:#1b8a50">
+        <div class="cl-stat-val">${uniqueHandlers}</div>
+        <div class="cl-stat-lbl">Unique Handlers</div>
+      </div>
+      <div class="cl-stat" style="border-left-color:#d97706">
+        <div class="cl-stat-val">${todayCount}</div>
+        <div class="cl-stat-lbl">Today's Entries</div>
+      </div>
+      <div class="cl-stat" style="border-left-color:#7b2ff7">
+        <div class="cl-stat-val">${topProc?topProc[0]:'—'}</div>
+        <div class="cl-stat-lbl">Top Process${topProc?' ('+topProc[1]+')':''}</div>
+      </div>
+    `;
+  }
+
+  // Table
+  const body = document.getElementById('clBody');
+  if(!body) return;
+  if(!filtered.length){
+    body.innerHTML=`<tr><td colspan="8" class="cl-empty">&#128203; No log entries found.</td></tr>`;
+    return;
+  }
+
+  const procColor={'RCA':'bdg-blue','RFD':'bdg-navy','Travel Booking':'bdg-purple'};
+  body.innerHTML = filtered.map((e,i)=>{
+    const tsDate = e.ts ? new Date(e.ts) : null;
+    const tsStr = tsDate ? tsDate.toLocaleDateString('en-PH',{month:'short',day:'numeric',year:'numeric'})+' '+tsDate.toLocaleTimeString('en-PH',{hour:'2-digit',minute:'2-digit'}) : '—';
+    const procBadge = e.proc ? `<span class="bdg ${procColor[e.proc]||'bdg-gray'}">${e.proc}</span>` : '—';
+    const statusBadge = (()=>{const s=(e.status||'').toLowerCase();if(s==='approved')return`<span class="bdg bdg-green">${e.status}</span>`;if(s==='pending')return`<span class="bdg bdg-amber">${e.status||'Pending'}</span>`;if(s==='on hold')return`<span class="bdg bdg-red">${e.status}</span>`;return`<span class="bdg bdg-gray">${e.status||'—'}</span>`;})();
+    const handlerHtml = e.handledBy
+      ? `<span class="cl-handler-chip"><span class="cl-handler-icon">&#128100;</span>${e.handledBy}</span>`
+      : '<span style="color:#94a3b8">—</span>';
+    return `<tr>
+      <td style="color:#94a3b8;font-size:11px">${e.clid}</td>
+      <td style="font-size:11px;color:#475569">${tsStr}</td>
+      <td><span class="bdg bdg-navy" style="font-size:11px">#${e.recordId||'—'}</span></td>
+      <td style="font-weight:600;color:var(--navy)">${e.empName||'—'}</td>
+      <td>${procBadge}</td>
+      <td>${handlerHtml}</td>
+      <td style="font-size:11px;color:#475569">&#10003; ${e.action||'Submitted'}</td>
+      <td>${statusBadge}</td>
+    </tr>`;
+  }).join('');
+}
+
+function clearChangeLog(){
+  if(!confirm('Clear all change log entries? This cannot be undone.')) return;
+  changelog=[];
+  clid=1;
+  saveChangelog();
+  renderChangeLog();
+  toast('Change log cleared.','info');
+}
 
 </script>
 </body>
