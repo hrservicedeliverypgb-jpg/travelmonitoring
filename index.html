@@ -177,7 +177,7 @@ body{font-family:'Barlow',sans-serif;background:#e8edf2;color:var(--text);min-he
 .alert-dot{width:8px;height:8px;background:#e74c3c;border-radius:50%;display:inline-block;animation:pulse-dot 1.5s infinite}
 @keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.3}}
 /* Financial panel */
-.fin-panel{padding:8px 18px 14px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fin-panel{padding:8px 18px 14px;display:grid;grid-template-columns:1fr 1fr;gap:10px}.fin-panel-wide{display:block;padding-bottom:4px}
 .fin-item{background:#f8fafc;border-radius:8px;padding:12px 14px;border:1px solid #e2e8f0}
 .fin-val{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--navy)}
 .fin-lbl{font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.4px;margin-top:3px}
@@ -389,10 +389,13 @@ table tr:hover td{background:#eaf1ff}
 .fb-dot{display:inline-block;width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .fb-label{font-size:11px;color:#334155;width:155px;flex-shrink:0;display:flex;align-items:center;gap:5px;font-weight:600}
 .fb-bar-wrap{flex:1;height:8px;background:#f1f5f9;border-radius:4px;overflow:hidden}
+.fin-panel-wide .fb-rows-2col{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+@media(max-width:700px){.fin-panel-wide .fb-rows-2col{grid-template-columns:1fr}}
 .fb-bar{height:100%;border-radius:4px;transition:width .5s ease}
 .fb-val{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;color:#0a2342;width:80px;text-align:right;white-space:nowrap}
 .fb-pct{font-size:10px;font-weight:700;color:#94a3b8;width:30px;text-align:right}
-.fin-metrics-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:10px 18px 14px}
+.fin-metrics-row{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding:10px 18px 14px}
+@media(max-width:700px){.fin-metrics-row{grid-template-columns:repeat(3,1fr)}}
 .fin-sm{background:#f8fafc;border-radius:8px;padding:10px 10px;border-left:3px solid #e2e8f0;text-align:center}
 .fin-sm.fs-green{border-left-color:#1b8a50}.fin-sm.fs-blue{border-left-color:#1565c0}
 .fin-sm.fs-amber{border-left-color:#d97706}.fin-sm.fs-purple{border-left-color:#7c3aed}
@@ -516,24 +519,13 @@ table tr:hover td{background:#eaf1ff}
         </div>
       </div>
 
-      <!-- ROW 4: PENDING ACTIONS + FINANCIAL -->
-      <div class="dash-row-2">
-        <!-- Pending Actions -->
-        <div class="dash-card dash-card-md">
-          <div class="dash-card-hdr">
-            <div class="dash-card-title"><span class="alert-dot"></span>&#9888; Pending Actions</div>
-            <div class="dash-card-sub" id="pendingCount"></div>
-          </div>
-          <div id="pendingPanel" class="pending-panel"></div>
+      <!-- ROW 4: EXPENSE BREAKDOWN (full-width) -->
+      <div class="dash-card" style="margin-bottom:18px">
+        <div class="dash-card-hdr">
+          <div class="dash-card-title">&#128176; Expense Breakdown</div>
+          <div class="dash-card-sub">Travel cost by type, payment &amp; booking</div>
         </div>
-        <!-- Financial Overview -->
-        <div class="dash-card dash-card-md">
-          <div class="dash-card-hdr">
-            <div class="dash-card-title">&#128176; Expense Breakdown</div>
-            <div class="dash-card-sub">Travel cost by type, payment &amp; booking</div>
-          </div>
-          <div id="finPanel" class="fin-panel"></div>
-        </div>
+        <div id="finPanel" class="fin-panel-wide"></div>
       </div>
 
       <!-- ROW 5: RECENT REQUESTS -->
@@ -1984,12 +1976,14 @@ function renderDash(){
     `<div class="fh-val">${fmtP(totalCost)}</div>`+
     `</div>`+
     `<div class="fin-section-hdr">📊 Expense by Process Type</div>`+
-    procRows.map(p=>fbRow(p.lbl,p.val,p.clr,procTotal)).join('')+
+    `<div class="fb-rows-2col">`+procRows.map(p=>fbRow(p.lbl,p.val,p.clr,procTotal)).join('')+`</div>`+
     `<div class="fin-section-hdr">💳 Booking Payment Status</div>`+
+    `<div class="fb-rows-2col">`+
     fbRow('Paid',paidBK,'#1b8a50',totalBK||1)+
     fbRow('Unpaid',unpaidBK,'#c0392b',totalBK||1)+
+    `</div>`+
     (bkTypEntries.length?`<div class="fin-section-hdr">🎫 Booking Type Breakdown</div>`+
-      bkTypEntries.map(([t,v],i)=>fbRow(t,v,bkColors[i]||'#94a3b8',bkTypTotal)).join(''):'')+
+      `<div class="fb-rows-2col">`+bkTypEntries.map(([t,v],i)=>fbRow(t,v,bkColors[i]||'#94a3b8',bkTypTotal)).join('')+`</div>`:'')+
     `<div class="fin-section-hdr">📌 Key Metrics</div>`+
     `<div class="fin-metrics-row">`+
     `<div class="fin-sm fs-blue"><div class="fsv">${cntRCA}</div><div class="fsl">RCA Trips</div></div>`+
