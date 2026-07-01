@@ -2782,7 +2782,8 @@ function printRCA(id){
     <div class="field-row"><label>Date Needed:&nbsp;</label><span class="ul">${r.dep?new Date(r.dep+'T00:00:00').toLocaleDateString('en-PH',{month:'long',day:'numeric',year:'numeric'}):''}</span></div>
   </div>
   <div class="field-row" style="margin-bottom:4px"><label>Charge to Dept/Proj:&nbsp;</label><span class="ul">${r.chg||''}</span></div>
-  <div class="field-row" style="margin-bottom:4px"><label>Purpose:&nbsp;</label><span class="ul">${r.purpose||''}</span></div>
+  <div class="field-row" style="margin-bottom:2px"><label>Purpose:&nbsp;</label><span class="ul">${r.purpose||''}</span></div>
+  <div class="field-row" style="margin-bottom:6px"><label>&nbsp;</label><span class="ul">&nbsp;</span></div>
 
   <!-- TRAVEL COORDINATOR SECTION -->
   <div class="section-box">
@@ -2812,10 +2813,10 @@ function printRCA(id){
       <span class="bk-peso">&#8369;</span><span class="bk-amt">${trans>0?fmt2(trans):''}</span>
     </div>
     ${(()=>{
+      // Always show at least one Others row (matching PDF template)
       const items=(r.othersItems&&r.othersItems.length>0)
         ?r.othersItems
-        :(othersAmt>0?[{label:othersLabel||'Others',amt:othersAmt}]:[]);
-      if(!items.length) return '';
+        :[{label:'Others',amt:othersAmt>0?othersAmt:0}];
       return items.map(it=>`<div class="bk-row">
       <span class="bk-label">${it.label||'Others'}</span><span class="bk-colon">:</span>
       <span class="bk-value">&nbsp;</span>
