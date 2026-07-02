@@ -2631,10 +2631,11 @@ function printRCA(id){
   const total=r.total||0;
   const today=new Date().toLocaleDateString('en-PH',{month:'long',day:'numeric',year:'numeric'});
 
-  // Use chargeAff for RCA form name, fallback to main aff
+  // Use chargeAff for RCA form logo/name, fallback to main aff
   const affCode = r.chargeAff || r.aff || '';
   const affInfo = AFFILIATE_DATA[affCode] || null;
   const affFullName = affInfo ? affInfo.fullName : (affCode || 'PRIMARY STRUCTURES CORPORATION');
+  const affLogoDataUrl = affInfo ? affInfo.logo : '';
 
   const COORDINATORS=['Bordaje, Jesiel','Tandal, Patress','Mangubat, Angelica Mae','Rivera, Stephanie','Pabiran, Aubrey','Legaspi, Janica Nicole','Others'];
   const preselect=COORDINATORS.find(c=>r.handled&&r.handled.toLowerCase().includes(c.split(',')[0].toLowerCase()))||'';
@@ -2645,6 +2646,9 @@ function printRCA(id){
       :[{label:'Others',amt:othersAmt>0?othersAmt:0}];
     return items.map(it=>`<div class="tr"><span class="tlbl">${(it.label||'').trim()||'Others'}</span><span class="tcolon">&nbsp;:&nbsp;</span><span class="tval">&nbsp;</span><span class="tp">&#8369;</span><span class="tamt">${it.amt>0?fmt2(it.amt):''}</span></div>`).join('');
   })();
+  const logoBlock = affLogoDataUrl
+    ? `<img src="${affLogoDataUrl}" style="max-height:42px;max-width:110px;object-fit:contain;display:block;margin-left:auto" alt="logo"/>`
+    : `<div style="font-size:8pt;font-weight:bold;text-align:right;line-height:1.3;text-transform:uppercase">${affFullName}</div>`;
   const w=window.open('','_blank','width=860,height=1220');
   w.document.write(`<!DOCTYPE html>
 <html>
@@ -2657,7 +2661,10 @@ function printRCA(id){
 body{font-family:Calibri,'Segoe UI',Arial,Helvetica,sans-serif;font-size:10.5pt;color:#000;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 @media print{.noprint{display:none!important}}
 .page{width:100%;max-width:680px;margin:0 auto}
-.hdr-title{text-align:center;font-size:14pt;font-weight:bold;letter-spacing:0.2px;line-height:1.3;margin-bottom:12px}
+.hdr{display:flex;align-items:flex-start;margin-bottom:10px}
+.hdr-space{width:110px;flex-shrink:0}
+.hdr-title{flex:1;text-align:center;font-size:14pt;font-weight:bold;letter-spacing:0.2px;line-height:1.3;align-self:center}
+.hdr-logo{width:110px;flex-shrink:0;text-align:right}
 .row2{display:flex;gap:0;margin-bottom:6px}
 .f2l{flex:1;display:flex;align-items:flex-end;gap:3px;padding-right:20px;font-size:10.5pt}
 .f2r{flex:1;display:flex;align-items:flex-end;gap:3px;font-size:10.5pt}
@@ -2707,7 +2714,11 @@ hr.div{border:none;border-top:0.75px dashed #000;margin:6px 0}
 </head>
 <body>
 <div class="page">
-  <div class="hdr-title">REQUEST OF CASH ADVANCE</div>
+  <div class="hdr">
+    <div class="hdr-space"></div>
+    <div class="hdr-title">REQUEST OF CASH ADVANCE</div>
+    <div class="hdr-logo">${logoBlock}</div>
+  </div>
   <div class="row2">
     <div class="f2l"><span class="flbl">Pay To:&nbsp;</span><span class="ful" id="payToLine">${r.emp||''}</span></div>
     <div class="f2r"><span class="flbl">Date Prepared:&nbsp;</span><span class="ful">${today}</span></div>
