@@ -2631,19 +2631,13 @@ function printRCA(id){
   const total=r.total||0;
   const today=new Date().toLocaleDateString('en-PH',{month:'long',day:'numeric',year:'numeric'});
 
-  // Use chargeAff for RCA form logo/name, fallback to main aff
+  // Use chargeAff for RCA form name, fallback to main aff
   const affCode = r.chargeAff || r.aff || '';
   const affInfo = AFFILIATE_DATA[affCode] || null;
   const affFullName = affInfo ? affInfo.fullName : (affCode || 'PRIMARY STRUCTURES CORPORATION');
-  const affLogoDataUrl = affInfo ? affInfo.logo : '';
 
   const COORDINATORS=['Bordaje, Jesiel','Tandal, Patress','Mangubat, Angelica Mae','Rivera, Stephanie','Pabiran, Aubrey','Legaspi, Janica Nicole','Others'];
   const preselect=COORDINATORS.find(c=>r.handled&&r.handled.toLowerCase().includes(c.split(',')[0].toLowerCase()))||'';
-
-  // Build logo HTML snippet
-  const logoHtml = affLogoDataUrl
-    ? `<div style="text-align:right"><img src="${affLogoDataUrl}" alt="${affCode} Logo" style="max-height:56px;max-width:110px;object-fit:contain;display:block;margin-left:auto"/></div>`
-    : `<div style="font-family:'Times New Roman',serif;font-size:9pt;font-weight:bold;color:#0a2342;text-align:right;line-height:1.3;text-transform:uppercase">${affFullName}</div>`;
 
   const othersRowsHtml=(()=>{
     const items=(r.othersItems&&r.othersItems.length>0)
@@ -2651,9 +2645,6 @@ function printRCA(id){
       :[{label:'Others',amt:othersAmt>0?othersAmt:0}];
     return items.map(it=>`<div class="tr"><span class="tlbl">${(it.label||'').trim()||'Others'}</span><span class="tcolon">&nbsp;:&nbsp;</span><span class="tval">&nbsp;</span><span class="tp">&#8369;</span><span class="tamt">${it.amt>0?fmt2(it.amt):''}</span></div>`).join('');
   })();
-  const logoBlock = affLogoDataUrl
-    ? `<img src="${affLogoDataUrl}" style="max-height:56px;max-width:110px;object-fit:contain;display:block;margin-left:auto" alt="logo"/>`
-    : `<div style="font-size:8pt;font-weight:bold;text-align:right;line-height:1.3;text-transform:uppercase">${affFullName}</div>`;
   const w=window.open('','_blank','width=860,height=1220');
   w.document.write(`<!DOCTYPE html>
 <html>
@@ -2663,53 +2654,49 @@ function printRCA(id){
 <style>
 @page{size:letter;margin:18mm 18mm 15mm 18mm}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Times New Roman',Times,serif;font-size:10.5pt;color:#000;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{font-family:Calibri,'Segoe UI',Arial,Helvetica,sans-serif;font-size:10.5pt;color:#000;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 @media print{.noprint{display:none!important}}
 .page{width:100%;max-width:680px;margin:0 auto}
-.hdr{display:flex;align-items:flex-start;margin-bottom:14px}
-.hdr-space{width:100px;flex-shrink:0}
-.hdr-title{flex:1;text-align:center;font-size:16pt;font-weight:bold;letter-spacing:0.2px;line-height:1.3}
-.hdr-logo{width:100px;flex-shrink:0;text-align:right}
-.row2{display:flex;gap:0;margin-bottom:4px}
+.hdr-title{text-align:center;font-size:14pt;font-weight:bold;letter-spacing:0.2px;line-height:1.3;margin-bottom:12px}
+.row2{display:flex;gap:0;margin-bottom:6px}
 .f2l{flex:1;display:flex;align-items:flex-end;gap:3px;padding-right:20px;font-size:10.5pt}
 .f2r{flex:1;display:flex;align-items:flex-end;gap:3px;font-size:10.5pt}
 .flbl{white-space:nowrap;flex-shrink:0}
 .ful{flex:1;border-bottom:0.75px solid #000;min-height:14px;padding-bottom:1px;min-width:10px}
-.row1{display:flex;align-items:flex-end;gap:3px;font-size:10.5pt;margin-bottom:4px}
-.sec{border:0.75px solid #000;margin:8px 0}
-.secttl{text-align:center;font-size:10pt;font-weight:normal;padding:4px 6px;border-bottom:0.75px solid #000;background:#e8e8e8;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.secbody{padding:6px 10px}
-.tr{display:flex;align-items:flex-end;gap:0;font-size:10.5pt;margin-bottom:4px}
-.tlbl{width:155px;flex-shrink:0}
+.row1{display:flex;align-items:flex-end;gap:3px;font-size:10.5pt;margin-bottom:6px}
+.secttl{border:3px solid #000;text-align:center;font-size:10.5pt;font-weight:normal;padding:3px 6px;margin:8px 0 6px}
+.tr{display:flex;align-items:flex-end;gap:0;font-size:10.5pt;margin-bottom:3px;padding-right:100px}
+.tlbl{width:140px;flex-shrink:0}
 .tcolon{flex-shrink:0}
-.tval{flex:1;border-bottom:0.75px solid #000;min-height:14px;padding-bottom:1px;margin-right:6px}
-.tp{flex-shrink:0;margin-right:4px}
-.tamt{width:110px;flex-shrink:0;border-bottom:0.75px solid #000;min-height:14px;text-align:right;padding-bottom:1px}
-.ttotal{display:flex;justify-content:flex-end;align-items:flex-end;gap:6px;margin-top:5px;font-weight:bold;font-size:10.5pt}
-.ttotal-line{width:110px;flex-shrink:0;border-top:0.75px solid #000;border-bottom:3px double #000;min-height:15px;text-align:right;padding:1px 0}
-.ck2{display:flex;gap:0;margin-bottom:6px}
-.ck2l{flex:1}
+.tval{flex:1;border-bottom:0.75px solid #000;min-height:14px;padding-bottom:1px;margin-right:22px}
+.tp{flex-shrink:0;margin-right:5px}
+.tamt{width:112px;flex-shrink:0;border-bottom:0.75px solid #000;min-height:14px;text-align:right;padding-bottom:1px}
+.ttotal{display:flex;justify-content:flex-end;align-items:flex-end;gap:6px;margin-top:4px;font-weight:bold;font-size:10.5pt;padding-right:100px}
+.ttotal-line{width:112px;flex-shrink:0;border-bottom:3px double #000;min-height:15px;text-align:right;padding:1px 0}
+.ck2{display:flex;gap:0;margin-bottom:4px}
+.ck2l{flex:1.15}
 .ck2r{flex:1;padding-left:10px}
-.ckrow{display:flex;align-items:center;gap:5px;margin-bottom:4px;font-size:10.5pt}
-.ck{width:12px;height:12px;border:0.75px solid #000;flex-shrink:0;display:inline-block;vertical-align:middle}
-.ilul{display:inline-block;border-bottom:0.75px solid #000;min-width:80px;vertical-align:bottom;margin:0 3px}
-table.rt{width:100%;border-collapse:collapse;font-size:10pt;margin-top:5px}
-table.rt th{border:0.75px solid #000;padding:2px 5px;font-weight:bold;text-align:center;font-size:10pt}
-table.rt td{border:0.75px solid #000;padding:2px 5px;height:20px;vertical-align:top}
+.ckrow{display:flex;align-items:center;gap:10px;margin-bottom:6px;font-size:10.5pt;flex-wrap:nowrap;white-space:nowrap}
+.ck{width:30px;height:13px;border:1.5px solid #000;flex-shrink:0;display:inline-block;vertical-align:middle}
+.ilul{display:inline-block;border-bottom:0.75px solid #000;flex:1;min-width:60px;align-self:flex-end;margin:0 8px 2px 6px}
+table.rt{width:100%;border-collapse:collapse;font-size:10pt;margin-top:2px}
+table.rt th{border:0.75px solid #000;padding:2px 5px;font-weight:bold;text-align:center;font-size:9pt}
+table.rt td{border:0.75px solid #000;padding:2px 5px;height:18px;vertical-align:top}
 .totrow td{font-weight:bold}
-.note{font-size:10pt;line-height:1.55;margin:8px 0;text-align:justify}
-.nul{display:inline-block;border-bottom:0.75px solid #000;min-width:120px;vertical-align:bottom}
+.note{font-size:10.5pt;line-height:1.5;margin:6px 0;text-align:justify}
+.nul{display:inline-block;border-bottom:0.75px solid #000;min-width:150px;vertical-align:bottom}
 .sig2{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:8px}
 .sfr{display:flex;align-items:flex-end;gap:3px;font-size:10.5pt;margin-bottom:5px}
 .sful{flex:1;border-bottom:0.75px solid #000;min-height:14px;padding-bottom:1px}
-.sublbl{font-size:9pt;color:#444;margin-left:52px;margin-top:1px}
-hr.div{border:none;border-top:0.75px dashed #000;margin:10px 0}
-.authttl{font-size:13pt;font-weight:bold;text-align:center;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
-.authtxt{font-size:10.5pt;line-height:1.6;text-align:justify;margin-bottom:10px}
-.authsig2{display:flex;gap:40px;margin-top:18px}
-.asig-wide{flex:2}.asig-narrow{flex:1}
+.sctr{text-align:center}
+.sublbl{font-size:10pt;color:#000;margin-left:60px;margin-top:1px;text-align:center}
+hr.div{border:none;border-top:0.75px dashed #000;margin:6px 0}
+.authttl{font-size:13pt;font-weight:bold;text-align:center;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px}
+.authtxt{font-size:10.5pt;line-height:1.5;text-align:justify;margin-bottom:8px}
+.authsig2{display:flex;gap:110px;margin-top:20px}
+.asig-wide{width:250px;flex:none}.asig-narrow{width:160px;flex:none}
 .asigul{border-bottom:0.75px solid #000;min-height:20px;margin-bottom:4px}
-.asiglbl{font-size:9pt;text-align:center}
+.asiglbl{font-size:10.5pt;text-align:center}
 .ctrl{background:#f4f6f8;border:1px solid #c8d0d8;border-radius:6px;padding:10px 14px;margin-top:16px;display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px 14px}
 .ctrl label{font-family:Arial,sans-serif;font-size:11px;font-weight:700;color:#333;display:block;margin-bottom:2px}
 .ctrl input,.ctrl select{font-family:Arial,sans-serif;font-size:12px;padding:5px 8px;border:1px solid #aaa;border-radius:4px;min-width:160px;background:#fff}
@@ -2720,11 +2707,7 @@ hr.div{border:none;border-top:0.75px dashed #000;margin:10px 0}
 </head>
 <body>
 <div class="page">
-  <div class="hdr">
-    <div class="hdr-space"></div>
-    <div class="hdr-title">REQUEST OF CASH ADVANCE</div>
-    <div class="hdr-logo">${logoBlock}</div>
-  </div>
+  <div class="hdr-title">REQUEST OF CASH ADVANCE</div>
   <div class="row2">
     <div class="f2l"><span class="flbl">Pay To:&nbsp;</span><span class="ful" id="payToLine">${r.emp||''}</span></div>
     <div class="f2r"><span class="flbl">Date Prepared:&nbsp;</span><span class="ful">${today}</span></div>
@@ -2735,53 +2718,45 @@ hr.div{border:none;border-top:0.75px dashed #000;margin:10px 0}
   </div>
   <div class="row1"><span class="flbl">Charge to Dept/Proj:&nbsp;</span><span class="ful" style="max-width:300px">${r.chg||''}</span></div>
   <div class="row1"><span class="flbl">Purpose:&nbsp;</span><span class="ful">${r.purpose||''}</span></div>
-  <div class="row1" style="margin-bottom:8px"><span class="ful">&nbsp;</span></div>
-  <div class="sec">
-    <div class="secttl">To be filled up by the Travel Coordinator</div>
-    <div class="secbody">
-      <div class="tr"><span class="tlbl">Traveling Employee/s</span><span class="tcolon">&nbsp;:&nbsp;</span><span class="tval" id="travEmpLine">${r.travelEmps||r.emp||''}</span></div>
-      <div class="tr"><span class="tlbl">Shipping Line/Airline</span><span class="tcolon">&nbsp;:&nbsp;</span><span class="tval">${r.bookedThru||r.bkType||''}</span><span class="tp">&#8369;</span><span class="tamt">${r.bkAmt?fmt2(r.bkAmt):''}</span></div>
-      <div class="tr"><span class="tlbl">Accommodation</span><span class="tcolon">&nbsp;:&nbsp;</span><span class="tval">${r.hAccom||''}</span><span class="tp">&#8369;</span><span class="tamt">&nbsp;</span></div>
-      <div class="tr"><span class="tlbl">Per Diem</span><span class="tcolon">&nbsp;:&nbsp;</span><span class="tval">&nbsp;</span><span class="tp">&#8369;</span><span class="tamt">${perDiem>0?fmt2(perDiem):''}</span></div>
-      <div class="tr"><span class="tlbl">Transportation</span><span class="tcolon">&nbsp;:&nbsp;</span><span class="tval">&nbsp;</span><span class="tp">&#8369;</span><span class="tamt">${trans>0?fmt2(trans):''}</span></div>
-      ${othersRowsHtml}
-      <div class="ttotal"><span>TOTAL</span>&nbsp;<span class="tp">&#8369;</span><span class="ttotal-line">${fmt2(total)}</span></div>
+  <div class="row1" style="margin-bottom:8px"><span class="flbl" style="visibility:hidden">Purpose:&nbsp;</span><span class="ful">&nbsp;</span></div>
+  <div class="secttl">To be filled up by the Travel Coordinator</div>
+  <div class="tr"><span class="tlbl">Traveling Employee/s</span><span class="tcolon">&nbsp;:&nbsp;</span><span class="tval" id="travEmpLine">${r.travelEmps||r.emp||''}</span></div>
+  <div class="tr"><span class="tlbl">Shipping Line/Airline</span><span class="tcolon">&nbsp;:&nbsp;</span><span class="tval">${r.bookedThru||r.bkType||''}</span><span class="tp">&#8369;</span><span class="tamt">${r.bkAmt?fmt2(r.bkAmt):''}</span></div>
+  <div class="tr"><span class="tlbl">Accommodation</span><span class="tcolon">&nbsp;:&nbsp;</span><span class="tval">${r.hAccom||''}</span><span class="tp">&#8369;</span><span class="tamt">&nbsp;</span></div>
+  <div class="tr"><span class="tlbl">Per Diem</span><span class="tcolon">&nbsp;:&nbsp;</span><span class="tval">&nbsp;</span><span class="tp">&#8369;</span><span class="tamt">${perDiem>0?fmt2(perDiem):''}</span></div>
+  <div class="tr"><span class="tlbl">Transportation</span><span class="tcolon">&nbsp;:&nbsp;</span><span class="tval">&nbsp;</span><span class="tp">&#8369;</span><span class="tamt">${trans>0?fmt2(trans):''}</span></div>
+  ${othersRowsHtml}
+  <div class="ttotal"><span>TOTAL</span>&nbsp;<span class="tp">&#8369;</span><span class="ttotal-line">${fmt2(total)}</span></div>
+  <div class="secttl">To be filled up by the Accounting In Charge</div>
+  <div class="ck2">
+    <div class="ck2l">
+      <div class="ckrow"><span class="ck"></span><span>Without Unliquidated Cash Advance</span></div>
+      <div class="ckrow"><span class="ck"></span><span>With Unliquidated Cash Advance of Php</span><span class="ilul">&nbsp;</span></div>
+    </div>
+    <div class="ck2r">
+      <div class="row1" style="margin-bottom:8px"><span class="flbl">Received &amp; Checked by:&nbsp;</span><span class="ful">&nbsp;</span></div>
+      <div class="row1"><span class="flbl">Date Received:</span><span class="ful">&nbsp;</span></div>
     </div>
   </div>
-  <div class="sec">
-    <div class="secttl">To be filled up by the Accounting In Charge</div>
-    <div class="secbody">
-      <div class="ck2">
-        <div class="ck2l">
-          <div class="ckrow"><span class="ck"></span><span>Without Unliquidated Cash Advance</span></div>
-          <div class="ckrow"><span class="ck"></span><span>With Unliquidated Cash Advance of Php<span class="ilul">&nbsp;</span></span></div>
-        </div>
-        <div class="ck2r">
-          <div class="row1" style="margin-bottom:5px"><span class="flbl">Received &amp; Checked by:&nbsp;</span><span class="ful">&nbsp;</span></div>
-          <div class="row1"><span class="flbl">Date Received:&nbsp;</span><span class="ful">&nbsp;</span></div>
-        </div>
-      </div>
-      <table class="rt">
-        <thead><tr><th style="width:70px">DATE</th><th style="width:90px">REFERENCE</th><th>PURPOSE</th><th style="width:90px">AMOUNT</th></tr></thead>
-        <tbody>
-          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-          <tr class="totrow"><td colspan="3" style="text-align:right;padding-right:8px">TOTAL</td><td>&nbsp;</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  <table class="rt">
+    <thead><tr><th style="width:75px">DATE</th><th style="width:105px">REFERENCE</th><th>PURPOSE</th><th style="width:115px">AMOUNT</th></tr></thead>
+    <tbody>
+      <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      <tr class="totrow"><td>&nbsp;</td><td>&nbsp;</td><td style="text-align:right;padding-right:8px">TOTAL</td><td>&nbsp;</td></tr>
+    </tbody>
+  </table>
   <p class="note">Please liquidate Accountable Cash Advance on/before&nbsp;<span class="nul">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>. Failure to do so will subject you to salary deduction effective on&nbsp;<span class="nul">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>. For special cases, the RCA Requestor can ask for an extension of the due date, provided all reasons for delays are valid and duly approved by the Department Head.</p>
   <div class="sig2">
     <div>
       <div class="sfr"><span class="flbl">Requested by:&nbsp;</span><span class="sful" id="reqByLine">${preselect||''}</span></div>
-      <div class="sfr"><span class="flbl">Noted by:&nbsp;</span><span class="sful">&nbsp;</span></div>
+      <div class="sfr" style="margin-top:12px;margin-bottom:0"><span class="flbl">Noted by:&nbsp;</span><span class="sful">&nbsp;</span></div>
       <div class="sublbl">Dept Head/ Immediate Supervisor</div>
     </div>
     <div>
-      <div class="sfr"><span class="flbl">COO Approval:&nbsp;</span><span class="sful">Paulette D. Liu</span></div>
-      <div class="sfr" style="margin-top:4px"><span class="flbl">SVP-Comptroller Approval:&nbsp;</span><span class="sful">Lillian Marie U. Liu</span></div>
+      <div class="sfr"><span class="flbl">COO Approval:&nbsp;</span><span class="sful sctr">Paulette D. Liu</span></div>
+      <div class="sfr" style="margin-top:12px"><span class="flbl">SVP-Comptroller Approval:&nbsp;</span><span class="sful">&nbsp;Lillian Marie U. Liu</span></div>
     </div>
   </div>
   <hr class="div"/>
