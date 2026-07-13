@@ -129,15 +129,6 @@ body{font-family:'Barlow',sans-serif;background:#e8edf2;color:var(--text);min-he
 @media(max-width:900px){.dash-row-2{grid-template-columns:1fr}}
 .dash-row-split{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px}
 @media(max-width:900px){.dash-row-split{grid-template-columns:1fr}}
-.insight-item{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border-radius:8px;margin-bottom:6px;border-left:3px solid #cbd5e1;background:#f8fafc}
-.insight-item:last-child{margin-bottom:0}
-.insight-item.in-blue{border-left-color:#1565c0;background:#eff6ff}
-.insight-item.in-green{border-left-color:#1b8a50;background:#f0fdf4}
-.insight-item.in-amber{border-left-color:#d97706;background:#fffbeb}
-.insight-item.in-red{border-left-color:#e74c3c;background:#fff5f5}
-.insight-icon{font-size:15px;margin-top:1px}
-.insight-text{font-size:12.5px;color:#1a2a3a;font-weight:500;line-height:1.45}
-.insight-text strong{color:var(--navy)}
 .dash-card{background:#fff;border-radius:var(--radius-lg);border:1px solid var(--border);padding:0;margin-bottom:18px;box-shadow:0 2px 8px rgba(10,35,66,.05)}
 .dash-card-hdr{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:8px}
 .dash-card-title{font-size:13.5px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:6px}
@@ -562,15 +553,6 @@ table tr:hover td{background:#eaf1ff}
           <div class="dash-card-sub">Travel cost by type, payment &amp; booking</div>
         </div>
         <div id="finPanel" class="fin-panel-wide"></div>
-      </div>
-
-      <!-- ROW 5: INSIGHTS -->
-      <div class="dash-card" style="margin-bottom:18px">
-        <div class="dash-card-hdr">
-          <div class="dash-card-title">&#128161; Insights</div>
-          <div class="dash-card-sub">Auto-generated highlights from current data</div>
-        </div>
-        <div id="insightsPanel" style="padding:12px 18px 16px"></div>
       </div>
 
     </div>
@@ -2067,25 +2049,6 @@ function renderDash(){
     `</div>`;
 
   // ── Recent Requests ──────────────────────────────────────────────────
-  // ── Insights ──────────────────
-  const insEl=document.getElementById('insightsPanel');
-  if(insEl){
-    const ins=[];
-    const maxM=Math.max(...mCounts);
-    if(maxM>0){const mi=mCounts.indexOf(maxM);
-      ins.push({cls:'in-blue',icon:'📅',txt:`<strong>${months[mi]}</strong> is the busiest month of ${curYear} with <strong>${maxM} request${maxM!==1?'s':''}</strong> totaling <strong>${fmtP(mCosts[mi])}</strong>.`});}
-    const topAff=Object.entries(affData).filter(([,d])=>d.cost>0).sort((a,b)=>b[1].cost-a[1].cost)[0];
-    if(topAff)ins.push({cls:'in-blue',icon:'🏢',txt:`<strong>${topAff[0]}</strong> has the highest travel spend at <strong>${fmtP(topAff[1].cost)}</strong> — ${Math.round(topAff[1].cost/(totalCost||1)*100)}% of the total.`});
-    const topDest=Object.entries(destMap).sort((a,b)=>b[1].n-a[1].n)[0];
-    if(topDest)ins.push({cls:'in-blue',icon:'📍',txt:`<strong>${topDest[0]}</strong> is the most visited destination (${topDest[1].n} trip${topDest[1].n!==1?'s':''}, ${fmtP(topDest[1].cost)}).`});
-    const domProc=procRows.slice().sort((a,b)=>b.val-a.val)[0];
-    if(domProc&&domProc.val>0)ins.push({cls:'in-blue',icon:'💸',txt:`<strong>${domProc.lbl}</strong> drives most of the spend — <strong>${fmtP(domProc.val)}</strong> (${Math.round(domProc.val/procTotal*100)}%). Average cost per request is <strong>${fmtP(avgCost.toFixed(2))}</strong>.`});
-    if(pending>0)ins.push({cls:'in-amber',icon:'⏳',txt:`<strong>${pending} request${pending!==1?'s':''}</strong> (${Math.round(pending/(total||1)*100)}% of total) still awaiting approval.`});
-    else if(total>0)ins.push({cls:'in-green',icon:'✅',txt:`No pending approvals — all ${total} requests have been acted on.`});
-    if(unpaid>0)ins.push({cls:'in-red',icon:'💳',txt:`<strong>${unpaid} unpaid booking${unpaid!==1?'s':''}</strong> worth <strong>${fmtP(unpaidBK)}</strong> still need payment processing.`});
-    else if(cntBK>0)ins.push({cls:'in-green',icon:'💳',txt:`All bookings are fully paid — ${fmtP(paidBK)} processed.`});
-    insEl.innerHTML=ins.length?ins.map(i=>`<div class="insight-item ${i.cls}"><div class="insight-icon">${i.icon}</div><div class="insight-text">${i.txt}</div></div>`).join(''):'<div class="pi-empty">Not enough data for insights yet — add some travel records.</div>';
-  }
 }
 
 function filterRecordsToday(){
