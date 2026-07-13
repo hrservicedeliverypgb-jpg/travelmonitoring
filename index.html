@@ -1276,27 +1276,22 @@ table tr:hover td{background:#eaf1ff}
         <div class="fg"><label>Received Date</label>
           <input type="date" id="payModal_received"/>
         </div>
-        <div class="fg"><label>Date Processed</label>
-          <input type="date" id="payModal_date"/>
-        </div>
-      </div>
-      <div class="g2">
-        <div class="fg"><label>Processed By</label>
-          <select id="payModal_by" onchange="onCoordSel('payModal_by','payModal_by_other')">
-            <option value="">&mdash; Select &mdash;</option>
-            <option>Bordaje, Jesiel</option>
-            <option>Tandal, Patress</option>
-            <option>Mangubat, Angelica Mae</option>
-            <option>Rivera, Stephanie</option>
-            <option>Pabiran, Aubrey</option>
-            <option>Legaspi, Janica Nicole</option>
-            <option>Others</option>
-          </select>
-          <input type="text" id="payModal_by_other" placeholder="Enter name" style="display:none;margin-top:6px"/>
-        </div>
         <div class="fg"><label>Date Forwarded</label>
           <input type="date" id="payModal_forwarded"/>
         </div>
+      </div>
+      <div class="fg"><label>Processed By</label>
+        <select id="payModal_by" onchange="onCoordSel('payModal_by','payModal_by_other')">
+          <option value="">&mdash; Select &mdash;</option>
+          <option>Bordaje, Jesiel</option>
+          <option>Tandal, Patress</option>
+          <option>Mangubat, Angelica Mae</option>
+          <option>Rivera, Stephanie</option>
+          <option>Pabiran, Aubrey</option>
+          <option>Legaspi, Janica Nicole</option>
+          <option>Others</option>
+        </select>
+        <input type="text" id="payModal_by_other" placeholder="Enter name" style="display:none;margin-top:6px"/>
       </div>
       <div class="fg"><label>Remarks / Notes</label>
         <textarea id="payModal_remarks" placeholder="Additional notes..." style="height:60px"></textarea>
@@ -1466,7 +1461,6 @@ function quickLogin(name,role){
   const rc=document.getElementById('roleChip');
   if(rc){rc.textContent=role==='admin'?'Admin':'User';rc.style.display=role==='admin'?'inline-block':'none';}
   document.getElementById('f_dr').value=new Date().toISOString().split('T')[0];
-  document.getElementById('payModal_date').value=new Date().toISOString().split('T')[0];
   renderDash();renderRec();genReport();renderPayment();
   toast('Welcome, '+name.split(',')[0]+'!','success');
   cloudPull();
@@ -2336,7 +2330,6 @@ function openPayModal(id){
   setCoordVal('payModal_by','payModal_by_other',r.payBy||'');
   document.getElementById('payModal_forwarded').value=r.payForwarded||'';
   document.getElementById('payModal_remarks').value=r.payRemarks||'';
-  if(r.dateAccomp)document.getElementById('payModal_date').value=r.dateAccomp;
   document.getElementById('payModal').classList.add('open');
 }
 
@@ -2353,7 +2346,6 @@ function confirmPayment(){
   r.payBy=getCoordVal('payModal_by','payModal_by_other');
   r.payForwarded=document.getElementById('payModal_forwarded').value;
   r.payRemarks=document.getElementById('payModal_remarks').value;
-  r.dateAccomp=document.getElementById('payModal_date').value;
   closePayModal();
   renderPayment();renderDash();renderRec();
   toast('Payment marked as Processed!','success');
