@@ -127,6 +127,8 @@ body{font-family:'Barlow',sans-serif;background:#e8edf2;color:var(--text);min-he
 /* Layout rows */
 .dash-row-2{display:grid;grid-template-columns:1fr 340px;gap:16px;margin-bottom:18px}
 @media(max-width:900px){.dash-row-2{grid-template-columns:1fr}}
+.dash-row-split{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px}
+@media(max-width:900px){.dash-row-split{grid-template-columns:1fr}}
 .dash-card{background:#fff;border-radius:var(--radius-lg);border:1px solid var(--border);padding:0;margin-bottom:18px;box-shadow:0 2px 8px rgba(10,35,66,.05)}
 .dash-card-hdr{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:8px}
 .dash-card-title{font-size:13.5px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:6px}
@@ -525,6 +527,24 @@ table tr:hover td{background:#eaf1ff}
           </div>
           <div id="monthlyChart" class="chart-area"></div>
         </div>
+
+      <!-- ROW 3: TOP DESTINATIONS + COST PER AFFILIATE -->
+      <div class="dash-row-split">
+        <div class="dash-card" style="margin-bottom:0">
+          <div class="dash-card-hdr">
+            <div class="dash-card-title">&#128205; Top Destinations</div>
+            <div class="dash-card-sub">Trips &amp; spend by destination</div>
+          </div>
+          <div id="destList" class="dest-list"></div>
+        </div>
+        <div class="dash-card" style="margin-bottom:0">
+          <div class="dash-card-hdr">
+            <div class="dash-card-title">&#127970; Cost per Affiliate</div>
+            <div class="dash-card-sub">Travel cost share by affiliate</div>
+          </div>
+          <div id="affCostList" class="dest-list"></div>
+        </div>
+      </div>
 
       <!-- ROW 4: EXPENSE BREAKDOWN (full-width) -->
       <div class="dash-card" style="margin-bottom:18px">
@@ -1908,7 +1928,44 @@ function renderDash(){
   }).join(''):'<tr><td colspan="10" style="text-align:center;color:#94a3b8;padding:20px">No affiliate data yet</td></tr>';
   }
 
-  // Top Destinations removed
+  // ── Top Destinations ──────────────────────────────────
+  const destMap={};
+  fRec.forEach(r=>{
+    if(!r.dest)return;
+    const key=destLbl(r.dest,r.ldest);
+    if(!key||key==='\u2014')return;
+    if(!destMap[key])destMap[key]={n:0,cost:0};
+    destMap[key].n++;destMap[key].cost+=(r.total||0);
+  });
+  const destEl=document.getElementById('destList');
+  if(destEl){
+    const dEntries=Object.entries(destMap).sort((a,b)=>b[1].n-a[1].n).slice(0,8);
+    const maxDN=dEntries.length?Math.max(...dEntries.map(([,v])=>v.n)):1;
+    destEl.innerHTML=dEntries.length?dEntries.map(([name,v],i)=>`
+      <div class="dest-item">
+        <div class="dest-rank">${i+1}</div>
+        <div class="dest-name">${name}<div style="font-size:10.5px;font-weight:600;color:#94a3b8;margin-top:1px">${fmtP(v.cost)}</div></div>
+        <div class="dest-bar-wrap"><div class="dest-bar-fill" style="width:${Math.max(4,Math.round(v.n/maxDN*100))}%"></div></div>
+        <div class="dest-count">${v.n} trip${v.n!==1?'s':''}</div>
+      </div>`).join(''):'<div class="pi-empty">No destination data yet</div>';
+  }
+
+  // ── Cost per Affiliate ──────────────────────────────────
+  const affCostEl=document.getElementById('affCostList');
+  if(affCostEl){
+    const acArr=Object.entries(affData).filter(([,d])=>d.cost>0).sort((a,b)=>b[1].cost-a[1].cost);
+    const acSum=acArr.reduce((s,[,d])=>s+d.cost,0)||1;
+    const acMax=acArr.length?acArr[0][1].cost:1;
+    affCostEl.innerHTML=acArr.length?acArr.map(([name,d],i)=>{
+      const pct=Math.round(d.cost/acSum*100);
+      return `<div class="dest-item" onclick="filterToAffiliate('${name}')" style="cursor:pointer" title="View ${name} records">
+        <div class="dest-rank">${i+1}</div>
+        <div class="dest-name">${name}<div style="font-size:10.5px;font-weight:600;color:#94a3b8;margin-top:1px">${d.total} request${d.total!==1?'s':''}</div></div>
+        <div class="dest-bar-wrap"><div class="dest-bar-fill" style="width:${Math.max(4,Math.round(d.cost/acMax*100))}%;background:linear-gradient(90deg,#1565c0,#0891b2)"></div></div>
+        <div style="min-width:92px;text-align:right"><div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:#0a2342">${fmtP(d.cost)}</div><div style="font-size:10px;color:#94a3b8;font-weight:700">${pct}% of total</div></div>
+      </div>`;
+    }).join(''):'<div class="pi-empty">No cost data yet</div>';
+  }
 
   // ── Pending Actions ──────────────────────────────────────────────────
   const alerts=[];
