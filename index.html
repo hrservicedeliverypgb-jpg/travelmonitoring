@@ -1250,7 +1250,8 @@ table tr:hover td{background:#eaf1ff}
             </select>
           </div>
           <div class="fg"><label>Date Accomplished</label><input type="date" id="upd_dateAccomp"/></div>
-          <div class="fg"><label>Payment Ref / OR No.</label><input type="text" id="upd_payRef"/></div>
+          <div class="fg"><label>Received Date</label><input type="date" id="upd_payReceived"/></div>
+          <div class="fg"><label>Date Forwarded</label><input type="date" id="upd_payForwarded"/></div>
         </div>
         </div><!-- end upd_paySection -->
       </div>
@@ -1272,24 +1273,29 @@ table tr:hover td{background:#eaf1ff}
     <div class="modal-body">
       <div id="payModal_info" style="background:var(--off);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:16px;font-size:13px"></div>
       <div class="g2">
-        <div class="fg"><label>Payment Method</label>
-          <select id="payModal_method">
-            <option value="Bank Transfer">Bank Transfer</option>
-            <option value="Cash">Cash</option>
-            <option value="Check">Check</option>
-            <option value="Online Payment">Online Payment</option>
-          </select>
+        <div class="fg"><label>Received Date</label>
+          <input type="date" id="payModal_received"/>
         </div>
-        <div class="fg"><label>Reference / OR No.</label>
-          <input type="text" id="payModal_ref" placeholder="e.g. OR-2026-0001"/>
+        <div class="fg"><label>Date Processed</label>
+          <input type="date" id="payModal_date"/>
         </div>
       </div>
       <div class="g2">
         <div class="fg"><label>Processed By</label>
-          <input type="text" id="payModal_by" placeholder="Staff who processed"/>
+          <select id="payModal_by" onchange="onCoordSel('payModal_by','payModal_by_other')">
+            <option value="">&mdash; Select &mdash;</option>
+            <option>Bordaje, Jesiel</option>
+            <option>Tandal, Patress</option>
+            <option>Mangubat, Angelica Mae</option>
+            <option>Rivera, Stephanie</option>
+            <option>Pabiran, Aubrey</option>
+            <option>Legaspi, Janica Nicole</option>
+            <option>Others</option>
+          </select>
+          <input type="text" id="payModal_by_other" placeholder="Enter name" style="display:none;margin-top:6px"/>
         </div>
-        <div class="fg"><label>Date Processed</label>
-          <input type="date" id="payModal_date"/>
+        <div class="fg"><label>Date Forwarded</label>
+          <input type="date" id="payModal_forwarded"/>
         </div>
       </div>
       <div class="fg"><label>Remarks / Notes</label>
@@ -1774,7 +1780,7 @@ function submitForm(){
     total:tot,bkType,hAccom,bkAmt,bookedThru,purpose,
     handled:getCoordVal('f_handledGen','f_handledGen_other'),
     status:document.getElementById('f_statusGen').value||'Pending',
-    dateAccomp,payStatus,bkStatus,payRef:'',payMethod:'',payBy:'',payRemarks:''
+    dateAccomp,payStatus,bkStatus,payRef:'',payMethod:'',payBy:'',payRemarks:'',payReceived:'',payForwarded:''
   });
   const newId = nid - 1;
   const handledByVal = getCoordVal('f_handledGen','f_handledGen_other') || getCoordVal('f_handled','f_handled_other');
@@ -2284,7 +2290,7 @@ function renderPayment(){
       </div>
       ${r.purpose?`<div style="font-size:12px;color:var(--muted);margin-bottom:8px">&#128204; ${r.purpose}</div>`:''}
       ${isPaid?`<div style="font-size:11px;color:var(--green);background:var(--green-bg);border-radius:6px;padding:6px 12px;margin-bottom:8px;display:inline-block">
-        &#10003; Paid via <strong>${r.payMethod||'—'}</strong> &nbsp;|&nbsp; Ref: <strong>${r.payRef||'—'}</strong> &nbsp;|&nbsp; By: ${r.payBy||'—'}
+        &#10003; Received: <strong>${r.payReceived||'—'}</strong> &nbsp;|&nbsp; Processed by: <strong>${r.payBy||'—'}</strong> &nbsp;|&nbsp; Forwarded: <strong>${r.payForwarded||'—'}</strong>
         ${r.payRemarks?` &nbsp;|&nbsp; ${r.payRemarks}`:''}
       </div>`:''}
       <div class="pay-action-bar">${payBtns}</div>
@@ -2326,10 +2332,11 @@ function openPayModal(id){
       ${r.purpose?`<div><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">Purpose</div><div>${r.purpose}</div></div>`:''}
     </div>`;
   document.getElementById('payModal_amtRow').innerHTML=`<span>Total Amount to Process</span><span style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800">&#8369;${r.total.toLocaleString()}</span>`;
-  document.getElementById('payModal_ref').value=r.payRef||'';
-  document.getElementById('payModal_by').value=r.payBy||'';
+  document.getElementById('payModal_received').value=r.payReceived||'';
+  setCoordVal('payModal_by','payModal_by_other',r.payBy||'');
+  document.getElementById('payModal_forwarded').value=r.payForwarded||'';
   document.getElementById('payModal_remarks').value=r.payRemarks||'';
-  if(r.payMethod)document.getElementById('payModal_method').value=r.payMethod;
+  if(r.dateAccomp)document.getElementById('payModal_date').value=r.dateAccomp;
   document.getElementById('payModal').classList.add('open');
 }
 
@@ -2342,9 +2349,9 @@ function confirmPayment(){
   if(!activePayId)return;
   const r=records.find(x=>x.id===activePayId);if(!r)return;
   r.payStatus='Processed';
-  r.payMethod=document.getElementById('payModal_method').value;
-  r.payRef=document.getElementById('payModal_ref').value;
-  r.payBy=document.getElementById('payModal_by').value;
+  r.payReceived=document.getElementById('payModal_received').value;
+  r.payBy=getCoordVal('payModal_by','payModal_by_other');
+  r.payForwarded=document.getElementById('payModal_forwarded').value;
   r.payRemarks=document.getElementById('payModal_remarks').value;
   r.dateAccomp=document.getElementById('payModal_date').value;
   closePayModal();
@@ -2355,7 +2362,7 @@ function confirmPayment(){
 function unmarkPaid(id){
   if(!confirm('Undo payment processed status?'))return;
   const r=records.find(x=>x.id===id);
-  if(r){r.payStatus='Not Yet';r.payRef='';r.payMethod='';r.payBy='';r.payRemarks='';}
+  if(r){r.payStatus='Not Yet';r.payRef='';r.payMethod='';r.payBy='';r.payRemarks='';r.payReceived='';r.payForwarded='';}
   renderPayment();renderDash();renderRec();
   toast('Payment reset to Not Yet Processed.','info');
 }
@@ -2635,7 +2642,8 @@ function openUpdateModal(id){
     document.getElementById('upd_bkStatus').value=r.bkStatus||'';
     document.getElementById('upd_payStatus').value=r.payStatus||'Not Yet';
     document.getElementById('upd_dateAccomp').value=r.dateAccomp||'';
-    document.getElementById('upd_payRef').value=r.payRef||'';
+    document.getElementById('upd_payReceived').value=r.payReceived||'';
+    document.getElementById('upd_payForwarded').value=r.payForwarded||'';
     document.getElementById('upd_bookedThru').value=r.bookedThru||'';
     updBkTypeChange();
   }
@@ -2688,7 +2696,8 @@ function saveUpdate(){
     r.bookedThru=isAgency(r.bkType)?document.getElementById('upd_bookedThru').value.trim():'';
     r.payStatus=isAgency(r.bkType)?document.getElementById('upd_payStatus').value:'';
     r.dateAccomp=isAgency(r.bkType)?document.getElementById('upd_dateAccomp').value:'';
-    r.payRef=document.getElementById('upd_payRef').value;
+    r.payReceived=document.getElementById('upd_payReceived').value;
+    r.payForwarded=document.getElementById('upd_payForwarded').value;
   }
   closeUpdateModal();
   renderRec();renderDash();renderPayment();saveRecords();
