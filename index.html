@@ -565,11 +565,7 @@ table tr:hover td{background:#eaf1ff}
 .tb-signout:hover{color:var(--td-red);background:#fff}
 
 /* Dashboard search + filter bar */
-.td-searchbar{flex:0 0 auto;display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--td-border);border-radius:var(--td-radius);padding:12px 16px;box-shadow:var(--td-shadow);flex-wrap:wrap}
-.td-search-input-wrap{flex:1;min-width:220px;position:relative;display:flex;align-items:center}
-.td-search-icon{position:absolute;left:14px;font-size:15px;color:var(--td-muted2);pointer-events:none}
-.td-search-input{width:100%;padding:11px 14px 11px 40px;border:1.5px solid var(--td-border);border-radius:99px;background:#f8fafc;font-family:inherit;font-size:14px;color:var(--td-navy);outline:none;transition:border-color .15s}
-.td-search-input:focus{border-color:var(--td-blue);background:#fff}
+.td-searchbar{flex:0 0 auto;display:flex;align-items:center;justify-content:flex-end;gap:12px;background:#fff;border:1px solid var(--td-border);border-radius:var(--td-radius);padding:12px 16px;box-shadow:var(--td-shadow);flex-wrap:wrap}
 
 @media(max-width:1150px){
   .app-sidebar{display:none}
@@ -668,10 +664,6 @@ table tr:hover td{background:#eaf1ff}
       <div class="td-shell">
         <!-- SEARCH + FILTER BAR -->
         <div class="td-searchbar">
-          <div class="td-search-input-wrap">
-            <span class="td-search-icon">&#128269;</span>
-            <input type="text" id="dashSearchInput" oninput="renderDash()" class="td-search-input" placeholder="Search employee, destination, travel control no. or affiliate..."/>
-          </div>
           <select id="dashYearFilter" onchange="renderDash()" class="td-filter-sel" title="Filter by year">
             <option value="">All Years</option>
           </select>
@@ -2050,7 +2042,7 @@ function timeAgo(ts){
   return new Date(ts).toLocaleDateString('en-PH',{month:'short',day:'numeric'});
 }
 function renderDash(){
-  const yearEl=document.getElementById('dashYearFilter'),affEl=document.getElementById('dashAffFilter'),searchEl=document.getElementById('dashSearchInput');
+  const yearEl=document.getElementById('dashYearFilter'),affEl=document.getElementById('dashAffFilter');
   if(yearEl){
     const years=Array.from(new Set(records.map(r=>(r.dr||'').slice(0,4)).filter(Boolean))).sort((a,b)=>b-a);
     const curYearStr=String(new Date().getFullYear());
@@ -2060,16 +2052,11 @@ function renderDash(){
     if(years.includes(prevVal))yearEl.value=prevVal;
   }
   const yearF=yearEl?yearEl.value:'', affF=affEl?affEl.value:'';
-  const searchF=(searchEl?searchEl.value:'').toLowerCase().trim();
 
   // Filter records
   const fRec=records.filter(r=>{
     if(yearF && (r.dr||'').slice(0,4)!==yearF) return false;
     if(affF && r.aff !== affF) return false;
-    if(searchF){
-      const hay=`${r.emp||''} ${r.aff||''} ${destLbl(r.dest,r.ldest)||''} ${r.id||''} ${r.proc||''}`.toLowerCase();
-      if(!hay.includes(searchF)) return false;
-    }
     return true;
   });
 
