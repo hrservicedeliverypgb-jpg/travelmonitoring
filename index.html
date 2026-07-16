@@ -313,6 +313,7 @@ table tr:hover td{background:#eaf1ff}
 .ref-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px}
 .ref-table th{background:var(--navy2)}
 .ref-table td:first-child{font-weight:700;color:var(--navy);background:var(--off)}
+.ref-table td.ref-num{font-size:16px;font-weight:800;color:var(--navy);font-family:'Barlow Condensed',sans-serif;letter-spacing:.2px}
 
 /* CHANGELOG */
 .cl-hdr-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;background:var(--navy);color:#fff;padding:14px 20px;border-radius:var(--radius-lg);margin-bottom:18px;box-shadow:0 4px 16px rgba(10,35,66,.18)}
@@ -1131,15 +1132,15 @@ table tr:hover td{background:#eaf1ff}
               <tr>
                 <td rowspan="3" style="font-weight:700;background:#f8fafc;vertical-align:middle">Per Diem</td>
                 <td>Managers</td>
-                <td>&#8369;1,500.00</td><td>&#8369;1,000.00</td><td>&#8369;1,000.00</td>
+                <td class="ref-num">&#8369;1,500.00</td><td class="ref-num">&#8369;1,000.00</td><td class="ref-num">&#8369;1,000.00</td>
               </tr>
               <tr>
                 <td>Staff / Consultant</td>
-                <td>&#8369;1,000.00</td><td>&#8369;800.00</td><td>&#8369;900.00</td>
+                <td class="ref-num">&#8369;1,000.00</td><td class="ref-num">&#8369;800.00</td><td class="ref-num">&#8369;900.00</td>
               </tr>
               <tr>
                 <td>Rank and File</td>
-                <td>&#8369;600.00</td><td>&#8369;600.00</td><td>&#8369;600.00</td>
+                <td class="ref-num">&#8369;600.00</td><td class="ref-num">&#8369;600.00</td><td class="ref-num">&#8369;600.00</td>
               </tr>
               <!-- Spacer -->
               <tr><td colspan="5" style="padding:4px;background:#f8fafc;border:none"></td></tr>
@@ -1147,15 +1148,15 @@ table tr:hover td{background:#eaf1ff}
               <tr>
                 <td style="font-weight:700;background:#f8fafc">Transportation</td>
                 <td>&mdash;</td>
-                <td>&#8369;1,000.00</td><td>&#8369;700.00</td><td>&#8369;700.00</td>
+                <td class="ref-num">&#8369;1,000.00</td><td class="ref-num">&#8369;700.00</td><td class="ref-num">&#8369;700.00</td>
               </tr>
               <!-- Accommodation -->
               <tr>
                 <td style="font-weight:700;background:#f8fafc">Accommodation</td>
                 <td>&mdash;</td>
-                <td>&#8369;3,500 &ndash; 5,500.00</td>
-                <td>&#8369;3,000 &ndash; 4,000.00</td>
-                <td>&#8369;3,500 &ndash; 4,500.00</td>
+                <td class="ref-num">&#8369;3,500 &ndash; 5,500.00</td>
+                <td class="ref-num">&#8369;3,000 &ndash; 4,000.00</td>
+                <td class="ref-num">&#8369;3,500 &ndash; 4,500.00</td>
               </tr>
               <!-- Spacer -->
               <tr><td colspan="5" style="padding:4px;background:#f8fafc;border:none"></td></tr>
@@ -1168,12 +1169,12 @@ table tr:hover td{background:#eaf1ff}
               <tr>
                 <td style="font-weight:700;background:#f8fafc">Allowance</td>
                 <td>Managers / Staff</td>
-                <td>&#8369;15,000.00</td><td>&#8369;10,000.00</td><td>&#8369;10,000.00</td>
+                <td class="ref-num">&#8369;15,000.00</td><td class="ref-num">&#8369;10,000.00</td><td class="ref-num">&#8369;10,000.00</td>
               </tr>
               <tr>
                 <td style="font-weight:700;background:#f8fafc">Per Diem</td>
                 <td>Rank and File</td>
-                <td>&#8369;6,000.00</td><td>&#8369;6,000.00</td><td>&#8369;6,000.00</td>
+                <td class="ref-num">&#8369;6,000.00</td><td class="ref-num">&#8369;6,000.00</td><td class="ref-num">&#8369;6,000.00</td>
               </tr>
               <!-- Spacer -->
               <tr><td colspan="5" style="padding:4px;background:#f8fafc;border:none"></td></tr>
@@ -1185,17 +1186,17 @@ table tr:hover td{background:#eaf1ff}
               </tr>
               <tr>
                 <td style="font-weight:700;background:#f8fafc">Breakfast</td>
-                <td style="text-align:center">30%</td>
+                <td class="ref-num" style="text-align:center">30%</td>
                 <td colspan="3">6:00AM – 10:00AM</td>
               </tr>
               <tr>
                 <td style="font-weight:700;background:#f8fafc">Lunch</td>
-                <td style="text-align:center">35%</td>
+                <td class="ref-num" style="text-align:center">35%</td>
                 <td colspan="3">11:00AM – 2:00PM</td>
               </tr>
               <tr>
                 <td style="font-weight:700;background:#f8fafc">Dinner</td>
-                <td style="text-align:center">35%</td>
+                <td class="ref-num" style="text-align:center">35%</td>
                 <td colspan="3">Departure / arrival is 6:00PM and beyond</td>
               </tr>
             </tbody>
@@ -1225,15 +1226,15 @@ table tr:hover td{background:#eaf1ff}
               <tr>
                 <td rowspan="3" style="font-weight:700;background:#f8fafc;vertical-align:middle">Per Diem</td>
                 <td>Manager</td>
-                <td>&#8369;150</td><td>&#8369;120</td><td>&#8369;120</td><td>&#8369;170</td>
+                <td class="ref-num">&#8369;150</td><td class="ref-num">&#8369;120</td><td class="ref-num">&#8369;120</td><td class="ref-num">&#8369;170</td>
               </tr>
               <tr>
                 <td>Staff</td>
-                <td>&#8369;150</td><td>&#8369;120</td><td>&#8369;120</td><td>&#8369;170</td>
+                <td class="ref-num">&#8369;150</td><td class="ref-num">&#8369;120</td><td class="ref-num">&#8369;120</td><td class="ref-num">&#8369;170</td>
               </tr>
               <tr>
                 <td>Rank and File</td>
-                <td>&#8369;150</td><td>&#8369;120</td><td>&#8369;120</td><td>&#8369;170</td>
+                <td class="ref-num">&#8369;150</td><td class="ref-num">&#8369;120</td><td class="ref-num">&#8369;120</td><td class="ref-num">&#8369;170</td>
               </tr>
               <tr>
                 <td style="font-weight:700;background:#f8fafc">Accommodation</td>
