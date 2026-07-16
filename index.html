@@ -471,12 +471,27 @@ table tr:hover td{background:#eaf1ff}
 .td-panel-body{flex:1 1 auto;min-height:0;padding:10px 14px 12px}
 .td-scroll{overflow:hidden}
 .td-empty{font-size:14px;color:var(--td-muted2);text-align:center;padding:16px 4px;font-weight:600}
-.td-status-row{display:flex;flex-direction:column;gap:10px;height:100%;justify-content:center}
-.td-status-line{display:flex;align-items:center;gap:8px}
-.td-status-lbl{font-size:13.5px;font-weight:700;color:var(--td-navy);width:76px;flex-shrink:0}
-.td-status-track{flex:1;background:#eef2f7;border-radius:99px;height:9px;overflow:hidden}
-.td-status-fill{height:100%;border-radius:99px;transition:width .6s ease}
-.td-status-val{font-size:13.5px;font-weight:800;color:var(--td-navy);width:28px;text-align:right;flex-shrink:0}
+.td-donut-wrap{display:flex;align-items:center;justify-content:center;gap:22px;height:100%}
+.td-donut-wrap svg{flex-shrink:0}
+.td-donut-arc{animation:tdDonutIn .8s ease both}
+.td-donut-center-val{font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:800;fill:var(--td-navy)}
+.td-donut-center-lbl{font-size:9px;font-weight:700;fill:var(--td-muted2);letter-spacing:.5px}
+.td-donut-legend{display:flex;flex-direction:column;gap:12px}
+.td-donut-legend-item{display:flex;align-items:center;gap:9px}
+.td-donut-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.td-donut-legend-lbl{font-size:13.5px;font-weight:700;color:var(--td-navy);min-width:78px}
+.td-donut-legend-val{font-size:14px;font-weight:800;color:var(--td-muted)}
+@keyframes tdDonutIn{from{opacity:0;stroke-width:0}to{opacity:1}}
+@keyframes tdFadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.td-kpi-card{animation:tdFadeUp .45s ease both}
+.td-kpi-row .td-kpi-card:nth-child(1){animation-delay:.02s}
+.td-kpi-row .td-kpi-card:nth-child(2){animation-delay:.06s}
+.td-kpi-row .td-kpi-card:nth-child(3){animation-delay:.1s}
+.td-kpi-row .td-kpi-card:nth-child(4){animation-delay:.14s}
+.td-kpi-row .td-kpi-card:nth-child(5){animation-delay:.18s}
+.td-kpi-row .td-kpi-card:nth-child(6){animation-delay:.22s}
+.td-kpi-row .td-kpi-card:nth-child(7){animation-delay:.26s}
+.td-chart-body,.td-panel-body{animation:tdFadeUp .5s ease both}
 @media(max-width:1300px){
   .td-kpi-row{grid-template-columns:repeat(4,1fr)}
   .td-shell{height:auto;overflow:visible}
@@ -1869,6 +1884,18 @@ function procBdg(p){const c={RCA:'bdg-blue',RFD:'bdg-navy','Travel Booking':'bdg
 function bkTypeBdg(t){if(!t)return'<span class="bdg bdg-gray">—</span>';const m={'Hotel':'bdg-blue','Boat Tickets':'bdg-navy','Boat Ticket Thru Travel Agency':'bdg-amber','Plane Ticket':'bdg-purple','Hotel Thru Travel Agency':'bdg-sky','Plane Ticket Thru Travel Agency':'bdg-green'};return`<span class="bdg ${m[t]||'bdg-gray'}">${t}</span>`;}
 
 // ===== DASHBOARD =====
+function animateCountUp(el,target,duration){
+  duration=duration||700;
+  const start=performance.now();
+  function step(now){
+    const p=Math.min((now-start)/duration,1);
+    const eased=1-Math.pow(1-p,3);
+    el.textContent=Math.round(target*eased).toLocaleString();
+    if(p<1) requestAnimationFrame(step);
+    else el.textContent=target.toLocaleString();
+  }
+  requestAnimationFrame(step);
+}
 function clearDashFilters(){
   const y=document.getElementById('dashYearFilter');if(y)y.value='';
   const a=document.getElementById('dashAffFilter');if(a)a.value='';
@@ -1907,7 +1934,6 @@ function renderDash(){
   const completedTravel=fRec.filter(r=>r.arr&&r.arr<today).length;
   const totalCost=fRec.reduce((s,r)=>s+(r.total||0),0);
   const hotelsBooked=fRec.filter(r=>r.bkType==='Hotel'||r.bkType==='Hotel Thru Travel Agency').length;
-  const onHold=fRec.filter(r=>(r.status||'').toLowerCase()==='on hold').length;
 
   // ── Top Destinations data (used by KPI + chart) ──────────────────
   const destMap={};
@@ -1922,15 +1948,18 @@ function renderDash(){
 
   // ── KPI Cards ──────────────────────────────────────────────────────
   const kpiEl=document.getElementById('kpiGrid');
-  if(kpiEl) kpiEl.innerHTML=`
-    <div class="td-kpi-card tk-blue" onclick="filterRecords('','','','All Requests')" title="View all records"><div class="td-kpi-icon">📋</div><div class="td-kpi-val">${total}</div><div class="td-kpi-lbl">Total Requests</div><div class="td-kpi-sub">All travel forms</div></div>
-    <div class="td-kpi-card tk-teal" onclick="filterRecordsToday()" title="View active travelers"><div class="td-kpi-icon">✈️</div><div class="td-kpi-val">${activeTravel}</div><div class="td-kpi-lbl">Active Travel</div><div class="td-kpi-sub">On the road today</div></div>
-    <div class="td-kpi-card tk-purple" onclick="filterRecordsUpcoming()" title="View upcoming trips"><div class="td-kpi-icon">🗓️</div><div class="td-kpi-val">${upcomingTravel}</div><div class="td-kpi-lbl">Upcoming Travel</div><div class="td-kpi-sub">Next 7 days</div></div>
-    <div class="td-kpi-card tk-green" onclick="filterRecordsCompleted()" title="View completed trips"><div class="td-kpi-icon">✅</div><div class="td-kpi-val">${completedTravel}</div><div class="td-kpi-lbl">Completed Travel</div><div class="td-kpi-sub">Trips finished</div></div>
+  if(kpiEl){
+    kpiEl.innerHTML=`
+    <div class="td-kpi-card tk-blue" onclick="filterRecords('','','','All Requests')" title="View all records"><div class="td-kpi-icon">📋</div><div class="td-kpi-val" data-count="${total}">0</div><div class="td-kpi-lbl">Total Requests</div><div class="td-kpi-sub">All travel forms</div></div>
+    <div class="td-kpi-card tk-teal" onclick="filterRecordsToday()" title="View active travelers"><div class="td-kpi-icon">✈️</div><div class="td-kpi-val" data-count="${activeTravel}">0</div><div class="td-kpi-lbl">Active Travel</div><div class="td-kpi-sub">On the road today</div></div>
+    <div class="td-kpi-card tk-purple" onclick="filterRecordsUpcoming()" title="View upcoming trips"><div class="td-kpi-icon">🗓️</div><div class="td-kpi-val" data-count="${upcomingTravel}">0</div><div class="td-kpi-lbl">Upcoming Travel</div><div class="td-kpi-sub">Next 7 days</div></div>
+    <div class="td-kpi-card tk-green" onclick="filterRecordsCompleted()" title="View completed trips"><div class="td-kpi-icon">✅</div><div class="td-kpi-val" data-count="${completedTravel}">0</div><div class="td-kpi-lbl">Completed Travel</div><div class="td-kpi-sub">Trips finished</div></div>
     <div class="td-kpi-card tk-navy" onclick="filterRecords('','','','Total Travel Cost')" title="View all records"><div class="td-kpi-icon">💰</div><div class="td-kpi-val">${fmtK(totalCost)}</div><div class="td-kpi-lbl">Total Travel Cost</div><div class="td-kpi-sub">Avg ${fmtK(total?totalCost/total:0)}/trip</div></div>
-    <div class="td-kpi-card tk-sky" onclick="filterRecords('Travel Booking','','','Hotels Booked')" title="View travel bookings"><div class="td-kpi-icon">🏨</div><div class="td-kpi-val">${hotelsBooked}</div><div class="td-kpi-lbl">Hotels Booked</div><div class="td-kpi-sub">Accommodation records</div></div>
-    <div class="td-kpi-card tk-amber tk-static" title="Unique destinations visited"><div class="td-kpi-icon">📍</div><div class="td-kpi-val">${destinations}</div><div class="td-kpi-lbl">Destinations</div><div class="td-kpi-sub">Unique locations</div></div>
+    <div class="td-kpi-card tk-sky" onclick="filterRecords('Travel Booking','','','Hotels Booked')" title="View travel bookings"><div class="td-kpi-icon">🏨</div><div class="td-kpi-val" data-count="${hotelsBooked}">0</div><div class="td-kpi-lbl">Hotels Booked</div><div class="td-kpi-sub">Accommodation records</div></div>
+    <div class="td-kpi-card tk-amber tk-static" title="Unique destinations visited"><div class="td-kpi-icon">📍</div><div class="td-kpi-val" data-count="${destinations}">0</div><div class="td-kpi-lbl">Destinations</div><div class="td-kpi-sub">Unique locations</div></div>
   `;
+    kpiEl.querySelectorAll('.td-kpi-val[data-count]').forEach(el=>animateCountUp(el,parseInt(el.dataset.count,10)||0));
+  }
 
   // ── Monthly Travel Trend (line chart) ─────────────────────────────
   const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -1998,22 +2027,36 @@ function renderDash(){
       </div>`).join('')}</div>`:'<div class="td-empty">No cost data yet</div>';
   }
 
-  // ── Travel Status Progress ──────────────────────────────────────────
+  // ── Travel Status Donut ──────────────────────────────────────────────
   const statusEl=document.getElementById('travelStatus');
   if(statusEl){
     const statusRows=[
-      {lbl:'Active',val:activeTravel,clr:'var(--td-blue)'},
-      {lbl:'Upcoming',val:upcomingTravel,clr:'var(--td-amber)'},
-      {lbl:'Completed',val:completedTravel,clr:'var(--td-green)'},
-      {lbl:'On Hold',val:onHold,clr:'var(--td-red)'}
+      {lbl:'Active',val:activeTravel,clr:'#2F6FE4'},
+      {lbl:'Upcoming',val:upcomingTravel,clr:'#d97706'},
+      {lbl:'Completed',val:completedTravel,clr:'#16a34a'}
     ];
-    const maxV=Math.max(...statusRows.map(s=>s.val),1);
-    statusEl.innerHTML=`<div class="td-status-row">${statusRows.map(s=>`
-      <div class="td-status-line">
-        <div class="td-status-lbl">${s.lbl}</div>
-        <div class="td-status-track"><div class="td-status-fill" style="width:${Math.round(s.val/maxV*100)}%;background:${s.clr}"></div></div>
-        <div class="td-status-val">${s.val}</div>
-      </div>`).join('')}</div>`;
+    const totalS=statusRows.reduce((s,r)=>s+r.val,0);
+    const R=52,CIRC=2*Math.PI*R;
+    let acc=0;
+    const arcs=totalS?statusRows.filter(s=>s.val>0).map(s=>{
+      const dash=(s.val/totalS)*CIRC;
+      const seg=`<circle class="td-donut-arc" cx="70" cy="70" r="${R}" fill="none" stroke="${s.clr}" stroke-width="17" stroke-linecap="butt" stroke-dasharray="${dash.toFixed(1)} ${(CIRC-dash).toFixed(1)}" stroke-dashoffset="${(-acc).toFixed(1)}"/>`;
+      acc+=dash;
+      return seg;
+    }).join(''):`<circle cx="70" cy="70" r="${R}" fill="none" stroke="#eef2f7" stroke-width="17"/>`;
+    statusEl.innerHTML=`<div class="td-donut-wrap">
+      <svg width="140" height="140" viewBox="0 0 140 140">
+        <g transform="rotate(-90 70 70)">${arcs}</g>
+        <text x="70" y="67" text-anchor="middle" class="td-donut-center-val">${totalS}</text>
+        <text x="70" y="86" text-anchor="middle" class="td-donut-center-lbl">TOTAL TRIPS</text>
+      </svg>
+      <div class="td-donut-legend">${statusRows.map(s=>`
+        <div class="td-donut-legend-item">
+          <span class="td-donut-dot" style="background:${s.clr}"></span>
+          <span class="td-donut-legend-lbl">${s.lbl}</span>
+          <span class="td-donut-legend-val">${s.val}</span>
+        </div>`).join('')}</div>
+    </div>`;
   }
 }
 
