@@ -431,8 +431,7 @@ table tr:hover td{background:#eaf1ff}
 .td-header-title{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--td-navy);letter-spacing:.2px;line-height:1.15}
 .td-header-sub{font-size:14px;color:var(--td-muted);margin-top:2px;font-weight:500}
 .td-header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.td-date-input,.td-filter-sel{background:var(--td-blue-soft);border:1.5px solid var(--td-border);color:var(--td-navy);padding:7px 10px;border-radius:8px;font-size:14px;font-family:inherit;font-weight:600}
-.td-date-sep{color:var(--td-muted2);font-size:14px}
+.td-filter-sel{background:var(--td-blue-soft);border:1.5px solid var(--td-border);color:var(--td-navy);padding:7px 10px;border-radius:8px;font-size:14px;font-family:inherit;font-weight:600}
 .td-clear-btn{background:#fff;border:1.5px solid var(--td-border);color:var(--td-muted);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;transition:.2s}
 .td-clear-btn:hover{border-color:var(--td-red);color:var(--td-red)}
 .td-kpi-row{flex:0 0 auto;display:grid;grid-template-columns:repeat(7,1fr);gap:12px}
@@ -573,9 +572,9 @@ table tr:hover td{background:#eaf1ff}
             </div>
           </div>
           <div class="td-header-actions">
-            <input type="date" id="dashFromDate" onchange="renderDash()" class="td-date-input" title="From date"/>
-            <span class="td-date-sep">&ndash;</span>
-            <input type="date" id="dashToDate" onchange="renderDash()" class="td-date-input" title="To date"/>
+            <select id="dashYearFilter" onchange="renderDash()" class="td-filter-sel" title="Filter by year">
+              <option value="">All Years</option>
+            </select>
             <select id="dashAffFilter" onchange="renderDash()" class="td-filter-sel">
               <option value="">All Affiliates</option>
               <option>PPC</option><option>PSC</option><option>PHI</option><option>MAAYO</option>
@@ -1871,19 +1870,26 @@ function bkTypeBdg(t){if(!t)return'<span class="bdg bdg-gray">—</span>';const 
 
 // ===== DASHBOARD =====
 function clearDashFilters(){
-  ['dashFromDate','dashToDate'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  const y=document.getElementById('dashYearFilter');if(y)y.value='';
   const a=document.getElementById('dashAffFilter');if(a)a.value='';
   renderDash();
 }
 
 function renderDash(){
-  const fromEl=document.getElementById('dashFromDate'),toEl=document.getElementById('dashToDate'),affEl=document.getElementById('dashAffFilter');
-  const fromDate=fromEl?fromEl.value:'', toDate=toEl?toEl.value:'', affF=affEl?affEl.value:'';
+  const yearEl=document.getElementById('dashYearFilter'),affEl=document.getElementById('dashAffFilter');
+  if(yearEl){
+    const years=Array.from(new Set(records.map(r=>(r.dr||'').slice(0,4)).filter(Boolean))).sort((a,b)=>b-a);
+    const curYearStr=String(new Date().getFullYear());
+    if(!years.includes(curYearStr))years.unshift(curYearStr);
+    const prevVal=yearEl.value;
+    yearEl.innerHTML='<option value="">All Years</option>'+years.map(y=>`<option value="${y}">${y}</option>`).join('');
+    if(years.includes(prevVal))yearEl.value=prevVal;
+  }
+  const yearF=yearEl?yearEl.value:'', affF=affEl?affEl.value:'';
 
   // Filter records
   const fRec=records.filter(r=>{
-    if(fromDate && r.dr && r.dr < fromDate) return false;
-    if(toDate && r.dr && r.dr > toDate) return false;
+    if(yearF && (r.dr||'').slice(0,4)!==yearF) return false;
     if(affF && r.aff !== affF) return false;
     return true;
   });
