@@ -452,7 +452,6 @@ table tr:hover td{background:#eaf1ff}
 .td-kpi-sub{font-size:13px;color:var(--td-muted2);font-weight:600;margin-top:-2px}
 .td-charts-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .td-row3{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:16px}
-.td-row4{display:grid;grid-template-columns:1fr;gap:16px}
 .td-card{background:#fff;border:1px solid var(--td-border);border-radius:var(--td-radius);box-shadow:var(--td-shadow);display:flex;flex-direction:column;min-height:0;overflow:hidden}
 .td-card-hdr{padding:16px 20px;border-bottom:1px solid var(--td-border);flex:0 0 auto}
 .td-card-title{font-size:17.5px;font-weight:800;color:var(--td-navy);display:flex;align-items:center;gap:8px}
@@ -470,7 +469,6 @@ table tr:hover td{background:#eaf1ff}
 .td-dest-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--td-navy),var(--td-blue))}
 .td-dest-count{font-size:16px;font-weight:800;color:var(--td-muted);width:66px;text-align:right;flex-shrink:0}
 .td-panel-body{min-height:220px;padding:14px 20px 16px;display:flex;flex-direction:column}
-.td-row4 .td-panel-body{min-height:0;padding:20px}
 .td-view-all{display:flex;align-items:center;justify-content:flex-end;gap:5px;font-size:12.5px;font-weight:700;color:var(--td-blue);cursor:pointer;padding-top:10px;margin-top:auto;border-top:1px solid var(--td-border)}
 .td-view-all:hover{color:var(--td-blue-dark)}
 .td-activity-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid #f2f5f9}
@@ -488,10 +486,6 @@ table tr:hover td{background:#eaf1ff}
 .td-upcoming-main{font-size:13px;font-weight:800;color:var(--td-navy)}
 .td-upcoming-sub{font-size:11.5px;color:var(--td-muted);margin-top:1px;font-weight:600}
 .td-upcoming-badge{margin-left:auto;background:var(--td-green-bg);color:var(--td-green);font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0}
-.td-quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;height:100%}
-.td-qa-btn{display:flex;align-items:center;gap:9px;background:var(--td-blue-soft);border:1px solid var(--td-border);border-radius:11px;padding:12px 14px;font-family:inherit;font-size:12.5px;font-weight:700;color:var(--td-navy);cursor:pointer;transition:all .15s;text-align:left}
-.td-qa-btn:hover{background:var(--td-blue);color:#fff;border-color:var(--td-blue)}
-.td-qa-btn .qa-ext{margin-left:auto;font-size:12px;opacity:.6}
 .td-scroll{overflow:hidden}
 .td-empty{font-size:15px;color:var(--td-muted2);text-align:center;padding:16px 4px;font-weight:600}
 .td-donut-wrap{display:flex;align-items:center;justify-content:center;gap:36px;height:100%}
@@ -731,23 +725,6 @@ table tr:hover td{background:#eaf1ff}
               <div class="td-card-sub">Next 7 days</div>
             </div>
             <div id="upcomingTimeline" class="td-panel-body"></div>
-          </div>
-        </div>
-
-        <!-- ROW 4 -->
-        <div class="td-row4">
-          <div class="td-card">
-            <div class="td-card-hdr">
-              <div class="td-card-title"><span class="td-card-ic">&#9889;</span>Quick Actions</div>
-            </div>
-            <div class="td-panel-body">
-              <div class="td-quick-actions">
-                <button class="td-qa-btn" onclick="goTab('newRequest',document.querySelectorAll('.nav-tab')[1])"><span>&#10133;</span>New Travel Request</button>
-                <button class="td-qa-btn" onclick="goTab('dashboard',document.querySelectorAll('.nav-tab')[0])"><span>&#9992;&#65039;</span>Travel Portal<span class="qa-ext">&#8599;</span></button>
-                <button class="td-qa-btn" onclick="goTab('payment',document.querySelectorAll('.nav-tab')[3])"><span>&#128179;</span>Payment Processing</button>
-                <button class="td-qa-btn" onclick="goTab('reports',document.querySelectorAll('.nav-tab')[4])"><span>&#128202;</span>Reports &amp; Export</button>
-              </div>
-            </div>
           </div>
         </div>
       </div>
