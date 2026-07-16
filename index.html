@@ -468,7 +468,7 @@ table tr:hover td{background:#eaf1ff}
 .td-dest-track{flex:1;background:var(--td-blue-soft);border-radius:99px;height:9px;overflow:hidden}
 .td-dest-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--td-navy),var(--td-blue))}
 .td-dest-count{font-size:12px;font-weight:800;color:var(--td-muted);width:56px;text-align:right;flex-shrink:0}
-.td-panels-row{flex:1 1 40%;min-height:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr;gap:14px}
+.td-panels-row{flex:1 1 40%;min-height:0;display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:1fr;gap:14px}
 .td-panel-body{flex:1 1 auto;min-height:0;padding:10px 14px 12px}
 .td-scroll{overflow:hidden}
 .td-timeline{display:flex;flex-direction:column;height:100%;justify-content:space-around}
@@ -479,19 +479,6 @@ table tr:hover td{background:#eaf1ff}
 .td-tl-date span{font-size:8px;font-weight:700;text-transform:uppercase;color:var(--td-blue)}
 .td-tl-main{font-size:12px;font-weight:700;color:var(--td-navy)}
 .td-tl-sub{font-size:10.5px;color:var(--td-muted);margin-top:1px}
-.td-activity-list,.td-alert-list{display:flex;flex-direction:column;height:100%;justify-content:space-around}
-.td-activity{display:flex;gap:8px;padding:4px 0;border-bottom:1px solid #f2f5f9;align-items:center}
-.td-activity:last-child{border-bottom:none}
-.td-act-ic{width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;background:var(--td-blue-soft)}
-.td-act-main{font-size:12px;font-weight:700;color:var(--td-navy);line-height:1.25}
-.td-act-sub{font-size:10.5px;color:var(--td-muted2);margin-top:1px;font-weight:600}
-.td-alert{display:flex;gap:8px;padding:5px 9px;border-radius:9px;align-items:center}
-.td-alert.al-red{background:var(--td-red-bg)}
-.td-alert.al-amber{background:var(--td-amber-bg)}
-.td-alert.al-blue{background:var(--td-blue-soft)}
-.td-alert-ic{font-size:14px;flex-shrink:0}
-.td-alert-main{font-size:12px;font-weight:700;color:var(--td-navy);line-height:1.25}
-.td-alert-sub{font-size:10.5px;color:var(--td-muted);margin-top:1px;font-weight:600}
 .td-empty{font-size:12.5px;color:var(--td-muted2);text-align:center;padding:16px 4px;font-weight:600}
 .td-status-row{display:flex;flex-direction:column;gap:10px;height:100%;justify-content:center}
 .td-status-line{display:flex;align-items:center;gap:8px}
@@ -501,7 +488,6 @@ table tr:hover td{background:#eaf1ff}
 .td-status-val{font-size:12px;font-weight:800;color:var(--td-navy);width:26px;text-align:right;flex-shrink:0}
 @media(max-width:1300px){
   .td-kpi-row{grid-template-columns:repeat(4,1fr)}
-  .td-panels-row{grid-template-columns:repeat(2,1fr)}
   .td-shell{height:auto;overflow:visible}
 }
 @media(max-width:900px){
@@ -646,20 +632,6 @@ table tr:hover td{background:#eaf1ff}
               <div class="td-card-sub">Next departures</div>
             </div>
             <div id="upcomingTimeline" class="td-panel-body td-scroll"></div>
-          </div>
-          <div class="td-card">
-            <div class="td-card-hdr">
-              <div class="td-card-title"><span class="td-card-ic">&#128276;</span>Recent Activities</div>
-              <div class="td-card-sub">Latest updates</div>
-            </div>
-            <div id="recentActivities" class="td-panel-body td-scroll"></div>
-          </div>
-          <div class="td-card">
-            <div class="td-card-hdr">
-              <div class="td-card-title"><span class="td-card-ic">&#9888;&#65039;</span>Travel Alerts</div>
-              <div class="td-card-sub" id="alertsCountSub">&mdash;</div>
-            </div>
-            <div id="travelAlerts" class="td-panel-body td-scroll"></div>
           </div>
           <div class="td-card">
             <div class="td-card-hdr">
@@ -2049,58 +2021,6 @@ function renderDash(){
     }).join('')}</div>`:'<div class="td-empty">No upcoming travel scheduled</div>';
   }
 
-  // ── Recent Activities Feed ─────────────────────────────────────────
-  const actEl=document.getElementById('recentActivities');
-  if(actEl){
-    const actIcon=a=>{
-      const l=(a||'').toLowerCase();
-      if(l.includes('approv'))return'✅';
-      if(l.includes('payment')||l.includes('paid'))return'💳';
-      if(l.includes('submit'))return'📝';
-      if(l.includes('hold')||l.includes('cancel'))return'⛔';
-      return'📌';
-    };
-    let items=[];
-    if(changelog.length){
-      items=[...changelog].sort((a,b)=>new Date(b.ts)-new Date(a.ts)).slice(0,4).map(c=>({
-        main:`${c.action} — ${c.empName||'—'}`,
-        sub:`${c.proc||''}${c.status?' • '+c.status:''} • ${timeAgo(c.ts)}`,
-        icon:actIcon(c.action)
-      }));
-    } else {
-      items=[...fRec].sort((a,b)=>(b.dr||'').localeCompare(a.dr||'')).slice(0,4).map(r=>({
-        main:`${r.proc} submitted — ${r.emp}`,
-        sub:`${r.aff} • ${r.status||'—'} • ${r.dr}`,
-        icon:actIcon(r.status==='Approved'?'approved':'submit')
-      }));
-    }
-    actEl.innerHTML=items.length?`<div class="td-activity-list">${items.map(a=>`
-      <div class="td-activity"><div class="td-act-ic">${a.icon}</div><div><div class="td-act-main">${a.main}</div><div class="td-act-sub">${a.sub}</div></div></div>
-    `).join('')}</div>`:'<div class="td-empty">No recent activity</div>';
-  }
-
-  // ── Travel Alerts ───────────────────────────────────────────────────
-  const alerts=[];
-  const threeDaysAgo=new Date();threeDaysAgo.setDate(threeDaysAgo.getDate()-3);
-  const threeDaysAgoStr=threeDaysAgo.toISOString().slice(0,10);
-  fRec.filter(r=>(r.status||'').toLowerCase()==='pending'&&r.dr&&r.dr<=threeDaysAgoStr).forEach(r=>{
-    alerts.push({cls:'al-red',icon:'⏰',main:`Overdue Approval — ${r.emp}`,sub:`${r.proc} • Submitted ${r.dr} • ${r.aff}`});
-  });
-  fRec.filter(r=>r.proc==='Travel Booking'&&r.payStatus==='Not Yet').forEach(r=>{
-    alerts.push({cls:'al-amber',icon:'💳',main:`Unpaid Booking — ${r.emp}`,sub:`${r.bkType||'Booking'} • ${r.dep} • ${r.aff}`});
-  });
-  fRec.filter(r=>r.dep===today&&(r.status||'').toLowerCase()!=='on hold').forEach(r=>{
-    alerts.push({cls:'al-blue',icon:'✈️',main:`Departing Today — ${r.emp}`,sub:`${r.proc} • ${destLbl(r.dest,r.ldest)||r.bkType||'—'}`});
-  });
-  const alertsEl=document.getElementById('travelAlerts');
-  const alertsSubEl=document.getElementById('alertsCountSub');
-  if(alertsSubEl)alertsSubEl.textContent=`${alerts.length} item${alerts.length!==1?'s':''} need attention`;
-  if(alertsEl){
-    alertsEl.innerHTML=alerts.length?`<div class="td-alert-list">${alerts.slice(0,4).map(a=>`
-      <div class="td-alert ${a.cls}"><div class="td-alert-ic">${a.icon}</div><div><div class="td-alert-main">${a.main}</div><div class="td-alert-sub">${a.sub}</div></div></div>
-    `).join('')}</div>`:'<div class="td-empty">✅ No alerts — all good!</div>';
-  }
-
   // ── Travel Status Progress ──────────────────────────────────────────
   const statusEl=document.getElementById('travelStatus');
   if(statusEl){
@@ -2118,17 +2038,6 @@ function renderDash(){
         <div class="td-status-val">${s.val}</div>
       </div>`).join('')}</div>`;
   }
-}
-function timeAgo(ts){
-  const diff=Date.now()-new Date(ts).getTime();
-  const m=Math.floor(diff/60000);
-  if(m<1)return'Just now';
-  if(m<60)return m+'m ago';
-  const hr=Math.floor(m/60);
-  if(hr<24)return hr+'h ago';
-  const d=Math.floor(hr/24);
-  if(d<30)return d+'d ago';
-  return new Date(ts).toLocaleDateString('en-PH',{month:'short',day:'numeric'});
 }
 
 function filterRecordsToday(){
