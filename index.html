@@ -412,6 +412,102 @@ table tr:hover td{background:#eaf1ff}
 .fin-sm.fs-teal{border-left-color:#0891b2}.fin-sm.fs-gold{border-left-color:#b45309}
 .fin-sm .fsv{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:#0a2342;line-height:1.1}
 .fin-sm .fsl{font-size:11px;color:#64748b;text-transform:uppercase;font-weight:700;margin-top:2px}
+
+/* ══════════════════════════════════════════════════════
+   TRAVEL DASHBOARD — EXECUTIVE HRIS REDESIGN (PGB Masterlist design language)
+   ══════════════════════════════════════════════════════ */
+:root{
+  --td-navy:#1E3A5F;--td-blue:#2F6FE4;--td-blue-dark:#1D4ED8;
+  --td-blue-soft:#EAF1FC;--td-sky:#5B9BD9;
+  --td-border:#E4E9F1;--td-shadow:0 4px 18px rgba(30,58,95,.07);--td-shadow-hover:0 10px 28px rgba(30,58,95,.14);
+  --td-green:#16a34a;--td-green-bg:#dcfce7;--td-amber:#d97706;--td-amber-bg:#fef3c7;
+  --td-red:#dc2626;--td-red-bg:#fee2e2;--td-purple:#7c3aed;
+  --td-muted:#64748b;--td-muted2:#94a3b8;--td-radius:16px;
+}
+.td-shell{display:flex;flex-direction:column;gap:14px;height:calc(100vh - 144px);min-height:560px;overflow:hidden}
+.td-header{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:#fff;border:1px solid var(--td-border);border-radius:var(--td-radius);padding:16px 22px;box-shadow:var(--td-shadow)}
+.td-header-left{display:flex;align-items:center;gap:14px}
+.td-header-icon{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--td-navy),var(--td-blue-dark));display:flex;align-items:center;justify-content:center;font-size:21px;color:#fff;flex-shrink:0;box-shadow:0 6px 14px rgba(30,58,95,.28)}
+.td-header-title{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;color:var(--td-navy);letter-spacing:.2px;line-height:1.15}
+.td-header-sub{font-size:12px;color:var(--td-muted);margin-top:2px;font-weight:500}
+.td-header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.td-date-input,.td-filter-sel{background:var(--td-blue-soft);border:1.5px solid var(--td-border);color:var(--td-navy);padding:7px 10px;border-radius:8px;font-size:12px;font-family:inherit;font-weight:600}
+.td-date-sep{color:var(--td-muted2);font-size:12px}
+.td-clear-btn{background:#fff;border:1.5px solid var(--td-border);color:var(--td-muted);padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:.2s}
+.td-clear-btn:hover{border-color:var(--td-red);color:var(--td-red)}
+.td-kpi-row{flex:0 0 auto;display:grid;grid-template-columns:repeat(7,1fr);gap:12px}
+.td-kpi-card{background:#fff;border:1px solid var(--td-border);border-radius:var(--td-radius);padding:14px 14px 12px;box-shadow:var(--td-shadow);position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;cursor:pointer;display:flex;flex-direction:column;gap:6px}
+.td-kpi-card:hover{transform:translateY(-3px);box-shadow:var(--td-shadow-hover)}
+.td-kpi-card.tk-static{cursor:default}
+.td-kpi-card.tk-static:hover{transform:none;box-shadow:var(--td-shadow)}
+.td-kpi-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
+.td-kpi-card.tk-blue::before{background:var(--td-blue)}
+.td-kpi-card.tk-teal::before{background:#0891b2}
+.td-kpi-card.tk-amber::before{background:var(--td-amber)}
+.td-kpi-card.tk-green::before{background:var(--td-green)}
+.td-kpi-card.tk-navy::before{background:var(--td-navy)}
+.td-kpi-card.tk-purple::before{background:var(--td-purple)}
+.td-kpi-card.tk-sky::before{background:var(--td-sky)}
+.td-kpi-icon{width:30px;height:30px;border-radius:9px;background:var(--td-blue-soft);display:flex;align-items:center;justify-content:center;font-size:14px}
+.td-kpi-val{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;color:var(--td-navy);line-height:1}
+.td-kpi-lbl{font-size:10px;font-weight:700;color:var(--td-muted);text-transform:uppercase;letter-spacing:.4px}
+.td-kpi-sub{font-size:10px;color:var(--td-muted2);font-weight:600;margin-top:-2px}
+.td-charts-row{flex:1 1 34%;min-height:0;display:grid;grid-template-columns:1.6fr 1fr;grid-template-rows:1fr;gap:14px}
+.td-card{background:#fff;border:1px solid var(--td-border);border-radius:var(--td-radius);box-shadow:var(--td-shadow);display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.td-card-hdr{padding:13px 18px;border-bottom:1px solid var(--td-border);flex:0 0 auto}
+.td-card-title{font-size:13px;font-weight:800;color:var(--td-navy);display:flex;align-items:center;gap:7px}
+.td-card-ic{font-size:14px}
+.td-card-sub{font-size:10.5px;color:var(--td-muted2);margin-top:2px;font-weight:600}
+.td-chart-body{flex:1 1 auto;min-height:0;padding:10px 18px 6px;display:flex;flex-direction:column}
+.td-line-svg{flex:1;width:100%;min-height:0}
+.td-line-labels{display:flex;justify-content:space-between;padding:0 4px;margin-top:2px}
+.td-line-labels span{font-size:9.5px;color:var(--td-muted2);font-weight:600}
+.td-dest-list{flex:1;display:flex;flex-direction:column;justify-content:space-around;gap:6px;overflow-y:auto}
+.td-dest-row{display:flex;align-items:center;gap:8px}
+.td-dest-name{font-size:11.5px;font-weight:700;color:var(--td-navy);width:78px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.td-dest-track{flex:1;background:var(--td-blue-soft);border-radius:99px;height:9px;overflow:hidden}
+.td-dest-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--td-navy),var(--td-blue))}
+.td-dest-count{font-size:11px;font-weight:800;color:var(--td-muted);width:34px;text-align:right;flex-shrink:0}
+.td-panels-row{flex:1 1 40%;min-height:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr;gap:14px}
+.td-panel-body{flex:1 1 auto;min-height:0;padding:10px 14px 12px}
+.td-scroll{overflow:hidden}
+.td-timeline{display:flex;flex-direction:column;height:100%;justify-content:space-around}
+.td-tl-item{display:flex;gap:9px;padding:4px 0;position:relative}
+.td-tl-item:not(:last-child)::before{content:'';position:absolute;left:14px;top:26px;bottom:-4px;width:1.5px;background:var(--td-border)}
+.td-tl-date{width:28px;height:28px;border-radius:8px;background:var(--td-blue-soft);color:var(--td-navy);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;line-height:1}
+.td-tl-date b{font-size:11px;font-weight:800}
+.td-tl-date span{font-size:7px;font-weight:700;text-transform:uppercase;color:var(--td-blue)}
+.td-tl-main{font-size:11px;font-weight:700;color:var(--td-navy)}
+.td-tl-sub{font-size:9.5px;color:var(--td-muted);margin-top:1px}
+.td-activity-list,.td-alert-list{display:flex;flex-direction:column;height:100%;justify-content:space-around}
+.td-activity{display:flex;gap:8px;padding:4px 0;border-bottom:1px solid #f2f5f9;align-items:center}
+.td-activity:last-child{border-bottom:none}
+.td-act-ic{width:22px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;background:var(--td-blue-soft)}
+.td-act-main{font-size:11px;font-weight:700;color:var(--td-navy);line-height:1.25}
+.td-act-sub{font-size:9.5px;color:var(--td-muted2);margin-top:1px;font-weight:600}
+.td-alert{display:flex;gap:8px;padding:5px 9px;border-radius:9px;align-items:center}
+.td-alert.al-red{background:var(--td-red-bg)}
+.td-alert.al-amber{background:var(--td-amber-bg)}
+.td-alert.al-blue{background:var(--td-blue-soft)}
+.td-alert-ic{font-size:13px;flex-shrink:0}
+.td-alert-main{font-size:11px;font-weight:700;color:var(--td-navy);line-height:1.25}
+.td-alert-sub{font-size:9.5px;color:var(--td-muted);margin-top:1px;font-weight:600}
+.td-empty{font-size:11.5px;color:var(--td-muted2);text-align:center;padding:16px 4px;font-weight:600}
+.td-status-row{display:flex;flex-direction:column;gap:10px;height:100%;justify-content:center}
+.td-status-line{display:flex;align-items:center;gap:8px}
+.td-status-lbl{font-size:11px;font-weight:700;color:var(--td-navy);width:66px;flex-shrink:0}
+.td-status-track{flex:1;background:#eef2f7;border-radius:99px;height:8px;overflow:hidden}
+.td-status-fill{height:100%;border-radius:99px;transition:width .6s ease}
+.td-status-val{font-size:11px;font-weight:800;color:var(--td-navy);width:26px;text-align:right;flex-shrink:0}
+@media(max-width:1300px){
+  .td-kpi-row{grid-template-columns:repeat(4,1fr)}
+  .td-panels-row{grid-template-columns:repeat(2,1fr)}
+  .td-shell{height:auto;overflow:visible}
+}
+@media(max-width:900px){
+  .td-charts-row{grid-template-columns:1fr}
+  .td-kpi-row{grid-template-columns:repeat(2,1fr)}
+}
 </style>
 </head>
 <body>
@@ -488,73 +584,85 @@ table tr:hover td{background:#eaf1ff}
 
     <!-- DASHBOARD -->
     <div class="panel active" id="tab-dashboard">
-      <!-- EXEC HEADER BAR -->
-      <div class="dash-exec-bar">
-        <div class="dash-exec-title">
-          <span class="dash-exec-icon">&#128200;</span>
-          <div>
-            <div class="dash-exec-h">Executive Travel Dashboard</div>
-            <div class="dash-exec-sub">Primary Group of Builders &mdash; Travel Operations Overview</div>
+      <div class="td-shell">
+        <!-- EXECUTIVE HEADER -->
+        <div class="td-header">
+          <div class="td-header-left">
+            <div class="td-header-icon">&#9992;</div>
+            <div>
+              <div class="td-header-title">Primary Group of Builders &mdash; Travel Monitoring System</div>
+              <div class="td-header-sub">Manage and monitor employee travel across all affiliates.</div>
+            </div>
+          </div>
+          <div class="td-header-actions">
+            <input type="date" id="dashFromDate" onchange="renderDash()" class="td-date-input" title="From date"/>
+            <span class="td-date-sep">&ndash;</span>
+            <input type="date" id="dashToDate" onchange="renderDash()" class="td-date-input" title="To date"/>
+            <select id="dashAffFilter" onchange="renderDash()" class="td-filter-sel">
+              <option value="">All Affiliates</option>
+              <option>PPC</option><option>PSC</option><option>PHI</option><option>MAAYO</option>
+              <option>THAM</option><option>SAN LUCAS</option><option>AC</option><option>MC123</option>
+              <option>CSI</option><option>RDC</option><option>PSI</option><option>ABC</option>
+              <option>CSPIC</option><option>SKILLS</option><option>PSEFI</option>
+              <option>PTMSI</option><option>AMICI</option>
+            </select>
+            <button class="td-clear-btn" onclick="clearDashFilters()">&#10005; Clear</button>
           </div>
         </div>
-        <div class="dash-exec-actions">
-          <input type="date" id="dashFromDate" onchange="renderDash()" class="dash-date-input" title="From date"/>
-          <span class="dash-date-sep">to</span>
-          <input type="date" id="dashToDate" onchange="renderDash()" class="dash-date-input" title="To date"/>
-          <select id="dashAffFilter" onchange="renderDash()" class="dash-filter-sel">
-            <option value="">All Affiliates</option>
-            <option>PPC</option><option>PSC</option><option>PHI</option><option>MAAYO</option>
-            <option>THAM</option><option>SAN LUCAS</option><option>AC</option><option>MC123</option>
-            <option>CSI</option><option>RDC</option><option>PSI</option><option>ABC</option>
-            <option>CSPIC</option><option>SKILLS</option><option>PSEFI</option>
-            <option>PTMSI</option><option>AMICI</option>
-          </select>
-          <button class="dash-clear-btn" onclick="clearDashFilters()">&#10005; Clear</button>
+
+        <!-- KPI ROW -->
+        <div id="kpiGrid" class="td-kpi-row"></div>
+
+        <!-- CHARTS ROW -->
+        <div class="td-charts-row">
+          <div class="td-card">
+            <div class="td-card-hdr">
+              <div class="td-card-title"><span class="td-card-ic">&#128200;</span>Monthly Travel Trend</div>
+              <div class="td-card-sub" id="monthlyChartSub">Requests by month &mdash; current year</div>
+            </div>
+            <div id="monthlyChart" class="td-chart-body"></div>
+          </div>
+          <div class="td-card">
+            <div class="td-card-hdr">
+              <div class="td-card-title"><span class="td-card-ic">&#128205;</span>Top Destinations</div>
+              <div class="td-card-sub">Most visited locations</div>
+            </div>
+            <div id="destList" class="td-chart-body"></div>
+          </div>
+        </div>
+
+        <!-- BOTTOM PANELS ROW -->
+        <div class="td-panels-row">
+          <div class="td-card">
+            <div class="td-card-hdr">
+              <div class="td-card-title"><span class="td-card-ic">&#128197;</span>Upcoming Travel</div>
+              <div class="td-card-sub">Next departures</div>
+            </div>
+            <div id="upcomingTimeline" class="td-panel-body td-scroll"></div>
+          </div>
+          <div class="td-card">
+            <div class="td-card-hdr">
+              <div class="td-card-title"><span class="td-card-ic">&#128276;</span>Recent Activities</div>
+              <div class="td-card-sub">Latest updates</div>
+            </div>
+            <div id="recentActivities" class="td-panel-body td-scroll"></div>
+          </div>
+          <div class="td-card">
+            <div class="td-card-hdr">
+              <div class="td-card-title"><span class="td-card-ic">&#9888;&#65039;</span>Travel Alerts</div>
+              <div class="td-card-sub" id="alertsCountSub">&mdash;</div>
+            </div>
+            <div id="travelAlerts" class="td-panel-body td-scroll"></div>
+          </div>
+          <div class="td-card">
+            <div class="td-card-hdr">
+              <div class="td-card-title"><span class="td-card-ic">&#128202;</span>Travel Status</div>
+              <div class="td-card-sub">Overall breakdown</div>
+            </div>
+            <div id="travelStatus" class="td-panel-body"></div>
+          </div>
         </div>
       </div>
-
-      <!-- EXEC SUMMARY BAR -->
-      <div id="execSummaryBar"></div>
-      <!-- ROW 1: KPI CARDS -->
-      <div id="kpiGrid" class="kpi-grid"></div>
-
-      <!-- ROW 2: CHARTS ROW -->
-      <!-- Monthly Trends -->
-        <div class="dash-card" style="margin-bottom:18px">
-          <div class="dash-card-hdr">
-            <div class="dash-card-title">&#128202; Monthly Travel Trends</div>
-            <div class="dash-card-sub">Requests &amp; cost by month</div>
-          </div>
-          <div id="monthlyChart" class="chart-area"></div>
-        </div>
-
-      <!-- ROW 3: TOP DESTINATIONS + COST PER AFFILIATE -->
-      <div class="dash-row-split">
-        <div class="dash-card" style="margin-bottom:0">
-          <div class="dash-card-hdr">
-            <div class="dash-card-title">&#128205; Top Destinations</div>
-            <div class="dash-card-sub">Trips &amp; spend by destination</div>
-          </div>
-          <div id="destList" class="dest-list"></div>
-        </div>
-        <div class="dash-card" style="margin-bottom:0">
-          <div class="dash-card-hdr">
-            <div class="dash-card-title">&#127970; Cost per Affiliate</div>
-            <div class="dash-card-sub">Travel cost share by affiliate</div>
-          </div>
-          <div id="affCostList" class="dest-list"></div>
-        </div>
-      </div>
-
-      <!-- ROW 4: EXPENSE BREAKDOWN (full-width) -->
-      <div class="dash-card" style="margin-bottom:18px">
-        <div class="dash-card-hdr">
-          <div class="dash-card-title">&#128176; Expense Breakdown</div>
-          <div class="dash-card-sub">Travel cost by type, payment &amp; booking</div>
-        </div>
-        <div id="finPanel" class="fin-panel-wide"></div>
-      </div>
-
     </div>
 
     <!-- NEW REQUEST -->
@@ -1816,239 +1924,184 @@ function renderDash(){
     return true;
   });
 
-  const total=fRec.length;
-  const rca=fRec.filter(r=>r.proc==='RCA').length;
-  const rfd=fRec.filter(r=>r.proc==='RFD').length;
-  const bk=fRec.filter(r=>r.proc==='Travel Booking').length;
-  const unpaid=fRec.filter(r=>r.proc==='Travel Booking'&&r.payStatus==='Not Yet').length;
-  const approved=fRec.filter(r=>(r.status||'').toLowerCase()==='approved').length;
-  const pending=fRec.filter(r=>(r.status||'').toLowerCase()==='pending').length;
-  const totalCost=fRec.reduce((s,r)=>s+(r.total||0),0);
   const fmtP=v=>'₱'+parseFloat(v||0).toLocaleString('en-PH',{minimumFractionDigits:2});
   const fmtK=v=>v>=1000000?'₱'+(v/1000000).toFixed(1)+'M':v>=1000?'₱'+(v/1000).toFixed(0)+'K':fmtP(v);
 
-  // Today's travelers
   const today=new Date().toISOString().slice(0,10);
-  const activeToday=fRec.filter(r=>r.dep<=today&&r.arr>=today).length;
-
-  // Upcoming 7 days
   const in7=new Date();in7.setDate(in7.getDate()+7);
   const in7s=in7.toISOString().slice(0,10);
-  const upcoming=fRec.filter(r=>r.dep>today&&r.dep<=in7s).length;
 
-  // Cancelled / On Hold
-  const cancelled=fRec.filter(r=>(r.status||'').toLowerCase()==='on hold').length;
+  const total=fRec.length;
+  const activeTravel=fRec.filter(r=>r.dep<=today&&r.arr>=today&&(r.status||'').toLowerCase()!=='on hold').length;
+  const upcomingTravel=fRec.filter(r=>r.dep>today&&r.dep<=in7s&&(r.status||'').toLowerCase()!=='on hold').length;
+  const completedTravel=fRec.filter(r=>r.arr&&r.arr<today).length;
+  const totalCost=fRec.reduce((s,r)=>s+(r.total||0),0);
+  const hotelsBooked=fRec.filter(r=>r.bkType==='Hotel'||r.bkType==='Hotel Thru Travel Agency').length;
+  const onHold=fRec.filter(r=>(r.status||'').toLowerCase()==='on hold').length;
 
-  // ── KPI Cards ──────────────────────────────────────────────────────
-  const kpiEl=document.getElementById('kpiGrid');
-  // Exec Summary Bar
-  const approvalRate=total?Math.round(approved/total*100):0;
-  const summaryHtml=`<div class='exec-summary-bar'><div class='esb-group'><div class='esb-item'><div class='esb-val'>${total}</div><div class='esb-lbl'>Total Records</div></div><div class='esb-sep'></div><div class='esb-item'><div class='esb-val' style='color:#1b8a50'>${approved}</div><div class='esb-lbl'>Approved</div></div><div class='esb-sep'></div><div class='esb-item'><div class='esb-val' style='color:#d97706'>${pending}</div><div class='esb-lbl'>Pending</div></div><div class='esb-sep'></div><div class='esb-item'><div class='esb-val' style='color:#c0392b'>${cancelled}</div><div class='esb-lbl'>On Hold</div></div><div class='esb-sep'></div><div class='esb-item'><div class='esb-val' style='color:#0a2342'>${fmtK(totalCost)}</div><div class='esb-lbl'>Total Cost</div></div><div class='esb-sep'></div><span class='esb-rate'>${approvalRate}% Approval Rate</span></div><div class='esb-time'>🔄 ${new Date().toLocaleTimeString('en-PH',{hour:'2-digit',minute:'2-digit'})}</div></div>`;
-  const summaryEl=document.getElementById('execSummaryBar');
-  if(summaryEl) summaryEl.innerHTML=summaryHtml;
-
-  if(kpiEl) kpiEl.innerHTML=`
-    <div class="kpi-card kc-blue kpi-link" onclick="filterRecords('','','','All Requests')" title="View all records"><div class="kpi-icon">📋</div><div class="kpi-val">${total}</div><div class="kpi-lbl">Total Requests</div><div class="kpi-sub">RCA: ${rca} &nbsp;&bull;&nbsp; RFD: ${rfd} &nbsp;&bull;&nbsp; Booking: ${bk}</div><div class="kpi-progress"><div class="kpi-progress-fill" style="width:100%;background:#1565c0"></div></div><div class="kpi-arrow">View All &#8594;</div></div>
-    <div class="kpi-card kc-green kpi-link" onclick="filterRecords('','Approved','','Approved Requests')" title="View approved records"><div class="kpi-icon">✅</div><div class="kpi-val">${approved}</div><div class="kpi-lbl">Approved</div><div class="kpi-sub">${approvalRate}% of total requests</div><div class="kpi-progress"><div class="kpi-progress-fill" style="width:${approvalRate}%;background:#1b8a50"></div></div><div class="kpi-arrow">View Records &#8594;</div></div>
-    <div class="kpi-card kc-amber kpi-link" onclick="filterRecords('','Pending','','Pending Approvals')" title="View pending records"><div class="kpi-icon">⏳</div><div class="kpi-val">${pending}</div><div class="kpi-lbl">Pending Approvals</div><div class="kpi-sub">${total?Math.round(pending/total*100):0}% of requests awaiting action</div><div class="kpi-progress"><div class="kpi-progress-fill" style="width:${total?Math.round(pending/total*100):0}%;background:#d97706"></div></div><div class="kpi-arrow">View Records &#8594;</div></div>
-    <div class="kpi-card kc-navy kpi-link" onclick="filterRecords('','','','Total Travel Cost')" title="View all records"><div class="kpi-icon">💰</div><div class="kpi-val">${fmtK(totalCost)}</div><div class="kpi-lbl">Total Travel Cost</div><div class="kpi-sub">Avg per trip: ${fmtK(total?Math.round(totalCost/total):0)}</div><div class="kpi-progress"><div class="kpi-progress-fill" style="width:100%;background:#0a2342"></div></div><div class="kpi-arrow">View Records &#8594;</div></div>
-    <div class="kpi-card kc-teal kpi-link" onclick="filterRecordsToday()" title="View active travelers"><div class="kpi-icon">✈️</div><div class="kpi-val">${activeToday}</div><div class="kpi-lbl">Active Travelers</div><div class="kpi-sub">Currently on the road today</div><div class="kpi-progress"><div class="kpi-progress-fill" style="width:${total?Math.min(100,Math.round(activeToday/total*100)):0}%;background:#0891b2"></div></div><div class="kpi-arrow">View Records &#8594;</div></div>
-    <div class="kpi-card kc-purple kpi-link" onclick="filterRecordsUpcoming()" title="View upcoming trips"><div class="kpi-icon">🗓️</div><div class="kpi-val">${upcoming}</div><div class="kpi-lbl">Upcoming Trips</div><div class="kpi-sub">Departing in next 7 days</div><div class="kpi-progress"><div class="kpi-progress-fill" style="width:${total?Math.min(100,Math.round(upcoming/total*100)):0}%;background:#7b2ff7"></div></div><div class="kpi-arrow">View Records &#8594;</div></div>
-    <div class="kpi-card kc-red kpi-link" onclick="filterRecords('','On Hold','','On Hold / Cancelled')" title="View on hold records"><div class="kpi-icon">❌</div><div class="kpi-val">${cancelled}</div><div class="kpi-lbl">On Hold / Cancelled</div><div class="kpi-sub">${total?Math.round(cancelled/total*100):0}% of total &mdash; needs review</div><div class="kpi-progress"><div class="kpi-progress-fill" style="width:${total?Math.round(cancelled/total*100):0}%;background:#c0392b"></div></div><div class="kpi-arrow">View Records &#8594;</div></div>
-    <div class="kpi-card kc-gold kpi-link" onclick="filterRecordsUnpaid()" title="View unpaid bookings"><div class="kpi-icon">💳</div><div class="kpi-val">${unpaid}</div><div class="kpi-lbl">Unpaid Bookings</div><div class="kpi-sub">Payment not yet processed</div><div class="kpi-progress"><div class="kpi-progress-fill" style="width:${bk?Math.round(unpaid/bk*100):0}%;background:#f4a61c"></div></div><div class="kpi-arrow">View Records &#8594;</div></div>
-  `;
-
-  // ── Monthly Trends Chart ─────────────────────────────
-  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const curYear=new Date().getFullYear();
-  const mCounts=Array(12).fill(0), mCosts=Array(12).fill(0);
-  fRec.forEach(r=>{
-    if(!r.dr)return;
-    const d=new Date(r.dr);
-    if(d.getFullYear()===curYear){mCounts[d.getMonth()]++;mCosts[d.getMonth()]+=(r.total||0);}
-  });
-  const maxC=Math.max(...mCounts,1), maxCost=Math.max(...mCosts,1);
-  const monthEl=document.getElementById('monthlyChart');
-  if(monthEl){
-    monthEl.innerHTML=`
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding:0 2px">
-      <div style="font-size:12px;font-weight:700;color:#64748b">Requests &amp; Travel Cost — ${curYear}</div>
-    </div>
-    <div class="month-bars">
-      ${months.map((m,i)=>{
-        const hReq=Math.max(4,Math.round((mCounts[i]/maxC)*140));
-        const hCost=Math.max(2,Math.round((mCosts[i]/maxCost)*140));
-        return `<div class="month-bar-wrap">
-          ${mCounts[i]>0?`<div class="month-val" style="color:#1565c0">${mCounts[i]}</div>`:''}
-          <div style="display:flex;align-items:flex-end;gap:2px;height:140px;justify-content:center">
-            <div class="month-bar" style="height:${hReq}px;background:#1565c0;width:10px" title="${m}: ${mCounts[i]} requests"></div>
-            <div class="month-bar" style="height:${hCost}px;background:#f4a61c;width:10px;opacity:.85" title="${m}: ${fmtP(mCosts[i])}"></div>
-          </div>
-          <div class="month-lbl">${m}</div>
-        </div>`;
-      }).join('')}
-    </div>
-    <div class="chart-legend">
-      <div class="legend-item"><span class="legend-dot" style="background:#1565c0"></span>Requests</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#f4a61c"></span>Travel Cost</div>
-    </div>`;
-  }
-
-
-  // ── Affiliate Table ──────────────────────────────────────────────────
-  const AFFS=['PPC','PSC','PHI','MAAYO','THAM','SAN LUCAS','AC','MC123','CSI','RDC','PSI','ABC','CSPIC','SKILLS','PSEFI','PTMSI','AMICI'];
-  const affData={};
-  AFFS.forEach(a=>{ affData[a]={total:0,approved:0,pending:0,rca:0,rfd:0,bk:0,cost:0}; });
-  fRec.forEach(r=>{
-    if(!r.aff||!affData[r.aff])return;
-    const d=affData[r.aff];
-    d.total++;d.cost+=(r.total||0);
-    if(r.proc==='RCA')d.rca++;if(r.proc==='RFD')d.rfd++;if(r.proc==='Travel Booking')d.bk++;
-    if((r.status||'').toLowerCase()==='approved')d.approved++;
-    if((r.status||'').toLowerCase()==='pending')d.pending++;
-  });
-  const affRows=Object.entries(affData).filter(([,d])=>d.total>0).sort((a,b)=>b[1].total-a[1].total);
-  const affBodyEl=document.getElementById('affBody');
-  if(affBodyEl){
-    const maxAffTotal=affRows.length?Math.max(...affRows.map(([,d])=>d.total),1):1;
-  affBodyEl.innerHTML=affRows.length?affRows.map(([name,d],idx)=>{
-    const rate=d.total?Math.round(d.approved/d.total*100):0;
-    const rateCls=rate>=75?'ar-hi':rate>=50?'ar-mid':'ar-lo';
-    const barW=Math.round(d.total/maxAffTotal*100);
-    return `<tr onclick="filterToAffiliate('${name}')">
-      <td class="aff-rank">${idx+1}</td>
-      <td><span class="aff-name">${name}</span><span class="aff-bar-wrap"><span class="aff-bar-fill" style="width:${barW}%"></span></span></td>
-      <td><span class="aff-badge">${d.total}</span></td>
-      <td style="color:#1b8a50;font-weight:700">${d.approved}</td>
-      <td style="color:#d97706;font-weight:700">${d.pending}</td>
-      <td>${d.rca}</td><td>${d.rfd}</td><td>${d.bk}</td>
-      <td><span class="aff-rate ${rateCls}">${rate}%</span></td>
-      <td style="font-weight:700;color:var(--navy)">${fmtP(d.cost)}</td>
-    </tr>`;
-  }).join(''):'<tr><td colspan="10" style="text-align:center;color:#94a3b8;padding:20px">No affiliate data yet</td></tr>';
-  }
-
-  // ── Top Destinations ──────────────────────────────────
+  // ── Top Destinations data (used by KPI + chart) ──────────────────
   const destMap={};
   fRec.forEach(r=>{
     if(!r.dest)return;
     const key=destLbl(r.dest,r.ldest);
-    if(!key||key==='\u2014')return;
+    if(!key||key==='—')return;
     if(!destMap[key])destMap[key]={n:0,cost:0};
     destMap[key].n++;destMap[key].cost+=(r.total||0);
   });
+  const destinations=Object.keys(destMap).length;
+
+  // ── KPI Cards ──────────────────────────────────────────────────────
+  const kpiEl=document.getElementById('kpiGrid');
+  if(kpiEl) kpiEl.innerHTML=`
+    <div class="td-kpi-card tk-blue" onclick="filterRecords('','','','All Requests')" title="View all records"><div class="td-kpi-icon">📋</div><div class="td-kpi-val">${total}</div><div class="td-kpi-lbl">Total Requests</div><div class="td-kpi-sub">All travel forms</div></div>
+    <div class="td-kpi-card tk-teal" onclick="filterRecordsToday()" title="View active travelers"><div class="td-kpi-icon">✈️</div><div class="td-kpi-val">${activeTravel}</div><div class="td-kpi-lbl">Active Travel</div><div class="td-kpi-sub">On the road today</div></div>
+    <div class="td-kpi-card tk-purple" onclick="filterRecordsUpcoming()" title="View upcoming trips"><div class="td-kpi-icon">🗓️</div><div class="td-kpi-val">${upcomingTravel}</div><div class="td-kpi-lbl">Upcoming Travel</div><div class="td-kpi-sub">Next 7 days</div></div>
+    <div class="td-kpi-card tk-green" onclick="filterRecordsCompleted()" title="View completed trips"><div class="td-kpi-icon">✅</div><div class="td-kpi-val">${completedTravel}</div><div class="td-kpi-lbl">Completed Travel</div><div class="td-kpi-sub">Trips finished</div></div>
+    <div class="td-kpi-card tk-navy" onclick="filterRecords('','','','Total Travel Cost')" title="View all records"><div class="td-kpi-icon">💰</div><div class="td-kpi-val">${fmtK(totalCost)}</div><div class="td-kpi-lbl">Total Travel Cost</div><div class="td-kpi-sub">Avg ${fmtK(total?totalCost/total:0)}/trip</div></div>
+    <div class="td-kpi-card tk-sky" onclick="filterRecords('Travel Booking','','','Hotels Booked')" title="View travel bookings"><div class="td-kpi-icon">🏨</div><div class="td-kpi-val">${hotelsBooked}</div><div class="td-kpi-lbl">Hotels Booked</div><div class="td-kpi-sub">Accommodation records</div></div>
+    <div class="td-kpi-card tk-amber tk-static" title="Unique destinations visited"><div class="td-kpi-icon">📍</div><div class="td-kpi-val">${destinations}</div><div class="td-kpi-lbl">Destinations</div><div class="td-kpi-sub">Unique locations</div></div>
+  `;
+
+  // ── Monthly Travel Trend (line chart) ─────────────────────────────
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const curYear=new Date().getFullYear();
+  const mCounts=Array(12).fill(0);
+  fRec.forEach(r=>{
+    if(!r.dr)return;
+    const d=new Date(r.dr);
+    if(d.getFullYear()===curYear)mCounts[d.getMonth()]++;
+  });
+  const monthEl=document.getElementById('monthlyChart');
+  if(monthEl){
+    const maxC=Math.max(...mCounts,1);
+    const w=560,h=140,padL=8,padR=8,padT=10;
+    const stepX=(w-padL-padR)/(months.length-1);
+    const pts=mCounts.map((c,i)=>[padL+i*stepX,padT+(h-padT)*(1-c/maxC)]);
+    const lineD=pts.map((p,i)=>(i===0?'M':'L')+p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
+    const areaD=lineD+` L${pts[pts.length-1][0].toFixed(1)},${h} L${pts[0][0].toFixed(1)},${h} Z`;
+    const dots=pts.map((p,i)=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3.4" fill="#fff" stroke="#2F6FE4" stroke-width="2"><title>${months[i]}: ${mCounts[i]} request${mCounts[i]!==1?'s':''}</title></circle>`).join('');
+    const grid=[0,1,2,3].map(i=>{const y=padT+(h-padT)*i/3;return `<line x1="${padL}" y1="${y}" x2="${w-padR}" y2="${y}" stroke="#eef2f7" stroke-width="1"/>`;}).join('');
+    monthEl.innerHTML=`
+      <svg class="td-line-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+        <defs><linearGradient id="tdLineGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#2F6FE4" stop-opacity="0.28"/>
+          <stop offset="100%" stop-color="#2F6FE4" stop-opacity="0"/>
+        </linearGradient></defs>
+        ${grid}
+        <path d="${areaD}" fill="url(#tdLineGrad)" stroke="none"/>
+        <path d="${lineD}" fill="none" stroke="#2F6FE4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        ${dots}
+      </svg>
+      <div class="td-line-labels">${months.map(m=>`<span>${m}</span>`).join('')}</div>`;
+  }
+
+  // ── Top Destinations (horizontal bar chart) ──────────────────────
   const destEl=document.getElementById('destList');
   if(destEl){
-    const dEntries=Object.entries(destMap).sort((a,b)=>b[1].n-a[1].n).slice(0,8);
+    const dEntries=Object.entries(destMap).sort((a,b)=>b[1].n-a[1].n).slice(0,6);
     const maxDN=dEntries.length?Math.max(...dEntries.map(([,v])=>v.n)):1;
-    destEl.innerHTML=dEntries.length?dEntries.map(([name,v],i)=>`
-      <div class="dest-item">
-        <div class="dest-rank">${i+1}</div>
-        <div class="dest-name">${name}<div style="font-size:10.5px;font-weight:600;color:#94a3b8;margin-top:1px">${fmtP(v.cost)}</div></div>
-        <div class="dest-bar-wrap"><div class="dest-bar-fill" style="width:${Math.max(4,Math.round(v.n/maxDN*100))}%"></div></div>
-        <div class="dest-count">${v.n} trip${v.n!==1?'s':''}</div>
-      </div>`).join(''):'<div class="pi-empty">No destination data yet</div>';
+    destEl.innerHTML=dEntries.length?`<div class="td-dest-list">${dEntries.map(([name,v])=>`
+      <div class="td-dest-row" title="${name}: ${v.n} trip${v.n!==1?'s':''} · ${fmtP(v.cost)}">
+        <div class="td-dest-name">${name}</div>
+        <div class="td-dest-track"><div class="td-dest-fill" style="width:${Math.max(6,Math.round(v.n/maxDN*100))}%"></div></div>
+        <div class="td-dest-count">${v.n}</div>
+      </div>`).join('')}</div>`:'<div class="td-empty">No destination data yet</div>';
   }
 
-  // ── Cost per Affiliate ──────────────────────────────────
-  const affCostEl=document.getElementById('affCostList');
-  if(affCostEl){
-    const acArr=Object.entries(affData).filter(([,d])=>d.cost>0).sort((a,b)=>b[1].cost-a[1].cost);
-    const acSum=acArr.reduce((s,[,d])=>s+d.cost,0)||1;
-    const acMax=acArr.length?acArr[0][1].cost:1;
-    affCostEl.innerHTML=acArr.length?acArr.map(([name,d],i)=>{
-      const pct=Math.round(d.cost/acSum*100);
-      return `<div class="dest-item" onclick="filterToAffiliate('${name}')" style="cursor:pointer" title="View ${name} records">
-        <div class="dest-rank">${i+1}</div>
-        <div class="dest-name">${name}<div style="font-size:10.5px;font-weight:600;color:#94a3b8;margin-top:1px">${d.total} request${d.total!==1?'s':''}</div></div>
-        <div class="dest-bar-wrap"><div class="dest-bar-fill" style="width:${Math.max(4,Math.round(d.cost/acMax*100))}%;background:linear-gradient(90deg,#1565c0,#0891b2)"></div></div>
-        <div style="min-width:92px;text-align:right"><div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:#0a2342">${fmtP(d.cost)}</div><div style="font-size:10px;color:#94a3b8;font-weight:700">${pct}% of total</div></div>
+  // ── Upcoming Travel Timeline ───────────────────────────────────────
+  const tlEl=document.getElementById('upcomingTimeline');
+  if(tlEl){
+    const upcomingList=fRec.filter(r=>r.dep>=today&&(r.status||'').toLowerCase()!=='on hold').sort((a,b)=>a.dep.localeCompare(b.dep)).slice(0,4);
+    const monShort=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    tlEl.innerHTML=upcomingList.length?`<div class="td-timeline">${upcomingList.map(r=>{
+      const d=new Date(r.dep+'T00:00:00');
+      return `<div class="td-tl-item">
+        <div class="td-tl-date"><b>${d.getDate()}</b><span>${monShort[d.getMonth()]}</span></div>
+        <div><div class="td-tl-main">${r.emp}</div><div class="td-tl-sub">${r.aff} • ${destLbl(r.dest,r.ldest)||r.bkType||r.proc} • ${r.dep}</div></div>
       </div>`;
-    }).join(''):'<div class="pi-empty">No cost data yet</div>';
+    }).join('')}</div>`:'<div class="td-empty">No upcoming travel scheduled</div>';
   }
 
-  // ── Pending Actions ──────────────────────────────────────────────────
+  // ── Recent Activities Feed ─────────────────────────────────────────
+  const actEl=document.getElementById('recentActivities');
+  if(actEl){
+    const actIcon=a=>{
+      const l=(a||'').toLowerCase();
+      if(l.includes('approv'))return'✅';
+      if(l.includes('payment')||l.includes('paid'))return'💳';
+      if(l.includes('submit'))return'📝';
+      if(l.includes('hold')||l.includes('cancel'))return'⛔';
+      return'📌';
+    };
+    let items=[];
+    if(changelog.length){
+      items=[...changelog].sort((a,b)=>new Date(b.ts)-new Date(a.ts)).slice(0,4).map(c=>({
+        main:`${c.action} — ${c.empName||'—'}`,
+        sub:`${c.proc||''}${c.status?' • '+c.status:''} • ${timeAgo(c.ts)}`,
+        icon:actIcon(c.action)
+      }));
+    } else {
+      items=[...fRec].sort((a,b)=>(b.dr||'').localeCompare(a.dr||'')).slice(0,4).map(r=>({
+        main:`${r.proc} submitted — ${r.emp}`,
+        sub:`${r.aff} • ${r.status||'—'} • ${r.dr}`,
+        icon:actIcon(r.status==='Approved'?'approved':'submit')
+      }));
+    }
+    actEl.innerHTML=items.length?`<div class="td-activity-list">${items.map(a=>`
+      <div class="td-activity"><div class="td-act-ic">${a.icon}</div><div><div class="td-act-main">${a.main}</div><div class="td-act-sub">${a.sub}</div></div></div>
+    `).join('')}</div>`:'<div class="td-empty">No recent activity</div>';
+  }
+
+  // ── Travel Alerts ───────────────────────────────────────────────────
   const alerts=[];
   const threeDaysAgo=new Date();threeDaysAgo.setDate(threeDaysAgo.getDate()-3);
   const threeDaysAgoStr=threeDaysAgo.toISOString().slice(0,10);
-  // Pending > 3 days
   fRec.filter(r=>(r.status||'').toLowerCase()==='pending'&&r.dr&&r.dr<=threeDaysAgoStr).forEach(r=>{
-    alerts.push({cls:'pi-red',icon:'🔴',main:`Overdue Approval — ${r.emp}`,sub:`${r.proc} | Submitted: ${r.dr} | ${r.aff}`});
+    alerts.push({cls:'al-red',icon:'⏰',main:`Overdue Approval — ${r.emp}`,sub:`${r.proc} • Submitted ${r.dr} • ${r.aff}`});
   });
-  // Unpaid bookings
   fRec.filter(r=>r.proc==='Travel Booking'&&r.payStatus==='Not Yet').forEach(r=>{
-    alerts.push({cls:'pi-amber',icon:'💳',main:`Unpaid Booking — ${r.emp}`,sub:`${r.bkType||'Booking'} | ${r.dep} | ${r.aff}`});
+    alerts.push({cls:'al-amber',icon:'💳',main:`Unpaid Booking — ${r.emp}`,sub:`${r.bkType||'Booking'} • ${r.dep} • ${r.aff}`});
   });
-  // Departing today
   fRec.filter(r=>r.dep===today&&(r.status||'').toLowerCase()!=='on hold').forEach(r=>{
-    alerts.push({cls:'pi-blue',icon:'✈️',main:`Departing Today — ${r.emp}`,sub:`${r.proc} | Destination: ${destLbl(r.dest,r.ldest)||r.bkType||'—'}`});
+    alerts.push({cls:'al-blue',icon:'✈️',main:`Departing Today — ${r.emp}`,sub:`${r.proc} • ${destLbl(r.dest,r.ldest)||r.bkType||'—'}`});
   });
-
-  const pendingEl=document.getElementById('pendingPanel');
-  const pendingCntEl=document.getElementById('pendingCount');
-  if(pendingCntEl)pendingCntEl.textContent=`${alerts.length} item${alerts.length!==1?'s':''} need attention`;
-  if(pendingEl){
-    pendingEl.innerHTML=alerts.length?alerts.slice(0,8).map(a=>`
-    <div class="pending-item ${a.cls}">
-      <div class="pi-icon">${a.icon}</div>
-      <div><div class="pi-main">${a.main}</div><div class="pi-sub">${a.sub}</div></div>
-    </div>`).join(''):'<div class="pi-empty">✅ No pending actions — all good!</div>';
+  const alertsEl=document.getElementById('travelAlerts');
+  const alertsSubEl=document.getElementById('alertsCountSub');
+  if(alertsSubEl)alertsSubEl.textContent=`${alerts.length} item${alerts.length!==1?'s':''} need attention`;
+  if(alertsEl){
+    alertsEl.innerHTML=alerts.length?`<div class="td-alert-list">${alerts.slice(0,4).map(a=>`
+      <div class="td-alert ${a.cls}"><div class="td-alert-ic">${a.icon}</div><div><div class="td-alert-main">${a.main}</div><div class="td-alert-sub">${a.sub}</div></div></div>
+    `).join('')}</div>`:'<div class="td-empty">✅ No alerts — all good!</div>';
   }
 
-  // ── Expense Breakdown ────────────────────────────────────
-  const totalRCA=fRec.filter(r=>r.proc==='RCA').reduce((s,r)=>s+(r.total||0),0);
-  const totalRFD=fRec.filter(r=>r.proc==='RFD').reduce((s,r)=>s+(r.total||0),0);
-  const totalBK=fRec.filter(r=>r.proc==='Travel Booking').reduce((s,r)=>s+(r.total||0),0);
-  const cntRCA=fRec.filter(r=>r.proc==='RCA').length;
-  const cntRFD=fRec.filter(r=>r.proc==='RFD').length;
-  const cntBK=fRec.filter(r=>r.proc==='Travel Booking').length;
-  const paidBK=fRec.filter(r=>r.proc==='Travel Booking'&&r.payStatus==='Processed').reduce((s,r)=>s+(r.total||0),0);
-  const unpaidBK=totalBK-paidBK;
-  const avgCost=total>0?(totalCost/total):0;
-  const bkTypMap={};
-  fRec.filter(r=>r.proc==='Travel Booking').forEach(r=>{
-    const t=r.bkType||'Other';bkTypMap[t]=(bkTypMap[t]||0)+(r.total||0);
-  });
-  const bkTypEntries=Object.entries(bkTypMap).sort((a,b)=>b[1]-a[1]).slice(0,4);
-  const procTotal=totalRCA+totalRFD+totalBK||1;
-  const bkTypTotal=bkTypEntries.reduce((s,[,v])=>s+v,0)||1;
-  const bkColors=['#1b8a50','#d97706','#0891b2','#7c3aed'];
-  const procRows=[{lbl:'RCA',val:totalRCA,clr:'#1565c0'},{lbl:'RFD',val:totalRFD,clr:'#7c3aed'},{lbl:'Travel Booking',val:totalBK,clr:'#0891b2'}];
-  function fbRow(lbl,val,clr,denominator){
-    const pct=Math.round(val/denominator*100);
-    const w=Math.max(pct,1);
-    return `<div class="fb-row">`+
-      `<div class="fb-label"><span class="fb-dot" style="background:${clr}"></span>${lbl}</div>`+
-      `<div class="fb-bar-wrap"><div class="fb-bar" style="width:${w}%;background:${clr}"></div></div>`+
-      `<div class="fb-val">${fmtP(val)}</div>`+
-      `<div class="fb-pct">${pct}%</div>`+
-      `</div>`;
+  // ── Travel Status Progress ──────────────────────────────────────────
+  const statusEl=document.getElementById('travelStatus');
+  if(statusEl){
+    const statusRows=[
+      {lbl:'Active',val:activeTravel,clr:'var(--td-blue)'},
+      {lbl:'Upcoming',val:upcomingTravel,clr:'var(--td-amber)'},
+      {lbl:'Completed',val:completedTravel,clr:'var(--td-green)'},
+      {lbl:'On Hold',val:onHold,clr:'var(--td-red)'}
+    ];
+    const maxV=Math.max(...statusRows.map(s=>s.val),1);
+    statusEl.innerHTML=`<div class="td-status-row">${statusRows.map(s=>`
+      <div class="td-status-line">
+        <div class="td-status-lbl">${s.lbl}</div>
+        <div class="td-status-track"><div class="td-status-fill" style="width:${Math.round(s.val/maxV*100)}%;background:${s.clr}"></div></div>
+        <div class="td-status-val">${s.val}</div>
+      </div>`).join('')}</div>`;
   }
-  const finEl=document.getElementById('finPanel');
-  const _dashActive=document.getElementById('tab-dashboard')?.classList.contains('active');
-  if(finEl&&_dashActive) finEl.innerHTML=
-    `<div class="fin-hero">`+
-    `<div class="fh-lbl">💰 Total Travel Expenditure</div>`+
-    `<div class="fh-val">${fmtP(totalCost)}</div>`+
-    `</div>`+
-    `<div class="fin-section-hdr">📊 Expense by Process Type</div>`+
-    `<div class="fb-rows-2col">`+procRows.map(p=>fbRow(p.lbl,p.val,p.clr,procTotal)).join('')+`</div>`+
-    `<div class="fin-section-hdr">💳 Booking Payment Status</div>`+
-    `<div class="fb-rows-2col">`+
-    fbRow('Paid',paidBK,'#1b8a50',totalBK||1)+
-    `</div>`+
-    (bkTypEntries.length?`<div class="fin-section-hdr">🎫 Booking Type Breakdown</div>`+
-      `<div class="fb-rows-2col">`+bkTypEntries.map(([t,v],i)=>fbRow(t,v,bkColors[i]||'#94a3b8',bkTypTotal)).join('')+`</div>`:'')+
-    `<div class="fin-section-hdr">📌 Key Metrics</div>`+
-    `<div class="fin-metrics-row">`+
-    `<div class="fin-sm fs-blue"><div class="fsv">${cntRCA}</div><div class="fsl">RCA Trips</div></div>`+
-    `<div class="fin-sm fs-purple"><div class="fsv">${cntRFD}</div><div class="fsl">RFD Trips</div></div>`+
-    `<div class="fin-sm fs-teal"><div class="fsv">${cntBK}</div><div class="fsl">Bookings</div></div>`+
-    `<div class="fin-sm fs-gold"><div class="fsv">${fmtK(avgCost)}</div><div class="fsl">Avg Cost</div></div>`+
-    `<div class="fin-sm fs-green"><div class="fsv">${fmtK(paidBK)}</div><div class="fsl">Total Paid</div></div>`+
-    `</div>`;
-
-  // ── Recent Requests ──────────────────────────────────────────────────
+}
+function timeAgo(ts){
+  const diff=Date.now()-new Date(ts).getTime();
+  const m=Math.floor(diff/60000);
+  if(m<1)return'Just now';
+  if(m<60)return m+'m ago';
+  const hr=Math.floor(m/60);
+  if(hr<24)return hr+'h ago';
+  const d=Math.floor(hr/24);
+  if(d<30)return d+'d ago';
+  return new Date(ts).toLocaleDateString('en-PH',{month:'short',day:'numeric'});
 }
 
 function filterRecordsToday(){
@@ -2074,6 +2127,20 @@ function filterRecordsUpcoming(){
   goTab('records',recTab);
   setTimeout(()=>{
     window._dashDateFilter={type:'upcoming',from:today,to:in7s};
+    window._dashStatusFilter='';
+    document.getElementById('fP').value='';
+    document.getElementById('fA').value='';
+    renderRec();
+  },100);
+}
+
+function filterRecordsCompleted(){
+  showRecordsBanner("Completed Travel","","","");
+  const today=new Date().toISOString().slice(0,10);
+  const recTab=document.querySelectorAll('.nav-tab')[2];
+  goTab('records',recTab);
+  setTimeout(()=>{
+    window._dashDateFilter={type:'completed',date:today};
     window._dashStatusFilter='';
     document.getElementById('fP').value='';
     document.getElementById('fA').value='';
@@ -2201,6 +2268,7 @@ function renderRec(){
       const rd=r.dep||'', ra=r.arr||'';
       if(ddf.type==='today'){if(!(rd<=ddf.date&&ra>=ddf.date))return false;}
       if(ddf.type==='upcoming'){if(!(rd>ddf.from&&rd<=ddf.to))return false;}
+      if(ddf.type==='completed'){if(!(ra&&ra<ddf.date))return false;}
     }
     if(fPay){if(r.proc!=='Travel Booking')return false;if(r.payStatus!==fPay)return false;}
     if(fS&&!r.emp.toLowerCase().includes(fS)&&!r.aff.toLowerCase().includes(fS))return false;
