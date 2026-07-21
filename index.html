@@ -1920,29 +1920,18 @@ function renderDash(){
   });
 
   const total=fRec.length;
-  const rca=fRec.filter(r=>r.proc==='RCA').length;
-  const rfd=fRec.filter(r=>r.proc==='RFD').length;
-  const bk=fRec.filter(r=>r.proc==='Travel Booking').length;
-  const unpaid=fRec.filter(r=>r.proc==='Travel Booking'&&r.payStatus==='Not Yet').length;
-  const approved=fRec.filter(r=>(r.status||'').toLowerCase()==='approved').length;
-  const pending=fRec.filter(r=>(r.status||'').toLowerCase()==='pending').length;
   const totalCost=fRec.reduce((s,r)=>s+(r.total||0),0);
   const fmtP=v=>'₱'+parseFloat(v||0).toLocaleString('en-PH',{minimumFractionDigits:2});
   const fmtK=v=>v>=1000000?'₱'+(v/1000000).toFixed(1)+'M':v>=1000?'₱'+(v/1000).toFixed(0)+'K':fmtP(v);
 
-  // Today's travelers
   const today=new Date().toISOString().slice(0,10);
-  const activeToday=fRec.filter(r=>r.dep<=today&&r.arr>=today).length;
+  const activeToday=fRec.filter(r=>r.dep&&r.arr&&r.dep<=today&&r.arr>=today).length;
 
-  // Upcoming 7 days
   const in7=new Date();in7.setDate(in7.getDate()+7);
   const in7s=in7.toISOString().slice(0,10);
   const upcoming=fRec.filter(r=>r.dep>today&&r.dep<=in7s).length;
 
-  // Cancelled / On Hold
   const cancelled=fRec.filter(r=>(r.status||'').toLowerCase()==='on hold').length;
-
-  // ── New metrics ──
   const approved=fRec.filter(r=>(r.status||'').toLowerCase()==='approved').length;
   const pending=fRec.filter(r=>(r.status||'').toLowerCase()==='pending').length;
   const rca=fRec.filter(r=>r.proc==='RCA').length;
