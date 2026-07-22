@@ -139,9 +139,6 @@ function sendBackupNow() {
 
   var csvBlob = Utilities.newBlob(buildCsv_(records), 'text/csv',
                                   'PGB_Travel_Records_' + stamp + '.csv');
-  var jsonBlob = Utilities.newBlob(
-    JSON.stringify({ records: records, nid: d.nid, changelog: d.changelog }, null, 2),
-    'application/json', 'PGB_Travel_Backup_' + stamp + '.json');
 
   var total     = records.length;
   var totalCost = records.reduce(function (s, r) { return s + (Number(r.total) || 0); }, 0);
@@ -168,8 +165,7 @@ function sendBackupNow() {
         '<p style="margin:12px 0 3px;font-weight:700;color:#1E3A5F;font-size:13px">By process</p>' +
         '<p style="margin:0 0 14px;font-size:13px">' + tallyHtml_(byProc) + '</p>' +
         '<p style="font-size:13px;color:#5a7090;border-top:1px solid #eef2f7;padding-top:12px">' +
-          'Attached: a spreadsheet-ready <b>CSV</b> of all records, plus a full <b>JSON</b> backup ' +
-          '(the exact snapshot, usable to restore the data if ever needed).</p>' +
+          'Attached: a spreadsheet-ready <b>CSV</b> of all records.</p>' +
         '<p style="font-size:11px;color:#94a3b8;margin-top:16px">Sent automatically by Google Apps Script.</p>' +
       '</div>' +
     '</div>';
@@ -178,12 +174,12 @@ function sendBackupNow() {
     'PGB Travel Monitoring — Daily Backup (' + today + ')\n\n' +
     'Total records: ' + total + '\n' +
     'Total travel cost: ' + peso_(totalCost) + '\n\n' +
-    'Attached: CSV of all records + full JSON backup.';
+    'Attached: CSV of all records.';
 
   GmailApp.sendEmail(RECIPIENT, subject, plain, {
     htmlBody: html,
     name: 'PGB Travel Monitoring',
-    attachments: [csvBlob, jsonBlob]
+    attachments: [csvBlob]
   });
 
   Logger.log('Backup sent to ' + RECIPIENT + ' — ' + total + ' records.');

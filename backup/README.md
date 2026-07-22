@@ -7,7 +7,6 @@ It reads the live data from the app's cloud database (Firebase), so the backup
 always matches what everyone sees in the web app. Each email includes:
 
 - **CSV** — a spreadsheet-ready file of every record (opens in Excel/Sheets)
-- **JSON** — the exact snapshot, usable to restore the data if ever needed
 - A summary in the email body (total records, total cost, breakdown by status & process)
 
 ## Setup (one time, ~3 minutes)
