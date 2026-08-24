@@ -2076,10 +2076,11 @@ function renderDash(){
     </div>`;
   }
 
-  // ── Top Destinations ─────────────────────────────────
+  // ── Top Destinations (actual places only) ─────────────
   const destMap={};
   fRec.forEach(r=>{
-    const lbl=r.dest?destLbl(r.dest,r.ldest):r.bkType?r.bkType:null;
+    if(!r.dest) return;
+    const lbl=destLbl(r.dest,r.ldest);
     if(lbl&&lbl!=='—') destMap[lbl]=(destMap[lbl]||0)+1;
   });
   const destEntries=Object.entries(destMap).sort((a,b)=>b[1]-a[1]).slice(0,8);
