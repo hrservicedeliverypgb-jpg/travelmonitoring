@@ -3094,37 +3094,46 @@ function printRFD(id){
   const preselect=COORDINATORS.find(c=>r.handled&&r.handled.toLowerCase().includes(c.split(',')[0].toLowerCase()))||'';
   const amtWords=amtInWords(total);
 
-  const w=window.open('','_blank','width=900,height=1100');
+  const w=window.open('','_blank','width=1150,height=900');
   w.document.write(`<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8"/>
 <title>RFD &mdash; ${r.emp||''}</title>
 <style>
-@page{size:letter;margin:16mm}
+@page{size:letter landscape;margin:12mm 14mm}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Calibri,'Segoe UI',Arial,Helvetica,sans-serif;font-size:11pt;color:#000;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{font-family:Calibri,'Segoe UI',Arial,Helvetica,sans-serif;font-size:12pt;color:#000;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 @media print{.noprint{display:none!important}}
-.sheet{width:100%;max-width:720px;margin:0 auto}
-.box{border:1.6px solid #000}
-.rf-hd{position:relative;min-height:74px;border-bottom:1.6px solid #000;padding:8px 12px 6px}
-.rf-logo{position:absolute;top:8px;right:12px}
-.rf-title{position:absolute;left:14px;bottom:6px;font-size:16pt;font-weight:bold;letter-spacing:.3px}
-.rf-no{position:absolute;right:14px;bottom:6px;font-size:10.5pt;font-weight:bold}
-table{width:100%;border-collapse:collapse}
-.rf-meta td,.rf-body td,.rf-sig td{border:1px solid #000;padding:3px 7px;font-size:11pt;vertical-align:top}
-.lbl{font-weight:bold;white-space:nowrap;width:1%;background:#fff}
-.rf-meta .val{min-height:16px}
-.rf-meta .dn{border-left:1.6px solid #000}
-.rf-sep{height:7px;background:#000}
-.rf-body .amt{width:150px;white-space:nowrap}
-.rf-body .amt b{margin-right:4px}
-.rf-sig td{height:16px}
-.rf-sig .sglbl td{font-weight:bold}
-.rf-sig .sgcell td{height:58px;vertical-align:bottom;text-align:center}
-.signm{border-top:0.75px solid #000;margin:0 10px;padding-top:2px;font-size:10.5pt;display:inline-block;min-width:120px}
-.rf-steps{margin-top:10px;font-size:10pt;line-height:1.6}
-.rf-code{text-align:right;font-size:9pt;font-weight:bold;margin-top:6px;letter-spacing:.3px}
+.sheet{width:100%;max-width:1000px;margin:0 auto}
+.form{border:1.8px solid #000}
+.hd{position:relative;height:98px;padding:10px 14px}
+.logo{position:absolute;top:8px;right:14px}
+.title{position:absolute;left:18px;bottom:12px;font-size:19pt;font-weight:bold;letter-spacing:.3px}
+.no{position:absolute;right:16px;bottom:12px;font-size:12pt;font-weight:bold}
+.metarow{display:flex;border-top:1.8px solid #000}
+.dtf{width:50%;border-right:1.8px solid #000}
+.dtf table{width:100%;border-collapse:collapse}
+.dtf td{border:1px solid #000;padding:2px 8px;font-size:11.5pt;height:23px;vertical-align:middle}
+.dtf td.l{font-weight:bold;width:96px;white-space:nowrap}
+.dn{flex:1;padding:6px 14px}
+.dnl{font-weight:bold;font-size:11.5pt}
+.dnv{display:inline-block;border-bottom:1px solid #000;min-width:210px;margin-left:10px;padding-bottom:1px}
+.band{height:5px;background:#000}
+.brow{display:flex;align-items:flex-end;min-height:32px;padding:5px 12px;gap:10px}
+.bl{font-weight:bold;border:1.3px solid #000;padding:3px 10px;white-space:nowrap;align-self:center;background:#fff}
+.bv{flex:1;border-bottom:1px solid #000;align-self:flex-end;min-height:18px;padding:0 6px 2px}
+.pbox{flex-shrink:0;border:1.3px solid #000;padding:3px 10px;font-weight:bold;white-space:nowrap;min-width:150px}
+.pbox b{margin-right:6px}
+.sigsec{display:flex;border-top:1.8px solid #000}
+.sigcol{flex:1;border-right:1.8px solid #000;min-height:84px;position:relative;padding:6px 10px}
+.sigcol:last-child{border-right:none}
+.sgl{font-weight:bold;border:1.3px solid #000;padding:2px 8px;display:inline-block}
+.sgspace{position:absolute;left:14px;right:14px;bottom:10px;text-align:center}
+.sgname{border-top:0.8px solid #000;padding-top:2px;display:inline-block;min-width:160px;font-size:11pt}
+.sgbox{border:1.3px solid #000;padding:2px 16px;font-weight:bold;display:inline-block;font-size:11pt}
+.steps{margin-top:12px;font-size:11pt;line-height:1.75}
+.code{text-align:right;font-size:10pt;font-weight:bold;letter-spacing:.3px;margin-top:2px}
 .ctrl{background:#f4f6f8;border:1px solid #c8d0d8;border-radius:6px;padding:10px 14px;margin-top:18px;display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px 14px}
 .ctrl label{font-family:Arial,sans-serif;font-size:11px;font-weight:700;color:#333;display:block;margin-bottom:2px}
 .ctrl input,.ctrl select{font-family:Arial,sans-serif;font-size:12px;padding:5px 8px;border:1px solid #aaa;border-radius:4px;min-width:160px;background:#fff}
@@ -3135,36 +3144,40 @@ table{width:100%;border-collapse:collapse}
 </head>
 <body>
 <div class="sheet">
-  <div class="box">
-    <div class="rf-hd">
-      <div class="rf-logo">${logoBlock}</div>
-      <div class="rf-title">REQUEST FOR DISBURSEMENTS</div>
-      <div class="rf-no">NO.&nbsp;________</div>
+  <div class="form">
+    <div class="hd">
+      <div class="logo">${logoBlock}</div>
+      <div class="title">REQUEST FOR DISBURSEMENTS</div>
+      <div class="no">NO.&nbsp;________</div>
     </div>
-    <table class="rf-meta">
-      <tr><td class="lbl">DATE</td><td class="val">${today}</td><td class="lbl dn">DATE NEEDED</td><td class="val">${depFmt}</td></tr>
-      <tr><td class="lbl">TO</td><td class="val" colspan="3">&nbsp;</td></tr>
-      <tr><td class="lbl">FROM</td><td class="val" colspan="3">&nbsp;</td></tr>
-    </table>
-    <div class="rf-sep"></div>
-    <table class="rf-body">
-      <tr><td class="lbl">PAYEE</td><td class="val" colspan="2">${r.emp||''}</td></tr>
-      <tr><td class="lbl">Amount in Words</td><td class="val">${amtWords}</td><td class="val amt"><b>&#8369;</b>${fmt2(total)}</td></tr>
-      <tr><td class="lbl">Purpose</td><td class="val" colspan="2">${r.purpose||''}</td></tr>
-      <tr><td class="lbl">Charging</td><td class="val" colspan="2">${r.chg||''}</td></tr>
-    </table>
-    <div class="rf-sep"></div>
-    <table class="rf-sig">
-      <tr class="sglbl"><td>Requested By:</td><td>Certified By:</td><td>Approval By:</td></tr>
-      <tr class="sgcell"><td><span class="signm" id="reqByLine">${preselect||'&nbsp;'}</span></td><td>&nbsp;</td><td><span class="signm">Lillian Marie U. Liu</span></td></tr>
-    </table>
+    <div class="metarow">
+      <div class="dtf">
+        <table>
+          <tr><td class="l">DATE</td><td>${today}</td></tr>
+          <tr><td class="l">TO</td><td>&nbsp;</td></tr>
+          <tr><td class="l">FROM</td><td>&nbsp;</td></tr>
+        </table>
+      </div>
+      <div class="dn"><span class="dnl">DATE NEEDED</span><span class="dnv">${depFmt||'&nbsp;'}</span></div>
+    </div>
+    <div class="band"></div>
+    <div class="brow"><span class="bl">PAYEE</span><span class="bv">${r.emp||''}</span></div>
+    <div class="brow"><span class="bl">Amount in Words:</span><span class="bv">${amtWords}</span><span class="pbox"><b>&#8369;</b>${fmt2(total)}</span></div>
+    <div class="brow"><span class="bl">Purpose:</span><span class="bv">${r.purpose||''}</span></div>
+    <div class="brow" style="padding-bottom:10px"><span class="bl">Charging:</span><span class="bv">${r.chg||''}</span></div>
+    <div class="band"></div>
+    <div class="sigsec">
+      <div class="sigcol"><span class="sgl">Requested By:</span><div class="sgspace"><span class="sgname" id="reqByLine">${preselect||'&nbsp;'}</span></div></div>
+      <div class="sigcol"><span class="sgl">Certified By:</span><div class="sgspace"><span class="sgname">&nbsp;</span></div></div>
+      <div class="sigcol"><span class="sgl">Approval By:</span><div class="sgspace"><span class="sgbox">Lillian Marie U. Liu</span></div></div>
+    </div>
   </div>
-  <div class="rf-steps">
-    <div><b>Step 1:</b> Fill-out the form</div>
-    <div><b>Step 2:</b> Seek approval from immediate superior (immediate superior will sign in the &ldquo;certified by&rdquo; portion)</div>
-    <div><b>Step 3:</b> Forward to VP-Finance for final approval</div>
+  <div class="steps">
+    <div><b>Step 1:</b>&nbsp; Fill-out the form</div>
+    <div><b>Step 2:</b>&nbsp; Seek approval from immediate superior (immediate superior will sign in the &ldquo;certified by&rdquo; portion)</div>
+    <div><b>Step 3:</b>&nbsp; Forward to VP-Finance for final approval</div>
   </div>
-  <div class="rf-code">PM-AFD-03-06-F001</div>
+  <div class="code">PM-AFD-03-06-F001</div>
 
   <div class="ctrl noprint">
     <div>
