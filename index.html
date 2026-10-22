@@ -2370,6 +2370,7 @@ function renderRec(){
     ${showActions?`<td style="white-space:nowrap">
       <button class="btn btn-navy btn-sm" onclick="openUpdateModal(${r.id})" style="margin-right:4px">&#9998; Update</button>
       ${r.proc==='RCA'?`<button class="btn btn-gold btn-sm" onclick="printRCA(${r.id})" style="margin-right:4px">&#128438; RCA</button>`:''}
+      ${r.proc==='RFD'?`<button class="btn btn-gold btn-sm" onclick="printRFD(${r.id})" style="margin-right:4px">&#128438; RFD</button>`:''}
       <button class="btn btn-red btn-sm" onclick="delRec(${r.id})">&#128465; Delete</button>
     </td>`:''}
   </tr>`).join(''):`<tr><td colspan="${colspan}" style="text-align:center;padding:24px;color:var(--muted)">No records found</td></tr>`;
@@ -3059,6 +3060,147 @@ hr.div{border:none;border-top:0.75px dashed #000;margin:6px 0}
     onCoordChange();
   `;
   w.document.head.appendChild(s);
+}
+
+// ===== RFD PRINT =====
+function amtInWords(num){
+  num=Math.round((parseFloat(num)||0)*100)/100;
+  var pesos=Math.floor(num), cents=Math.round((num-pesos)*100);
+  var ones=['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+  var tens=['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+  function u1000(n){var s='';if(n>=100){s+=ones[Math.floor(n/100)]+' Hundred';n%=100;if(n)s+=' ';}if(n>=20){s+=tens[Math.floor(n/10)];n%=10;if(n)s+='-'+ones[n];}else if(n>0){s+=ones[n];}return s;}
+  function words(n){if(n===0)return 'Zero';var parts=[],sc=[[1000000000,'Billion'],[1000000,'Million'],[1000,'Thousand'],[1,'']];for(var i=0;i<sc.length;i++){var v=Math.floor(n/sc[i][0]);if(v>0){parts.push(u1000(v)+(sc[i][1]?' '+sc[i][1]:''));n%=sc[i][0];}}return parts.join(' ');}
+  var w=words(pesos)+' Peso'+(pesos===1?'':'s');
+  if(cents>0)w+=' and '+words(cents)+' Centavo'+(cents===1?'':'s');
+  return w+' Only';
+}
+
+function printRFD(id){
+  const r=records.find(x=>x.id===id);if(!r)return;
+  const total=r.total||0;
+  const today=new Date().toLocaleDateString('en-PH',{month:'long',day:'numeric',year:'numeric'});
+  const depFmt=r.dep?new Date(r.dep+'T00:00:00').toLocaleDateString('en-PH',{month:'long',day:'numeric',year:'numeric'}):'';
+
+  // Affiliate logo — same resolution as RCA
+  const affCode = r.chargeAff || r.aff || '';
+  const affInfo = AFFILIATE_DATA[affCode] || null;
+  const affFullName = affInfo ? affInfo.fullName : (affCode || 'PRIMARY STRUCTURES CORPORATION');
+  const affLogoDataUrl = affInfo ? affInfo.logo : '';
+  const logoBlock = affLogoDataUrl
+    ? `<img src="${affLogoDataUrl}" style="max-height:46px;max-width:120px;object-fit:contain;display:block;margin-left:auto" alt="logo"/>`
+    : `<div style="font-size:8pt;font-weight:bold;text-align:right;line-height:1.3;text-transform:uppercase">${affFullName}</div>`;
+
+  const COORDINATORS=['Bordaje, Jesiel','Tandal, Patress','Mangubat, Angelica Mae','Rivera, Stephanie','Pabiran, Aubrey','Legaspi, Janica Nicole','Others'];
+  const preselect=COORDINATORS.find(c=>r.handled&&r.handled.toLowerCase().includes(c.split(',')[0].toLowerCase()))||'';
+  const amtWords=amtInWords(total);
+
+  const w=window.open('','_blank','width=900,height=1100');
+  w.document.write(`<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>RFD &mdash; ${r.emp||''}</title>
+<style>
+@page{size:letter;margin:16mm}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Calibri,'Segoe UI',Arial,Helvetica,sans-serif;font-size:11pt;color:#000;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+@media print{.noprint{display:none!important}}
+.sheet{width:100%;max-width:720px;margin:0 auto}
+.box{border:1.6px solid #000}
+.rf-hd{position:relative;min-height:74px;border-bottom:1.6px solid #000;padding:8px 12px 6px}
+.rf-logo{position:absolute;top:8px;right:12px}
+.rf-title{position:absolute;left:14px;bottom:6px;font-size:16pt;font-weight:bold;letter-spacing:.3px}
+.rf-no{position:absolute;right:14px;bottom:6px;font-size:10.5pt;font-weight:bold}
+table{width:100%;border-collapse:collapse}
+.rf-meta td,.rf-body td,.rf-sig td{border:1px solid #000;padding:3px 7px;font-size:11pt;vertical-align:top}
+.lbl{font-weight:bold;white-space:nowrap;width:1%;background:#fff}
+.rf-meta .val{min-height:16px}
+.rf-meta .dn{border-left:1.6px solid #000}
+.rf-sep{height:7px;background:#000}
+.rf-body .amt{width:150px;white-space:nowrap}
+.rf-body .amt b{margin-right:4px}
+.rf-sig td{height:16px}
+.rf-sig .sglbl td{font-weight:bold}
+.rf-sig .sgcell td{height:58px;vertical-align:bottom;text-align:center}
+.signm{border-top:0.75px solid #000;margin:0 10px;padding-top:2px;font-size:10.5pt;display:inline-block;min-width:120px}
+.rf-steps{margin-top:10px;font-size:10pt;line-height:1.6}
+.rf-code{text-align:right;font-size:9pt;font-weight:bold;margin-top:6px;letter-spacing:.3px}
+.ctrl{background:#f4f6f8;border:1px solid #c8d0d8;border-radius:6px;padding:10px 14px;margin-top:18px;display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px 14px}
+.ctrl label{font-family:Arial,sans-serif;font-size:11px;font-weight:700;color:#333;display:block;margin-bottom:2px}
+.ctrl input,.ctrl select{font-family:Arial,sans-serif;font-size:12px;padding:5px 8px;border:1px solid #aaa;border-radius:4px;min-width:160px;background:#fff}
+.pbtn{padding:7px 16px;background:#1a3f6e;color:#fff;border:none;border-radius:5px;font-size:12px;font-weight:700;cursor:pointer;font-family:Arial,sans-serif}
+.pbtn:hover{background:#275fa0}
+.owrap{display:none;flex:1}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="box">
+    <div class="rf-hd">
+      <div class="rf-logo">${logoBlock}</div>
+      <div class="rf-title">REQUEST FOR DISBURSEMENTS</div>
+      <div class="rf-no">NO.&nbsp;________</div>
+    </div>
+    <table class="rf-meta">
+      <tr><td class="lbl">DATE</td><td class="val">${today}</td><td class="lbl dn">DATE NEEDED</td><td class="val">${depFmt}</td></tr>
+      <tr><td class="lbl">TO</td><td class="val" colspan="3">&nbsp;</td></tr>
+      <tr><td class="lbl">FROM</td><td class="val" colspan="3">&nbsp;</td></tr>
+    </table>
+    <div class="rf-sep"></div>
+    <table class="rf-body">
+      <tr><td class="lbl">PAYEE</td><td class="val" colspan="2">${r.emp||''}</td></tr>
+      <tr><td class="lbl">Amount in Words</td><td class="val">${amtWords}</td><td class="val amt"><b>&#8369;</b>${fmt2(total)}</td></tr>
+      <tr><td class="lbl">Purpose</td><td class="val" colspan="2">${r.purpose||''}</td></tr>
+      <tr><td class="lbl">Charging</td><td class="val" colspan="2">${r.chg||''}</td></tr>
+    </table>
+    <div class="rf-sep"></div>
+    <table class="rf-sig">
+      <tr class="sglbl"><td>Requested By:</td><td>Certified By:</td><td>Approval By:</td></tr>
+      <tr class="sgcell"><td><span class="signm" id="reqByLine">${preselect||'&nbsp;'}</span></td><td>&nbsp;</td><td><span class="signm">Lillian Marie U. Liu</span></td></tr>
+    </table>
+  </div>
+  <div class="rf-steps">
+    <div><b>Step 1:</b> Fill-out the form</div>
+    <div><b>Step 2:</b> Seek approval from immediate superior (immediate superior will sign in the &ldquo;certified by&rdquo; portion)</div>
+    <div><b>Step 3:</b> Forward to VP-Finance for final approval</div>
+  </div>
+  <div class="rf-code">PM-AFD-03-06-F001</div>
+
+  <div class="ctrl noprint">
+    <div>
+      <label>Requested by (Travel Coordinator):</label>
+      <div style="display:flex;gap:7px;align-items:center">
+        <select id="coordSel" onchange="onCoordChange()">
+          <option value="">-- Select --</option>
+          <option${preselect==='Bordaje, Jesiel'?' selected':''}>Bordaje, Jesiel</option>
+          <option${preselect==='Tandal, Patress'?' selected':''}>Tandal, Patress</option>
+          <option${preselect==='Mangubat, Angelica Mae'?' selected':''}>Mangubat, Angelica Mae</option>
+          <option${preselect==='Rivera, Stephanie'?' selected':''}>Rivera, Stephanie</option>
+          <option${preselect==='Pabiran, Aubrey'?' selected':''}>Pabiran, Aubrey</option>
+          <option${preselect==='Legaspi, Janica Nicole'?' selected':''}>Legaspi, Janica Nicole</option>
+          <option value="Others">Others</option>
+        </select>
+        <div class="owrap" id="owrap"><input type="text" id="otherName" placeholder="Type name..." oninput="updOther()"/></div>
+      </div>
+    </div>
+    <button class="pbtn" onclick="window.print()">&#128438; Print / Save PDF</button>
+  </div>
+</div>
+</body>
+</html>`);
+  w.document.close();
+  const sc=w.document.createElement('script');
+  sc.textContent=`
+    function onCoordChange(){
+      var v=document.getElementById('coordSel').value;
+      var ow=document.getElementById('owrap');
+      ow.style.display=v==='Others'?'flex':'none';
+      document.getElementById('reqByLine').textContent=(v&&v!=='Others')?v:(v==='Others'?document.getElementById('otherName').value:'');
+    }
+    function updOther(){document.getElementById('reqByLine').textContent=document.getElementById('otherName').value;}
+    onCoordChange();
+  `;
+  w.document.head.appendChild(sc);
 }
 
 // ── CHANGE LOG RENDER ─────────────────────────────────────────────────
