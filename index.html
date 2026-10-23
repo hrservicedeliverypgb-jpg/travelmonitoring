@@ -3109,6 +3109,7 @@ body{font-family:Calibri,'Segoe UI',Arial,Helvetica,sans-serif;color:#000;backgr
 .f{position:absolute;font-family:Arial,'Helvetica Neue',Calibri,sans-serif;font-size:2cqw;color:#000;white-space:nowrap;font-weight:700;line-height:1;letter-spacing:.2px}
 .c{position:absolute;font-family:Arial,'Helvetica Neue',Calibri,sans-serif;font-size:2cqw;color:#000;text-align:center;font-weight:700;line-height:1;letter-spacing:.2px}
 .lg{position:absolute;text-align:right}
+.lbl{position:absolute;background:#fff;color:#000;font-family:Arial,'Helvetica Neue',sans-serif;font-weight:700;line-height:1;white-space:nowrap;display:flex;align-items:center;overflow:hidden}
 .ctrl{max-width:1000px;margin:16px auto 0;background:#f4f6f8;border:1px solid #c8d0d8;border-radius:6px;padding:10px 14px;display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px 14px}
 .ctrl label{font-family:Arial,sans-serif;font-size:11px;font-weight:700;color:#333;display:block;margin-bottom:2px}
 .ctrl input,.ctrl select{font-family:Arial,sans-serif;font-size:12px;padding:5px 8px;border:1px solid #aaa;border-radius:4px;min-width:160px;background:#fff}
@@ -3122,6 +3123,26 @@ body{font-family:Calibri,'Segoe UI',Arial,Helvetica,sans-serif;color:#000;backgr
   <img src="${RFD_BG}" alt="Request for Disbursements form"/>
   <div class="cover" style="left:61%;top:17%;width:25.5%;height:11%"></div>
   <div class="lg" style="left:62%;top:17.2%;width:24.5%">${logoHtml}</div>
+  <!-- crisp white-backed labels over the scanned rough labels; scan lines left intact -->
+  <div class="lbl" style="left:15%;top:28.1%;width:50%;height:4.8%;font-size:2.8cqw;padding-left:4px;letter-spacing:.2px">REQUEST FOR DISBURSEMENTS</div>
+  <div class="lbl" style="left:77.5%;top:29.9%;width:8%;height:2.6%;font-size:1.8cqw;justify-content:center">NO.</div>
+  <div class="lbl" style="left:8.4%;top:33.2%;width:7%;height:2.6%;font-size:1.55cqw;padding-left:3px">DATE</div>
+  <div class="lbl" style="left:8.4%;top:36.8%;width:6%;height:2.3%;font-size:1.55cqw;padding-left:3px">TO</div>
+  <div class="lbl" style="left:8.4%;top:40%;width:7%;height:2.6%;font-size:1.55cqw;padding-left:3px">FROM</div>
+  <div class="lbl" style="left:52.8%;top:34.1%;width:16.5%;height:2.6%;font-size:1.7cqw;padding-left:3px">DATE NEEDED</div>
+  <div class="lbl" style="left:8.4%;top:49.9%;width:9%;height:2.8%;font-size:1.9cqw;padding-left:3px">PAYEE</div>
+  <div class="lbl" style="left:8.4%;top:55.2%;width:14.5%;height:2.8%;font-size:1.7cqw;padding-left:3px">Amount in Words:</div>
+  <div class="lbl" style="left:81.3%;top:55%;width:3.8%;height:2.8%;font-size:2cqw;justify-content:center">&#8369;</div>
+  <div class="lbl" style="left:8.4%;top:59.7%;width:10%;height:2.8%;font-size:1.9cqw;padding-left:3px">Purpose:</div>
+  <div class="lbl" style="left:8.4%;top:63.9%;width:10%;height:3%;font-size:1.9cqw;padding-left:3px">Charging:</div>
+  <div class="lbl" style="left:8.4%;top:73%;width:13.5%;height:2.6%;font-size:1.65cqw;padding-left:3px">Requested By:</div>
+  <div class="lbl" style="left:33%;top:73%;width:13.5%;height:2.6%;font-size:1.65cqw;padding-left:3px">Certified By:</div>
+  <div class="lbl" style="left:62.8%;top:73%;width:15%;height:2.6%;font-size:1.65cqw;padding-left:3px">Approved By:</div>
+  <div class="lbl" style="left:69%;top:81.3%;width:11%;height:2.6%;font-size:1.8cqw;justify-content:center">LMUL</div>
+  <div class="lbl" style="left:7.8%;top:86.8%;width:26%;height:2.3%;font-size:1.45cqw;padding-left:2px">Step 1:&nbsp; Fill-out the form</div>
+  <div class="lbl" style="left:7.8%;top:90.25%;width:71%;height:2.3%;font-size:1.45cqw;padding-left:2px">Step 2:&nbsp; Seek approval from immediate superior (immediate superior will sign in the &ldquo;certified by&rdquo; portion)</div>
+  <div class="lbl" style="left:7.8%;top:93.75%;width:45%;height:2.3%;font-size:1.45cqw;padding-left:2px">Step 3:&nbsp; Forward to VP-Finance for final approval</div>
+  <div class="lbl" style="left:78%;top:95.1%;width:14.8%;height:2.6%;font-size:1.65cqw;justify-content:flex-end;padding-right:2px">PM-AFD-03-06-F001</div>
   <div class="f" style="left:25%;top:34.3%">${esc(today)}</div>
   <div class="c" style="left:66%;top:34.3%;width:23%">${esc(depFmt)}</div>
   <div class="f" style="left:23.5%;top:49.8%">${esc(r.emp)||''}</div>
